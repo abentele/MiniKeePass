@@ -90,7 +90,7 @@
     [stream close];
 
     // Write to the file
-    if (![outputStream.data writeToFile:filename options:NSDataWritingFileProtectionComplete error:nil]) {
+    if (![outputStream.data writeToFile:filename options:0 error:nil]) {
         @throw [NSException exceptionWithName:@"IOError" reason:@"Failed to write file" userInfo:nil];
     }
 }

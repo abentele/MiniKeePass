@@ -14,8 +14,9 @@
 
 @implementation KdbReaderFactory
 
-+ (KdbTree*)load:(NSString*)filename withPassword:(KdbPassword*)kdbPassword {
-    FileInputStream *inputStream = [[FileInputStream alloc] initWithFilename:filename];
++ (KdbTree*)load:(NSURL*)url withPassword:(KdbPassword*)kdbPassword {
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    DataInputStream *inputStream = [[DataInputStream alloc] initWithData:data];
     uint32_t sig1 = [inputStream readInt32];
     sig1 = CFSwapInt32LittleToHost(sig1);
     

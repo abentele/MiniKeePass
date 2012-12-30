@@ -45,4 +45,8 @@
     return range.length;
 }
 
+- (NSInteger)seek:(NSUInteger)offset {
+    return dataOffset = offset;
+}
+
 @end

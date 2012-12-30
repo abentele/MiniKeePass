@@ -113,9 +113,9 @@
         [fileOutputStream close];
 
         // Turn on file protection
-        [[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey: NSFileProtectionComplete}
-                                         ofItemAtPath:filename
-                                                error:nil];
+        //[[NSFileManager defaultManager] setAttributes:@{NSFileProtectionKey: NSFileProtectionComplete}
+        //                                 ofItemAtPath:filename
+        //                                        error:nil];
     } @finally {
         [shaOutputStream release];
         [aesOutputStream release];

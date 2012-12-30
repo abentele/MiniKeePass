@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 Jason Rush and John Flanagan. All rights reserved.
+ * Copyright 2011 Jason Rush and John Flanagan. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,15 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Foundation/Foundation.h>
-#import "InputStream.h"
+#import <Cocoa/Cocoa.h>
 
-@interface DataInputStream : InputStream {
-    NSData *data;
-    NSUInteger dataOffset;
+int main(int argc, char *argv[])
+{
+    return NSApplicationMain(argc, (const char **)argv);
 }
-
-- (id)initWithData:(NSData*)d;
-- (NSInteger)seek:(NSUInteger)offset;
-
-@end
