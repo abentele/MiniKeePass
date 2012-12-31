@@ -919,7 +919,7 @@
 		689D044B13A42C82005EBD36 /* TitleFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleFieldCell.m; sourceTree = "<group>"; };
 		689D044C13A42C82005EBD36 /* UrlFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UrlFieldCell.h; sourceTree = "<group>"; };
 		689D044D13A42C82005EBD36 /* UrlFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UrlFieldCell.m; sourceTree = "<group>"; };
-		689DFFD513A4273F005EBD36 /* MiniKeePass iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MiniKeePass iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		689DFFD513A4273F005EBD36 /* MiniKeePass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		689DFFD913A4273F005EBD36 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		689DFFDB13A4273F005EBD36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		689DFFDD13A4273F005EBD36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -947,8 +947,7 @@
 		68F19D1E14EB3A9C00B772CB /* CharacterSetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterSetsViewController.m; sourceTree = "<group>"; };
 		68FE79B11428C17F00818EE4 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		68FE79B31428C17F00818EE4 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
-		E177D73E16909A4900DB9CC6 /* MiniKeePass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePass.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E177D74016909A4900DB9CC6 /* MiniKeePass copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MiniKeePass copy-Info.plist"; path = "/Users/andreas/development/xcode/MiniKeePass/MiniKeePass copy-Info.plist"; sourceTree = "<absolute>"; };
+		E177D73E16909A4900DB9CC6 /* MiniKeePassX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePassX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasswordViewControllerOSX.h; path = MiniKeePassOSX/PasswordViewControllerOSX.h; sourceTree = "<group>"; };
 		E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasswordViewControllerOSX.m; path = MiniKeePassOSX/PasswordViewControllerOSX.m; sourceTree = "<group>"; };
 		E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordViewControllerOSX.xib; path = MiniKeePassOSX/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
@@ -1470,15 +1469,14 @@
 				689D030513A42B63005EBD36 /* Samples */,
 				689DFFD613A4273F005EBD36 /* Products */,
 				526D9FA3167CDC010097213E /* MBProgressHUD.xcodeproj */,
-				E177D74016909A4900DB9CC6 /* MiniKeePass copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
 		689DFFD613A4273F005EBD36 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				689DFFD513A4273F005EBD36 /* MiniKeePass iOS.app */,
-				E177D73E16909A4900DB9CC6 /* MiniKeePass.app */,
+				689DFFD513A4273F005EBD36 /* MiniKeePass.app */,
+				E177D73E16909A4900DB9CC6 /* MiniKeePassX.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1639,7 +1637,7 @@
 			);
 			name = "MiniKeePass iOS";
 			productName = MiniKeePass;
-			productReference = 689DFFD513A4273F005EBD36 /* MiniKeePass iOS.app */;
+			productReference = 689DFFD513A4273F005EBD36 /* MiniKeePass.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E177D62216909A4900DB9CC6 /* MiniKeePass Mac */ = {
@@ -1656,7 +1654,7 @@
 			);
 			name = "MiniKeePass Mac";
 			productName = MiniKeePass;
-			productReference = E177D73E16909A4900DB9CC6 /* MiniKeePass.app */;
+			productReference = E177D73E16909A4900DB9CC6 /* MiniKeePassX.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -2322,7 +2320,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MiniKeePass;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2403,7 +2401,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MiniKeePass;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -2431,7 +2429,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = MiniKeePass;
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2464,7 +2462,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = MiniKeePass;
+				PRODUCT_NAME = MiniKeePassX;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
@@ -2495,7 +2493,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = MiniKeePass;
+				PRODUCT_NAME = MiniKeePassX;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -2527,7 +2525,7 @@
 					"-all_load",
 					"-ObjC",
 				);
-				PRODUCT_NAME = MiniKeePass;
+				PRODUCT_NAME = MiniKeePassX;
 				SDKROOT = macosx;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
