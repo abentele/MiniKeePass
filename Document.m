@@ -11,13 +11,16 @@
 #import "Kdb.h"
 #import "KdbPassword.h"
 #import "KdbReaderFactory.h"
-
+#import "PasswordViewControllerOSX.h"
 
 @interface Document ()
 
-@property (nonatomic, retain) KdbTree *kdbTree;
-@property (nonatomic, retain) KdbPassword *kdbPassword;
+@property (nonatomic, strong) KdbTree *kdbTree;
+@property (nonatomic, strong) KdbPassword *kdbPassword;
 @property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
+@property (nonatomic, strong) PasswordViewControllerOSX *passwordViewController;
+
+- (IBAction)showPasswordDialog:(id)sender;
 
 @end
 
@@ -60,64 +63,16 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    BOOL databaseLoaded = NO;
-    
-    // Load the password and keyfile from the keychain
-    NSString *password = @"";
-    NSString *keyFile = nil;
-    
-    // Try and load the database with the cached password from the keychain
-    if (password != nil || keyFile != nil) {
-        // TODO
-        // Get the absolute path to the keyfile
-/*        NSString *keyFilePath = nil;
-        if (keyFile != nil) {
-            keyFilePath = [documentsDirectory stringByAppendingPathComponent:keyFile];
-        }*/
-        
-        // Load the database
-        @try {
-            NSStringEncoding passwordEncoding = [[AppSettings sharedInstance] passwordEncoding];
-            
-            self.kdbPassword = [[KdbPassword alloc] initWithPassword:password
-                                               passwordEncoding:passwordEncoding
-                                                        keyFile:keyFile];
-            
-            self.kdbTree = [KdbReaderFactory load:absoluteURL withPassword:self.kdbPassword];
-
-            databaseLoaded = YES;
-        } @catch (NSException * exception) {
-            NSLog(@"Error loading keepass 2.x file: %@", exception);
-        }
+    // Load the database
+    @try {
+        self.kdbTree = [KdbReaderFactory load:absoluteURL withPassword:self.kdbPassword];
+    } @catch (NSException * exception) {
+        NSLog(@"Error loading keepass 2.x file: %@", exception);
+        [self performSelector:@selector(showPasswordDialog:)
+                   withObject:self
+                   afterDelay:0.5];
     }
     
-    // TODO
-    /*
-    // Prompt the user for the password if we haven't loaded the database yet
-    if (!databaseLoaded) {
-        // Prompt the user for a password
-        PasswordViewController *passwordViewController = [[PasswordViewController alloc] initWithFilename:filename];
-        passwordViewController.delegate = self;
-        
-        // Create a defult keyfile name from the database name
-        keyFile = [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"key"];
-        
-        // Select the keyfile if it's in the list
-        NSInteger index = [passwordViewController.keyFileCell.choices indexOfObject:keyFile];
-        if (index != NSNotFound) {
-            passwordViewController.keyFileCell.selectedIndex = index;
-        } else {
-            passwordViewController.keyFileCell.selectedIndex = 0;
-        }
-        
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:passwordViewController];
-        
-        [appDelegate.window.rootViewController presentModalViewController:navigationController animated:animated];
-        
-        [navigationController release];
-        [passwordViewController release];
-    }
-     */
     return YES;
 }
 
@@ -175,6 +130,46 @@
         }
     }
     return @"";
+}
+
+- (IBAction)showPasswordDialog:(id)sender {
+    // Prompt the user for the password if we haven't loaded the database yet
+    if (self.kdbTree == nil) {
+        // Prompt the user for a password
+        self.passwordViewController = [[PasswordViewControllerOSX alloc] initWithFilename:[self.fileURL absoluteString]];
+        self.passwordViewController.delegate = self;
+        NSLog(@"Show password sheet");
+        [NSApp beginSheet:self.passwordViewController.window
+           modalForWindow:self.windowForSheet
+            modalDelegate:nil
+           didEndSelector:nil
+              contextInfo:nil];
+        
+        
+    }
+}
+
+- (void)didEnterPassword:(NSString*)password keyFile:(NSString*)keyFile {
+    [NSApp endSheet: self.windowForSheet];
+
+    NSStringEncoding passwordEncoding = [[AppSettings sharedInstance] passwordEncoding];
+
+    NSLog(@"Password: %@", password);
+    NSLog(@"Keyfile: %@", keyFile);
+    self.kdbPassword = [[KdbPassword alloc] initWithPassword:password
+                                            passwordEncoding:passwordEncoding
+                                                     keyFile:keyFile];
+
+    // Load data
+    @try {
+        self.kdbTree = [KdbReaderFactory load:self.fileURL withPassword:self.kdbPassword];
+        [self.outlineView reloadData];
+    } @catch (NSException * exception) {
+        NSLog(@"Exception when loading the kdbx file: %@", exception);
+        [self performSelector:@selector(showPasswordDialog:)
+                   withObject:self
+                   afterDelay:0.5];
+    }
 }
 
 @end

@@ -92,7 +92,7 @@ static DatabaseManager *sharedInstance;
     // Prompt the user for the password if we haven't loaded the database yet
     if (!databaseLoaded) {
         // Prompt the user for a password
-        PasswordViewController *passwordViewController = [[PasswordViewController alloc] initWithFilename:filename];
+        PasswordViewControllerOSX *passwordViewController = [[PasswordViewControllerOSX alloc] initWithFilename:filename];
         passwordViewController.delegate = self;
         
         // Create a defult keyfile name from the database name
@@ -124,7 +124,7 @@ static DatabaseManager *sharedInstance;
 }
 
 - (void)formViewController:(FormViewController *)controller button:(FormViewControllerButton)button {
-    PasswordViewController *passwordViewController = (PasswordViewController*)controller;
+    PasswordViewControllerOSX *passwordViewController = (PasswordViewControllerOSX*)controller;
     BOOL shouldDismiss = YES;
     
     // Check if the OK button was pressed

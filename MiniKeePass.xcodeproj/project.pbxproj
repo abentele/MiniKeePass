@@ -516,6 +516,8 @@
 		E177D73916909A4900DB9CC6 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 525B7C3816481731004DC489 /* arrow@2x.png */; };
 		E177D74116909AB200DB9CC6 /* stretchme.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342B161E0F310049F4A1 /* stretchme.png */; };
 		E177D74216909AB200DB9CC6 /* stretchme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342C161E0F310049F4A1 /* stretchme@2x.png */; };
+		E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */; };
+		E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */; };
 		E1D9EB7A16909D9C00006B0D /* Default-Landscape~ipad.svg in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EB7916909D9C00006B0D /* Default-Landscape~ipad.svg */; };
 		E1D9EB7F16909F7500006B0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D9EB7E16909F7500006B0D /* main.m */; };
 		E1D9EB811690A07600006B0D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9EB801690A07600006B0D /* Cocoa.framework */; };
@@ -917,7 +919,7 @@
 		689D044B13A42C82005EBD36 /* TitleFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleFieldCell.m; sourceTree = "<group>"; };
 		689D044C13A42C82005EBD36 /* UrlFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UrlFieldCell.h; sourceTree = "<group>"; };
 		689D044D13A42C82005EBD36 /* UrlFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UrlFieldCell.m; sourceTree = "<group>"; };
-		689DFFD513A4273F005EBD36 /* MiniKeePass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePass.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		689DFFD513A4273F005EBD36 /* MiniKeePass iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MiniKeePass iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		689DFFD913A4273F005EBD36 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		689DFFDB13A4273F005EBD36 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		689DFFDD13A4273F005EBD36 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -947,6 +949,9 @@
 		68FE79B31428C17F00818EE4 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
 		E177D73E16909A4900DB9CC6 /* MiniKeePass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E177D74016909A4900DB9CC6 /* MiniKeePass copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "MiniKeePass copy-Info.plist"; path = "/Users/andreas/development/xcode/MiniKeePass/MiniKeePass copy-Info.plist"; sourceTree = "<absolute>"; };
+		E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasswordViewControllerOSX.h; path = MiniKeePassOSX/PasswordViewControllerOSX.h; sourceTree = "<group>"; };
+		E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasswordViewControllerOSX.m; path = MiniKeePassOSX/PasswordViewControllerOSX.m; sourceTree = "<group>"; };
+		E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordViewControllerOSX.xib; path = MiniKeePassOSX/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
 		E1D9EB7916909D9C00006B0D /* Default-Landscape~ipad.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Default-Landscape~ipad.svg"; sourceTree = "<group>"; };
 		E1D9EB7C16909F6500006B0D /* MiniKeePass-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MiniKeePass-Prefix.pch"; path = "MiniKeePassOSX/MiniKeePass-Prefix.pch"; sourceTree = "<group>"; };
 		E1D9EB7E16909F7500006B0D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MiniKeePassOSX/main.m; sourceTree = "<group>"; };
@@ -1472,7 +1477,7 @@
 		689DFFD613A4273F005EBD36 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				689DFFD513A4273F005EBD36 /* MiniKeePass.app */,
+				689DFFD513A4273F005EBD36 /* MiniKeePass iOS.app */,
 				E177D73E16909A4900DB9CC6 /* MiniKeePass.app */,
 			);
 			name = Products;
@@ -1582,6 +1587,7 @@
 		E177D74316909AE000DB9CC6 /* MiniKeePass OS X */ = {
 			isa = PBXGroup;
 			children = (
+				E1BC39621690FB0F00EC6587 /* Password dialog */,
 				E1D9EBD91690BF3300006B0D /* AppSettings.h */,
 				E1D9EBDA1690BF3300006B0D /* AppSettings.m */,
 				E1D9EBCB1690A15700006B0D /* Document.h */,
@@ -1606,6 +1612,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E1BC39621690FB0F00EC6587 /* Password dialog */ = {
+			isa = PBXGroup;
+			children = (
+				E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */,
+				E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */,
+				E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */,
+			);
+			name = "Password dialog";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1623,7 +1639,7 @@
 			);
 			name = "MiniKeePass iOS";
 			productName = MiniKeePass;
-			productReference = 689DFFD513A4273F005EBD36 /* MiniKeePass.app */;
+			productReference = 689DFFD513A4273F005EBD36 /* MiniKeePass iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 		E177D62216909A4900DB9CC6 /* MiniKeePass Mac */ = {
@@ -2082,6 +2098,7 @@
 				E1D9EBD11690A15700006B0D /* MainMenu.xib in Resources */,
 				E1D9EBD31690A22900006B0D /* MiniKeePass-Info.plist in Resources */,
 				E1D9EBD51690A75900006B0D /* Credits.rtf in Resources */,
+				E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2221,6 +2238,7 @@
 				E1D9EB7F16909F7500006B0D /* main.m in Sources */,
 				E1D9EBCF1690A15700006B0D /* Document.m in Sources */,
 				E1D9EBDB1690BF3300006B0D /* AppSettings.m in Sources */,
+				E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
