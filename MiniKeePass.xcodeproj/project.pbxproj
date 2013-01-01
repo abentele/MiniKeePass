@@ -1591,20 +1591,15 @@
 		E177D74316909AE000DB9CC6 /* MiniKeePass OS X */ = {
 			isa = PBXGroup;
 			children = (
-				E1BC39DD169377F900EC6587 /* ImageAndTextCell.h */,
-				E1BC39DE169377F900EC6587 /* ImageAndTextCell.m */,
-				E1BC39621690FB0F00EC6587 /* Password dialog */,
-				E1D9EBD91690BF3300006B0D /* AppSettings.h */,
-				E1D9EBDA1690BF3300006B0D /* AppSettings.m */,
-				E1D9EBCB1690A15700006B0D /* Document.h */,
-				E1D9EBCC1690A15700006B0D /* Document.m */,
-				E1D9EBCD1690A15700006B0D /* Document.xib */,
 				E1D9EBCE1690A15700006B0D /* MainMenu.xib */,
 				E1D9EB821690A0FF00006B0D /* AppDelegate.h */,
 				E1D9EB831690A0FF00006B0D /* AppDelegate.m */,
-				E177D74416909B0400DB9CC6 /* Supporting Files */,
 				E1BC39E016938ED400EC6587 /* ImageCache.h */,
 				E1BC39E116938ED400EC6587 /* ImageCache.m */,
+				E1BC39E4169393BF00EC6587 /* Settings */,
+				E1BC39E31693939E00EC6587 /* Document */,
+				E1BC39621690FB0F00EC6587 /* Password dialog */,
+				E177D74416909B0400DB9CC6 /* Supporting Files */,
 			);
 			name = "MiniKeePass OS X";
 			sourceTree = "<group>";
@@ -1628,6 +1623,27 @@
 				E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */,
 			);
 			name = "Password dialog";
+			sourceTree = "<group>";
+		};
+		E1BC39E31693939E00EC6587 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				E1BC39DD169377F900EC6587 /* ImageAndTextCell.h */,
+				E1BC39DE169377F900EC6587 /* ImageAndTextCell.m */,
+				E1D9EBCB1690A15700006B0D /* Document.h */,
+				E1D9EBCC1690A15700006B0D /* Document.m */,
+				E1D9EBCD1690A15700006B0D /* Document.xib */,
+			);
+			name = Document;
+			sourceTree = "<group>";
+		};
+		E1BC39E4169393BF00EC6587 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				E1D9EBD91690BF3300006B0D /* AppSettings.h */,
+				E1D9EBDA1690BF3300006B0D /* AppSettings.m */,
+			);
+			name = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
