@@ -77,6 +77,18 @@
     return YES;
 }
 
+#pragma mark -
+#pragma mark OutlineView Delegate
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    // no inline editing is allowed
+    return NO;
+}
+
+
+#pragma mark -
+#pragma mark OutlineView Datasource
+
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
     if (item == nil) {
         item = self.kdbTree.root;
