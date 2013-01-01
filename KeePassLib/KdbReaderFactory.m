@@ -15,6 +15,8 @@
 @implementation KdbReaderFactory
 
 + (KdbTree*)load:(NSURL*)url withPassword:(KdbPassword*)kdbPassword {
+    NSLog(@"START: load kdb file: %@", url);
+
     NSData *data = [NSData dataWithContentsOfURL:url];
     DataInputStream *inputStream = [[DataInputStream alloc] initWithData:data];
     uint32_t sig1 = [inputStream readInt32];
@@ -40,6 +42,8 @@
     [reader release];
     
     [inputStream release];
+
+    NSLog(@"END: load kdb file: %@", url);
     
     return tree;
 }

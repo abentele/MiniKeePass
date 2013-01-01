@@ -12,6 +12,8 @@
 #import "KdbPassword.h"
 #import "KdbReaderFactory.h"
 #import "PasswordViewControllerOSX.h"
+#import "ImageAndTextCell.h"
+#import "ImageCache.h"
 
 @interface Document ()
 
@@ -45,7 +47,6 @@
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
     [super windowControllerDidLoadNib:windowController];
-    [self.outlineView expandItem:self.kdbTree.root];
 }
 
 + (BOOL)autosavesInPlace
@@ -83,6 +84,48 @@
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
     // no inline editing is allowed
     return NO;
+}
+
+- (NSCell *)outlineView:(NSOutlineView *)outlineView dataCellForTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+    if (tableColumn == nil) {
+        return nil;
+    }
+    else if ([tableColumn.identifier isEqualToString:@"title"]) {
+        NSInteger imageIndex;
+        if ([item isKindOfClass:[KdbGroup class]]) {
+            KdbGroup *group = (KdbGroup*)item;
+            imageIndex = group.image;
+        }
+        else if ([item isKindOfClass:[KdbEntry class]]) {
+            KdbEntry *entry = (KdbEntry*)item;
+            imageIndex = entry.image;
+        }
+        
+        ImageAndTextCell *cell = [[ImageAndTextCell alloc] init];
+        return cell;
+    }
+    else {
+        return [[NSTextFieldCell alloc] init];
+    }
+}
+
+- (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
+{
+    if ([tableColumn.identifier isEqualToString:@"title"]) {
+        NSInteger imageIndex;
+        if ([item isKindOfClass:[KdbGroup class]]) {
+            KdbGroup *group = (KdbGroup*)item;
+            imageIndex = group.image;
+        }
+        else if ([item isKindOfClass:[KdbEntry class]]) {
+            KdbEntry *entry = (KdbEntry*)item;
+            imageIndex = entry.image;
+        }
+        NSImage *image = [[ImageCache sharedInstance] getImage:imageIndex];
+        //NSLog(@"Image: %@", image);
+        ImageAndTextCell *cell = (ImageAndTextCell*)aCell;
+        [cell setImage: image];
+    }
 }
 
 
