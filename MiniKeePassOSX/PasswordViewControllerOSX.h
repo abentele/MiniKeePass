@@ -10,7 +10,7 @@
 
 @protocol PasswordViewControllerDelegate;
 
-@interface PasswordViewControllerOSX : NSWindowController
+@interface PasswordViewControllerOSX : NSWindowController <NSTextFieldDelegate>
 
 @property (nonatomic, copy) NSString *fileName;
 @property (nonatomic, assign) id<PasswordViewControllerDelegate> delegate;
@@ -22,5 +22,6 @@
 @protocol PasswordViewControllerDelegate <NSObject>
 
 - (void)didEnterPassword:(NSString*)password keyFile:(NSString*)keyFile;
+- (void)didCancelPassword;
 
 @end

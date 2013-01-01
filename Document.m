@@ -18,6 +18,7 @@
 @property (nonatomic, strong) KdbTree *kdbTree;
 @property (nonatomic, strong) KdbPassword *kdbPassword;
 @property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
+@property (nonatomic, assign) NSView *overlayView;
 @property (nonatomic, strong) PasswordViewControllerOSX *passwordViewController;
 
 - (IBAction)showPasswordDialog:(id)sender;
@@ -133,25 +134,43 @@
 }
 
 - (IBAction)showPasswordDialog:(id)sender {
+    
     // Prompt the user for the password if we haven't loaded the database yet
     if (self.kdbTree == nil) {
         // Prompt the user for a password
-        self.passwordViewController = [[PasswordViewControllerOSX alloc] initWithFilename:[self.fileURL absoluteString]];
+        self.passwordViewController = [[PasswordViewControllerOSX alloc] initWithFilename:self.fileURL.path];
         self.passwordViewController.delegate = self;
+        NSLog(@"windowForSheet = %@", self.windowForSheet);
+        NSLog(@"passwordViewController.window = %@", self.passwordViewController.window);
+        
+        if (self.overlayView == nil) {
+            // add gray overlay view
+            self.overlayView = [[NSView alloc] initWithFrame:CGRectMake(0, 0, self.outlineView.bounds.size.width, self.outlineView.bounds.size.height)];
+            CALayer *viewLayer = [CALayer layer];
+            [viewLayer setBackgroundColor:CGColorCreateGenericRGB(0.9, 0.9, 0.9, 1.0)]; //RGB plus Alpha Channel
+            [self.overlayView setWantsLayer:YES]; // view's backing store is using a Core Animation Layer
+            [self.overlayView setLayer:viewLayer];
+            [self.overlayView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+            [self.outlineView addSubview:self.overlayView];
+        }
+
+        
         NSLog(@"Show password sheet");
-        [NSApp beginSheet:self.passwordViewController.window
-           modalForWindow:self.windowForSheet
-            modalDelegate:nil
-           didEndSelector:nil
-              contextInfo:nil];
         
-        
+        [[NSApplication sharedApplication] beginSheet:self.passwordViewController.window
+                                       modalForWindow:self.windowForSheet
+                                        modalDelegate:self
+                                       didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+                                          contextInfo:nil];
     }
 }
 
-- (void)didEnterPassword:(NSString*)password keyFile:(NSString*)keyFile {
-    [NSApp endSheet: self.windowForSheet];
+- (void)didEndSheet:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    [sheet orderOut:self];
+}
 
+- (void)didEnterPassword:(NSString*)password keyFile:(NSString*)keyFile {
     NSStringEncoding passwordEncoding = [[AppSettings sharedInstance] passwordEncoding];
 
     NSLog(@"Password: %@", password);
@@ -162,8 +181,17 @@
 
     // Load data
     @try {
-        self.kdbTree = [KdbReaderFactory load:self.fileURL withPassword:self.kdbPassword];
-        [self.outlineView reloadData];
+        KdbTree * kdbTree = [KdbReaderFactory load:self.fileURL withPassword:self.kdbPassword];
+
+        // password was correct => remove overlay view
+        [self.overlayView removeFromSuperview];
+        self.overlayView = nil;
+        
+        // if the file wasn't loaded yet, assign it (otherwise, don't reload the file, but only check the password)
+        if (self.kdbTree == nil) {
+            self.kdbTree = kdbTree;
+            [self.outlineView reloadData];
+        }
     } @catch (NSException * exception) {
         NSLog(@"Exception when loading the kdbx file: %@", exception);
         [self performSelector:@selector(showPasswordDialog:)
@@ -171,5 +199,11 @@
                    afterDelay:0.5];
     }
 }
+
+- (void)didCancelPassword {
+    // close the document window
+    [self close];
+}
+
 
 @end
