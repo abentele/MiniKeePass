@@ -19,8 +19,8 @@
 
 @property (nonatomic, strong) KdbTree *kdbTree;
 @property (nonatomic, strong) KdbPassword *kdbPassword;
-@property (nonatomic, assign) IBOutlet NSOutlineView *outlineView;
-@property (nonatomic, assign) NSView *overlayView;
+@property (nonatomic, strong) IBOutlet NSOutlineView *outlineView;
+@property (nonatomic, strong) NSView *overlayView;
 @property (nonatomic, strong) PasswordViewControllerOSX *passwordViewController;
 
 - (IBAction)showPasswordDialog:(id)sender;

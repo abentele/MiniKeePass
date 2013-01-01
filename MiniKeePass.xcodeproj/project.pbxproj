@@ -518,17 +518,18 @@
 		E177D74216909AB200DB9CC6 /* stretchme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342C161E0F310049F4A1 /* stretchme@2x.png */; };
 		E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */; };
-		E1BC39DF169377F900EC6587 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39DE169377F900EC6587 /* ImageAndTextCell.m */; };
-		E1BC39E216938ED400EC6587 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E116938ED400EC6587 /* ImageCache.m */; };
+		E1BC39EA169394EF00EC6587 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E6169394EF00EC6587 /* AppDelegate.m */; };
+		E1BC39EB169394EF00EC6587 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E8169394EF00EC6587 /* ImageCache.m */; };
+		E1BC39EC169394EF00EC6587 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39E9169394EF00EC6587 /* MainMenu.xib */; };
+		E1BC39EF1693950000EC6587 /* AppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39EE1693950000EC6587 /* AppSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E1BC39F51693953100EC6587 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39F11693953100EC6587 /* Document.m */; };
+		E1BC39F61693953100EC6587 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39F21693953100EC6587 /* Document.xib */; };
+		E1BC39F71693953100EC6587 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39F41693953100EC6587 /* ImageAndTextCell.m */; };
+		E1BC39F91693954B00EC6587 /* MiniKeePass-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39F81693954B00EC6587 /* MiniKeePass-Info.plist */; };
 		E1D9EB7A16909D9C00006B0D /* Default-Landscape~ipad.svg in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EB7916909D9C00006B0D /* Default-Landscape~ipad.svg */; };
 		E1D9EB7F16909F7500006B0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D9EB7E16909F7500006B0D /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E1D9EB811690A07600006B0D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9EB801690A07600006B0D /* Cocoa.framework */; };
-		E1D9EBCF1690A15700006B0D /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D9EBCC1690A15700006B0D /* Document.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		E1D9EBD01690A15700006B0D /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EBCD1690A15700006B0D /* Document.xib */; };
-		E1D9EBD11690A15700006B0D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EBCE1690A15700006B0D /* MainMenu.xib */; };
-		E1D9EBD31690A22900006B0D /* MiniKeePass-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EBD21690A22900006B0D /* MiniKeePass-Info.plist */; };
 		E1D9EBD51690A75900006B0D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EBD41690A75900006B0D /* Credits.rtf */; };
-		E1D9EBDB1690BF3300006B0D /* AppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D9EBDA1690BF3300006B0D /* AppSettings.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -953,24 +954,24 @@
 		E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasswordViewControllerOSX.h; path = MiniKeePassOSX/PasswordViewControllerOSX.h; sourceTree = "<group>"; };
 		E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasswordViewControllerOSX.m; path = MiniKeePassOSX/PasswordViewControllerOSX.m; sourceTree = "<group>"; };
 		E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordViewControllerOSX.xib; path = MiniKeePassOSX/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
-		E1BC39DD169377F900EC6587 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAndTextCell.h; sourceTree = "<group>"; };
-		E1BC39DE169377F900EC6587 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAndTextCell.m; sourceTree = "<group>"; };
-		E1BC39E016938ED400EC6587 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCache.h; sourceTree = "<group>"; };
-		E1BC39E116938ED400EC6587 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCache.m; sourceTree = "<group>"; };
+		E1BC39E5169394EF00EC6587 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MiniKeePassOSX/AppDelegate.h; sourceTree = "<group>"; };
+		E1BC39E6169394EF00EC6587 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MiniKeePassOSX/AppDelegate.m; sourceTree = "<group>"; };
+		E1BC39E7169394EF00EC6587 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCache.h; path = MiniKeePassOSX/ImageCache.h; sourceTree = "<group>"; };
+		E1BC39E8169394EF00EC6587 /* ImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCache.m; path = MiniKeePassOSX/ImageCache.m; sourceTree = "<group>"; };
+		E1BC39E9169394EF00EC6587 /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainMenu.xib; path = MiniKeePassOSX/MainMenu.xib; sourceTree = "<group>"; };
+		E1BC39ED1693950000EC6587 /* AppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppSettings.h; path = MiniKeePassOSX/AppSettings.h; sourceTree = "<group>"; };
+		E1BC39EE1693950000EC6587 /* AppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppSettings.m; path = MiniKeePassOSX/AppSettings.m; sourceTree = "<group>"; };
+		E1BC39F01693953100EC6587 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Document.h; path = MiniKeePassOSX/Document.h; sourceTree = "<group>"; };
+		E1BC39F11693953100EC6587 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = MiniKeePassOSX/Document.m; sourceTree = "<group>"; };
+		E1BC39F21693953100EC6587 /* Document.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Document.xib; path = MiniKeePassOSX/Document.xib; sourceTree = "<group>"; };
+		E1BC39F31693953100EC6587 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAndTextCell.h; path = MiniKeePassOSX/ImageAndTextCell.h; sourceTree = "<group>"; };
+		E1BC39F41693953100EC6587 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageAndTextCell.m; path = MiniKeePassOSX/ImageAndTextCell.m; sourceTree = "<group>"; };
+		E1BC39F81693954B00EC6587 /* MiniKeePass-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "MiniKeePass-Info.plist"; path = "MiniKeePassOSX/MiniKeePass-Info.plist"; sourceTree = "<group>"; };
 		E1D9EB7916909D9C00006B0D /* Default-Landscape~ipad.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Default-Landscape~ipad.svg"; sourceTree = "<group>"; };
 		E1D9EB7C16909F6500006B0D /* MiniKeePass-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MiniKeePass-Prefix.pch"; path = "MiniKeePassOSX/MiniKeePass-Prefix.pch"; sourceTree = "<group>"; };
 		E1D9EB7E16909F7500006B0D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MiniKeePassOSX/main.m; sourceTree = "<group>"; };
 		E1D9EB801690A07600006B0D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		E1D9EB821690A0FF00006B0D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		E1D9EB831690A0FF00006B0D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E1D9EBCB1690A15700006B0D /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		E1D9EBCC1690A15700006B0D /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
-		E1D9EBCD1690A15700006B0D /* Document.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Document.xib; sourceTree = "<group>"; };
-		E1D9EBCE1690A15700006B0D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		E1D9EBD21690A22900006B0D /* MiniKeePass-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MiniKeePass-Info.plist"; sourceTree = "<group>"; };
 		E1D9EBD41690A75900006B0D /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		E1D9EBD91690BF3300006B0D /* AppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettings.h; sourceTree = "<group>"; };
-		E1D9EBDA1690BF3300006B0D /* AppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettings.m; sourceTree = "<group>"; };
 		EFD785BA15B3D02600B9A276 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		EFD785BB15B3D03F00B9A276 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1591,11 +1592,11 @@
 		E177D74316909AE000DB9CC6 /* MiniKeePass OS X */ = {
 			isa = PBXGroup;
 			children = (
-				E1D9EBCE1690A15700006B0D /* MainMenu.xib */,
-				E1D9EB821690A0FF00006B0D /* AppDelegate.h */,
-				E1D9EB831690A0FF00006B0D /* AppDelegate.m */,
-				E1BC39E016938ED400EC6587 /* ImageCache.h */,
-				E1BC39E116938ED400EC6587 /* ImageCache.m */,
+				E1BC39E5169394EF00EC6587 /* AppDelegate.h */,
+				E1BC39E6169394EF00EC6587 /* AppDelegate.m */,
+				E1BC39E7169394EF00EC6587 /* ImageCache.h */,
+				E1BC39E8169394EF00EC6587 /* ImageCache.m */,
+				E1BC39E9169394EF00EC6587 /* MainMenu.xib */,
 				E1BC39E4169393BF00EC6587 /* Settings */,
 				E1BC39E31693939E00EC6587 /* Document */,
 				E1BC39621690FB0F00EC6587 /* Password dialog */,
@@ -1607,7 +1608,7 @@
 		E177D74416909B0400DB9CC6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E1D9EBD21690A22900006B0D /* MiniKeePass-Info.plist */,
+				E1BC39F81693954B00EC6587 /* MiniKeePass-Info.plist */,
 				E1D9EB7C16909F6500006B0D /* MiniKeePass-Prefix.pch */,
 				E1D9EBD41690A75900006B0D /* Credits.rtf */,
 				E1D9EB7E16909F7500006B0D /* main.m */,
@@ -1628,11 +1629,11 @@
 		E1BC39E31693939E00EC6587 /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				E1BC39DD169377F900EC6587 /* ImageAndTextCell.h */,
-				E1BC39DE169377F900EC6587 /* ImageAndTextCell.m */,
-				E1D9EBCB1690A15700006B0D /* Document.h */,
-				E1D9EBCC1690A15700006B0D /* Document.m */,
-				E1D9EBCD1690A15700006B0D /* Document.xib */,
+				E1BC39F01693953100EC6587 /* Document.h */,
+				E1BC39F11693953100EC6587 /* Document.m */,
+				E1BC39F21693953100EC6587 /* Document.xib */,
+				E1BC39F31693953100EC6587 /* ImageAndTextCell.h */,
+				E1BC39F41693953100EC6587 /* ImageAndTextCell.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -1640,8 +1641,8 @@
 		E1BC39E4169393BF00EC6587 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				E1D9EBD91690BF3300006B0D /* AppSettings.h */,
-				E1D9EBDA1690BF3300006B0D /* AppSettings.m */,
+				E1BC39ED1693950000EC6587 /* AppSettings.h */,
+				E1BC39EE1693950000EC6587 /* AppSettings.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2118,11 +2119,11 @@
 				E177D73816909A4900DB9CC6 /* arrow.png in Resources */,
 				E177D73916909A4900DB9CC6 /* arrow@2x.png in Resources */,
 				E1D9EB7A16909D9C00006B0D /* Default-Landscape~ipad.svg in Resources */,
-				E1D9EBD01690A15700006B0D /* Document.xib in Resources */,
-				E1D9EBD11690A15700006B0D /* MainMenu.xib in Resources */,
-				E1D9EBD31690A22900006B0D /* MiniKeePass-Info.plist in Resources */,
 				E1D9EBD51690A75900006B0D /* Credits.rtf in Resources */,
 				E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */,
+				E1BC39EC169394EF00EC6587 /* MainMenu.xib in Resources */,
+				E1BC39F61693953100EC6587 /* Document.xib in Resources */,
+				E1BC39F91693954B00EC6587 /* MiniKeePass-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2260,11 +2261,12 @@
 				E177D66C16909A4900DB9CC6 /* Kdb3Utils.m in Sources */,
 				E177D66D16909A4900DB9CC6 /* DDXMLDocument+MKPAdditions.m in Sources */,
 				E1D9EB7F16909F7500006B0D /* main.m in Sources */,
-				E1D9EBCF1690A15700006B0D /* Document.m in Sources */,
-				E1D9EBDB1690BF3300006B0D /* AppSettings.m in Sources */,
 				E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */,
-				E1BC39DF169377F900EC6587 /* ImageAndTextCell.m in Sources */,
-				E1BC39E216938ED400EC6587 /* ImageCache.m in Sources */,
+				E1BC39EA169394EF00EC6587 /* AppDelegate.m in Sources */,
+				E1BC39EB169394EF00EC6587 /* ImageCache.m in Sources */,
+				E1BC39EF1693950000EC6587 /* AppSettings.m in Sources */,
+				E1BC39F51693953100EC6587 /* Document.m in Sources */,
+				E1BC39F71693953100EC6587 /* ImageAndTextCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2484,7 +2486,7 @@
 					/usr/include/libxml2,
 					.,
 				);
-				INFOPLIST_FILE = "MiniKeePass-Info.plist";
+				INFOPLIST_FILE = "MiniKeePassOSX/MiniKeePass-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",
@@ -2516,7 +2518,7 @@
 					/usr/include/libxml2,
 					.,
 				);
-				INFOPLIST_FILE = "MiniKeePass-Info.plist";
+				INFOPLIST_FILE = "MiniKeePassOSX/MiniKeePass-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",
@@ -2549,7 +2551,7 @@
 					/usr/include/libxml2,
 					.,
 				);
-				INFOPLIST_FILE = "MiniKeePass-Info.plist";
+				INFOPLIST_FILE = "MiniKeePassOSX/MiniKeePass-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_LDFLAGS = (
 					"-fobjc-arc",
