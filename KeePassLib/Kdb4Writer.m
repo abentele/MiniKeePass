@@ -90,9 +90,15 @@
     [stream close];
 
     // Write to the file
+#if TARGET_OS_IPHONE
+    if (![outputStream.data writeToFile:filename options:NSDataWritingFileProtectionComplete error:nil]) {
+        @throw [NSException exceptionWithName:@"IOError" reason:@"Failed to write file" userInfo:nil];
+    }
+#elif TARGET_OS_MAC
     if (![outputStream.data writeToFile:filename options:0 error:nil]) {
         @throw [NSException exceptionWithName:@"IOError" reason:@"Failed to write file" userInfo:nil];
     }
+#endif
 }
 
 - (void)writeHeaderField:(OutputStream*)outputStream headerId:(uint8_t)headerId data:(const void*)data length:(uint16_t)length {

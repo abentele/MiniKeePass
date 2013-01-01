@@ -74,7 +74,7 @@
                                        passwordEncoding:passwordEncoding
                                                 keyFile:keyFile];
 
-    self.kdbTree = [KdbReaderFactory load:filename withPassword:kdbPassword];
+    self.kdbTree = [KdbReaderFactory load:[NSURL fileURLWithPath:filename] withPassword:kdbPassword];
 }
 
 - (void)save {
