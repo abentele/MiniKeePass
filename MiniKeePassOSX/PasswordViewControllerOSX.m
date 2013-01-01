@@ -15,6 +15,7 @@
 @property (nonatomic, assign) IBOutlet NSSecureTextField *passwordField;
 @property (nonatomic, assign) IBOutlet NSButton *keyFileCheckbox;
 @property (nonatomic, assign) IBOutlet NSTextField *keyFileField;
+@property (nonatomic, assign) IBOutlet NSButton *doneButton;
 
 - (IBAction)selectKeyFileButtonClicked:(id)sender;
 - (IBAction)passwordCheckboxClicked:(id)sender;
@@ -39,9 +40,8 @@
 }
 
 - (IBAction)cancelClicked:(id)sender {
-    [self.delegate didCancelPassword];
-
     [[NSApplication sharedApplication] endSheet:self.window];
+    [self.delegate didCancelPassword];
 }
 
 - (IBAction)doneClicked:(id)sender {
@@ -50,9 +50,9 @@
     if ([keyFile isEqualToString:@""]) {
         keyFile = nil;
     }
-    [self.delegate didEnterPassword:self.passwordField.stringValue keyFile:keyFile];
 
     [[NSApplication sharedApplication] endSheet: self.window];
+    [self.delegate didEnterPassword:self.passwordField.stringValue keyFile:keyFile];
 }
 
 - (IBAction)selectKeyFileButtonClicked:(id)sender {
@@ -86,6 +86,7 @@
 }
 
 - (BOOL)control:(NSControl *)control textShouldBeginEditing:(NSText *)fieldEditor {
+    self.doneButton.enabled = YES;
     if (control == self.passwordField) {
         self.passwordCheckbox.state = NSOnState;
     }

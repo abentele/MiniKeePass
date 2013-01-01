@@ -173,8 +173,8 @@
 - (void)didEnterPassword:(NSString*)password keyFile:(NSString*)keyFile {
     NSStringEncoding passwordEncoding = [[AppSettings sharedInstance] passwordEncoding];
 
-    NSLog(@"Password: %@", password);
-    NSLog(@"Keyfile: %@", keyFile);
+//    NSLog(@"Password: %@", password);
+//    NSLog(@"Keyfile: %@", keyFile);
     self.kdbPassword = [[KdbPassword alloc] initWithPassword:password
                                             passwordEncoding:passwordEncoding
                                                      keyFile:keyFile];
@@ -183,21 +183,37 @@
     @try {
         KdbTree * kdbTree = [KdbReaderFactory load:self.fileURL withPassword:self.kdbPassword];
 
-        // password was correct => remove overlay view
-        [self.overlayView removeFromSuperview];
-        self.overlayView = nil;
-        
         // if the file wasn't loaded yet, assign it (otherwise, don't reload the file, but only check the password)
         if (self.kdbTree == nil) {
             self.kdbTree = kdbTree;
             [self.outlineView reloadData];
         }
+
+        // password was correct => remove overlay view
+        [self.overlayView removeFromSuperview];
+        self.overlayView = nil;
     } @catch (NSException * exception) {
         NSLog(@"Exception when loading the kdbx file: %@", exception);
-        [self performSelector:@selector(showPasswordDialog:)
-                   withObject:self
-                   afterDelay:0.5];
+
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Unable to open the database."
+                                         defaultButton:@"OK" alternateButton:nil
+                                           otherButton:nil
+                             informativeTextWithFormat:@"Wrong key or database file is corrupt."];
+        alert.alertStyle = NSInformationalAlertStyle;
+        [alert beginSheetModalForWindow:self.windowForSheet
+                          modalDelegate:self
+                         didEndSelector:@selector(didEndPasswordAlert:returnCode:contextInfo:)
+                            contextInfo:nil];
+        
     }
+}
+
+- (void)didEndPasswordAlert:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+    // show the password dialog again
+    [self performSelector:@selector(showPasswordDialog:)
+               withObject:self
+               afterDelay:0.1];
 }
 
 - (void)didCancelPassword {
