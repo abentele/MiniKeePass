@@ -44,7 +44,7 @@
 
 <h3>License</h3>
 
-<p>MiniKeePassX is (like MiniKeePass) Open Source and distributed under the GNU General Public License.</p>
+<p>MiniKeePassX (like MiniKeePass) is Open Source and distributed under the GNU General Public License.</p>
 
 <p>The source code is available for security audit or contribution on <a href="https://github.com/abentele/MiniKeePass">github</a>.</p>
 
@@ -62,6 +62,17 @@
 <li>propose new features or improvements</li>
 <li>test the application</li>
 <li>distribute the application</li>
+</ul><h3>Design principles</h3>
+
+<p>As a contributor you should be aware of these design principles:</p>
+
+<p>The github repository is a fork of the <a href="https://github.com/MiniKeePass/MiniKeePass">MiniKeePass repository</a>. The implementation is made in a branch named "osx". </p>
+
+<p>All OS X related implementation is an extension to the existing MiniKeePass code. The MiniKeePass code should not be changed for following reasons:</p>
+
+<ul>
+<li>the MiniKeePass code will be changed in future. It would be easier to merge improvements in the MiniKeePass code if we don't change that code.</li>
+<li>maybe the creators of the original MiniKeePass app will decide one day to merge the OS X related code to their repository (I would be very happy about that!). This will be simpler if there are no merge conflicts.</li>
 </ul>
         </section>
 
