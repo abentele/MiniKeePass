@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Credits
 -------
 MiniKeePassX - password save for OS X<br/>
-Copyright 2012 Andreas Bentele. All rights reserved.
+Copyright 2013 Andreas Bentele. All rights reserved.
 
 MiniKeePass - password save for iOS<br/>
 Copyright 2011 Jason Rush and John Flanagan. All rights reserved.
