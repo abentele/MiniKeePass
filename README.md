@@ -1,5 +1,5 @@
-MiniKeePass
-===========
+MiniKeePass and MiniKeePassX
+============================
 
 License
 -------
