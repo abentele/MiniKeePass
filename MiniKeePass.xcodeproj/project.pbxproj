@@ -1600,10 +1600,10 @@
 				E1BC39E7169394EF00EC6587 /* ImageCache.h */,
 				E1BC39E8169394EF00EC6587 /* ImageCache.m */,
 				E1BC39E9169394EF00EC6587 /* MainMenu.xib */,
-				E1BC39FA1694AC3C00EC6587 /* Edit Entry */,
-				E1BC39E4169393BF00EC6587 /* Settings */,
 				E1BC39E31693939E00EC6587 /* Document */,
 				E1BC39621690FB0F00EC6587 /* Password dialog */,
+				E1BC39FA1694AC3C00EC6587 /* Edit Entry */,
+				E1BC39E4169393BF00EC6587 /* Settings */,
 				E177D74416909B0400DB9CC6 /* Supporting Files */,
 			);
 			name = "MiniKeePass OS X";

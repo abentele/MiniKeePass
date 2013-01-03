@@ -10,6 +10,14 @@
 
 @interface EditEntryWindowController ()
 
+@property (nonatomic, strong) IBOutlet NSButton *okButton;
+@property (nonatomic, strong) IBOutlet NSButton *cancelButton;
+@property (nonatomic, strong) IBOutlet NSButton *closeButton;
+@property (nonatomic, strong) IBOutlet NSButton *modifyButton;
+
+- (IBAction)okClicked:(id)sender;
+- (IBAction)cancelClicked:(id)sender;
+
 @end
 
 @implementation EditEntryWindowController
@@ -18,6 +26,7 @@
     self = [super initWithWindowNibName:@"EditEntryWindowController"];
     if (self) {
         self.entry = aEntry;
+        modeNewEntry = (aEntry == nil);
     }
     return self;
 }
@@ -25,8 +34,28 @@
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+
+    if (modeNewEntry) {
+        // start with edit view
+        [self.modifyButton setHidden:YES];
+        [self.closeButton setHidden:YES];
+    }
+    else {
+        // start with readonly view
+        [self.cancelButton setHidden:YES];
+        [self.okButton setHidden:YES];
+    }
+}
+
+- (IBAction)okClicked:(id)sender {
     
-    // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+    [[NSApplication sharedApplication] endSheet: self.window];
+    [self.delegate didSaveEditEntry:self.entry];
+}
+
+- (IBAction)cancelClicked:(id)sender {
+
+    [[NSApplication sharedApplication] endSheet: self.window];
 }
 
 @end

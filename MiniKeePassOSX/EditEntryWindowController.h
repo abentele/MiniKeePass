@@ -11,7 +11,9 @@
 @protocol EditEntryWindowControllerDelegate;
 @class KdbEntry;
 
-@interface EditEntryWindowController : NSWindowController
+@interface EditEntryWindowController : NSWindowController {
+    BOOL modeNewEntry;
+}
 
 @property (nonatomic, strong) KdbEntry *entry;
 @property (nonatomic, assign) id<EditEntryWindowControllerDelegate> delegate;
