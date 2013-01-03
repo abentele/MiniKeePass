@@ -9,16 +9,14 @@
 #import "KdbReaderFactory.h"
 #import "Kdb3Reader.h"
 #import "Kdb4Reader.h"
-#import "DataInputStream.h"
 #import "FileInputStream.h"
 
 @implementation KdbReaderFactory
 
-+ (KdbTree*)load:(NSURL*)url withPassword:(KdbPassword*)kdbPassword {
-    NSLog(@"START: load kdb file: %@", url);
++ (KdbTree*)load:(NSString*)fileName withPassword:(KdbPassword*)kdbPassword {
+    NSLog(@"START: load kdb file: %@", fileName);
 
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    DataInputStream *inputStream = [[DataInputStream alloc] initWithData:data];
+    FileInputStream *inputStream = [[FileInputStream alloc] initWithFilename:fileName];
     uint32_t sig1 = [inputStream readInt32];
     sig1 = CFSwapInt32LittleToHost(sig1);
     
@@ -43,7 +41,7 @@
     
     [inputStream release];
 
-    NSLog(@"END: load kdb file: %@", url);
+    NSLog(@"END: load kdb file: %@", fileName);
     
     return tree;
 }

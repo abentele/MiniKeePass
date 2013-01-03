@@ -14,6 +14,6 @@
 
 }
 
-+ (KdbTree*)load:(NSURL*)url withPassword:(KdbPassword*)kdbPassword;
++ (KdbTree*)load:(NSString*)fileName withPassword:(KdbPassword*)kdbPassword;
 
 @end

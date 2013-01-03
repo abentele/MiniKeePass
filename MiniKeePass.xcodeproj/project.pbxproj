@@ -486,7 +486,6 @@
 		E177D71916909A4900DB9CC6 /* keyfiles.html in Resources */ = {isa = PBXBuildFile; fileRef = 68DDC3721405160300FC8BD8 /* keyfiles.html */; };
 		E177D71A16909A4900DB9CC6 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 689D021613A42B63005EBD36 /* style.css */; };
 		E177D71B16909A4900DB9CC6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
-		E177D71C16909A4900DB9CC6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E08314146F2749001C4EDF /* InfoPlist.strings */; };
 		E177D71D16909A4900DB9CC6 /* de-createdb.html in Resources */ = {isa = PBXBuildFile; fileRef = 52491D0714D8F3FB00F8CBC8 /* de-createdb.html */; };
 		E177D71E16909A4900DB9CC6 /* de-dropbox.html in Resources */ = {isa = PBXBuildFile; fileRef = 52491D0814D8F3FB00F8CBC8 /* de-dropbox.html */; };
 		E177D71F16909A4900DB9CC6 /* de-itunes.html in Resources */ = {isa = PBXBuildFile; fileRef = 52491D0914D8F3FB00F8CBC8 /* de-itunes.html */; };
@@ -525,7 +524,8 @@
 		E1BC39F51693953100EC6587 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39F11693953100EC6587 /* Document.m */; };
 		E1BC39F61693953100EC6587 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39F21693953100EC6587 /* Document.xib */; };
 		E1BC39F71693953100EC6587 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39F41693953100EC6587 /* ImageAndTextCell.m */; };
-		E1BC39F91693954B00EC6587 /* MiniKeePass-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39F81693954B00EC6587 /* MiniKeePass-Info.plist */; };
+		E1BC39FE1694AC8300EC6587 /* EditEntryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39FC1694AC8300EC6587 /* EditEntryWindowController.m */; };
+		E1BC39FF1694AC8300EC6587 /* EditEntryWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39FD1694AC8300EC6587 /* EditEntryWindowController.xib */; };
 		E1D9EB7A16909D9C00006B0D /* Default-Landscape~ipad.svg in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EB7916909D9C00006B0D /* Default-Landscape~ipad.svg */; };
 		E1D9EB7F16909F7500006B0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E1D9EB7E16909F7500006B0D /* main.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E1D9EB811690A07600006B0D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9EB801690A07600006B0D /* Cocoa.framework */; };
@@ -967,6 +967,9 @@
 		E1BC39F31693953100EC6587 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAndTextCell.h; path = MiniKeePassOSX/ImageAndTextCell.h; sourceTree = "<group>"; };
 		E1BC39F41693953100EC6587 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageAndTextCell.m; path = MiniKeePassOSX/ImageAndTextCell.m; sourceTree = "<group>"; };
 		E1BC39F81693954B00EC6587 /* MiniKeePass-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "MiniKeePass-Info.plist"; path = "MiniKeePassOSX/MiniKeePass-Info.plist"; sourceTree = "<group>"; };
+		E1BC39FB1694AC8300EC6587 /* EditEntryWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditEntryWindowController.h; path = MiniKeePassOSX/EditEntryWindowController.h; sourceTree = "<group>"; };
+		E1BC39FC1694AC8300EC6587 /* EditEntryWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditEntryWindowController.m; path = MiniKeePassOSX/EditEntryWindowController.m; sourceTree = "<group>"; };
+		E1BC39FD1694AC8300EC6587 /* EditEntryWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditEntryWindowController.xib; path = MiniKeePassOSX/EditEntryWindowController.xib; sourceTree = "<group>"; };
 		E1D9EB7916909D9C00006B0D /* Default-Landscape~ipad.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Default-Landscape~ipad.svg"; sourceTree = "<group>"; };
 		E1D9EB7C16909F6500006B0D /* MiniKeePass-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "MiniKeePass-Prefix.pch"; path = "MiniKeePassOSX/MiniKeePass-Prefix.pch"; sourceTree = "<group>"; };
 		E1D9EB7E16909F7500006B0D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = MiniKeePassOSX/main.m; sourceTree = "<group>"; };
@@ -1597,6 +1600,7 @@
 				E1BC39E7169394EF00EC6587 /* ImageCache.h */,
 				E1BC39E8169394EF00EC6587 /* ImageCache.m */,
 				E1BC39E9169394EF00EC6587 /* MainMenu.xib */,
+				E1BC39FA1694AC3C00EC6587 /* Edit Entry */,
 				E1BC39E4169393BF00EC6587 /* Settings */,
 				E1BC39E31693939E00EC6587 /* Document */,
 				E1BC39621690FB0F00EC6587 /* Password dialog */,
@@ -1645,6 +1649,16 @@
 				E1BC39EE1693950000EC6587 /* AppSettings.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		E1BC39FA1694AC3C00EC6587 /* Edit Entry */ = {
+			isa = PBXGroup;
+			children = (
+				E1BC39FB1694AC8300EC6587 /* EditEntryWindowController.h */,
+				E1BC39FC1694AC8300EC6587 /* EditEntryWindowController.m */,
+				E1BC39FD1694AC8300EC6587 /* EditEntryWindowController.xib */,
+			);
+			name = "Edit Entry";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2090,7 +2104,6 @@
 				E177D71916909A4900DB9CC6 /* keyfiles.html in Resources */,
 				E177D71A16909A4900DB9CC6 /* style.css in Resources */,
 				E177D71B16909A4900DB9CC6 /* Localizable.strings in Resources */,
-				E177D71C16909A4900DB9CC6 /* InfoPlist.strings in Resources */,
 				E177D71D16909A4900DB9CC6 /* de-createdb.html in Resources */,
 				E177D71E16909A4900DB9CC6 /* de-dropbox.html in Resources */,
 				E177D71F16909A4900DB9CC6 /* de-itunes.html in Resources */,
@@ -2123,7 +2136,7 @@
 				E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */,
 				E1BC39EC169394EF00EC6587 /* MainMenu.xib in Resources */,
 				E1BC39F61693953100EC6587 /* Document.xib in Resources */,
-				E1BC39F91693954B00EC6587 /* MiniKeePass-Info.plist in Resources */,
+				E1BC39FF1694AC8300EC6587 /* EditEntryWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2267,6 +2280,7 @@
 				E1BC39EF1693950000EC6587 /* AppSettings.m in Sources */,
 				E1BC39F51693953100EC6587 /* Document.m in Sources */,
 				E1BC39F71693953100EC6587 /* ImageAndTextCell.m in Sources */,
+				E1BC39FE1694AC8300EC6587 /* EditEntryWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

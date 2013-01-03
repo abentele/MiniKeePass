@@ -14,6 +14,7 @@
 #import "PasswordViewControllerOSX.h"
 #import "ImageAndTextCell.h"
 #import "ImageCache.h"
+#import "EditEntryWindowController.h"
 
 @interface Document ()
 
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) IBOutlet NSOutlineView *outlineView;
 @property (nonatomic, strong) NSView *overlayView;
 @property (nonatomic, strong) PasswordViewControllerOSX *passwordViewController;
+@property (nonatomic, strong) EditEntryWindowController *editEntryWindowController;
 
 - (IBAction)showPasswordDialog:(id)sender;
 
@@ -38,6 +40,9 @@
     return self;
 }
 
+#pragma mark -
+#pragma mark Standard NSDocument methods
+
 - (NSString *)windowNibName
 {
     // Override returning the nib file name of the document
@@ -47,6 +52,7 @@
 
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
     [super windowControllerDidLoadNib:windowController];
+    self.outlineView.doubleAction = @selector(doubleClick:);
 }
 
 + (BOOL)autosavesInPlace
@@ -67,7 +73,7 @@
 {
     // Load the database
     @try {
-        self.kdbTree = [KdbReaderFactory load:absoluteURL withPassword:self.kdbPassword];
+        self.kdbTree = [KdbReaderFactory load:absoluteURL.path withPassword:self.kdbPassword];
     } @catch (NSException * exception) {
         NSLog(@"Error loading keepass 2.x file: %@", exception);
         [self performSelector:@selector(showPasswordDialog:)
@@ -91,18 +97,7 @@
         return nil;
     }
     else if ([tableColumn.identifier isEqualToString:@"title"]) {
-        NSInteger imageIndex;
-        if ([item isKindOfClass:[KdbGroup class]]) {
-            KdbGroup *group = (KdbGroup*)item;
-            imageIndex = group.image;
-        }
-        else if ([item isKindOfClass:[KdbEntry class]]) {
-            KdbEntry *entry = (KdbEntry*)item;
-            imageIndex = entry.image;
-        }
-        
-        ImageAndTextCell *cell = [[ImageAndTextCell alloc] init];
-        return cell;
+        return [[ImageAndTextCell alloc] init];
     }
     else {
         return [[NSTextFieldCell alloc] init];
@@ -112,7 +107,7 @@
 - (void)outlineView:(NSOutlineView *)outlineView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
     if ([tableColumn.identifier isEqualToString:@"title"]) {
-        NSInteger imageIndex;
+        NSInteger imageIndex = -1;
         if ([item isKindOfClass:[KdbGroup class]]) {
             KdbGroup *group = (KdbGroup*)item;
             imageIndex = group.image;
@@ -121,7 +116,14 @@
             KdbEntry *entry = (KdbEntry*)item;
             imageIndex = entry.image;
         }
-        NSImage *image = [[ImageCache sharedInstance] getImage:imageIndex];
+        
+        NSImage *image;
+        if (imageIndex != -1) {
+            image = [[ImageCache sharedInstance] getImage:imageIndex];
+        }
+        else {
+            image = nil;
+        }
         //NSLog(@"Image: %@", image);
         ImageAndTextCell *cell = (ImageAndTextCell*)aCell;
         [cell setImage: image];
@@ -188,6 +190,9 @@
     return @"";
 }
 
+#pragma mark -
+#pragma mark Password dialog
+
 - (IBAction)showPasswordDialog:(id)sender {
     
     // Prompt the user for the password if we haven't loaded the database yet
@@ -200,9 +205,16 @@
         
         if (self.overlayView == nil) {
             // add gray overlay view
-            self.overlayView = [[NSView alloc] initWithFrame:CGRectMake(0, 0, self.outlineView.bounds.size.width, self.outlineView.bounds.size.height)];
+            CGRect rect = CGRectMake(0,
+                                     0,
+                                     self.outlineView.bounds.size.width,
+                                     self.outlineView.bounds.size.height);
+            self.overlayView = [[NSView alloc] initWithFrame:rect];
             CALayer *viewLayer = [CALayer layer];
-            [viewLayer setBackgroundColor:CGColorCreateGenericRGB(0.9, 0.9, 0.9, 1.0)]; //RGB plus Alpha Channel
+            [viewLayer setBackgroundColor:[[NSColor colorWithCalibratedRed:0.9
+                                                                     green:0.9
+                                                                      blue:0.9
+                                                                     alpha:1.0] CGColor]];
             [self.overlayView setWantsLayer:YES]; // view's backing store is using a Core Animation Layer
             [self.overlayView setLayer:viewLayer];
             [self.overlayView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -236,7 +248,7 @@
 
     // Load data
     @try {
-        KdbTree * kdbTree = [KdbReaderFactory load:self.fileURL withPassword:self.kdbPassword];
+        KdbTree * kdbTree = [KdbReaderFactory load:self.fileURL.path withPassword:self.kdbPassword];
 
         // if the file wasn't loaded yet, assign it (otherwise, don't reload the file, but only check the password)
         if (self.kdbTree == nil) {
@@ -276,5 +288,38 @@
     [self close];
 }
 
+#pragma mark -
+#pragma mark Edit action
+
+- (IBAction)doubleClick:(id)sender {
+    NSLog(@"Double clicked");
+    NSInteger row = self.outlineView.clickedRow;
+    id item = [self.outlineView itemAtRow:row];
+    if ([item isKindOfClass:[KdbEntry class]]) {
+        KdbEntry *entry = (KdbEntry*)item;
+        [self editEntry:entry];
+    }
+    else if ([item isKindOfClass:[KdbGroup class]]) {
+//        KdbGroup *group = (KdbGroup*)item;
+//        [self editGroup:group];
+    }
+}
+
+- (void)editEntry:(KdbEntry*)entry {
+    
+    // Prompt the user for a password
+    self.editEntryWindowController = [[EditEntryWindowController alloc] initWithEntry:entry];
+    self.editEntryWindowController.delegate = self;
+    
+    [[NSApplication sharedApplication] beginSheet:self.editEntryWindowController.window
+                                   modalForWindow:self.windowForSheet
+                                    modalDelegate:self
+                                   didEndSelector:@selector(didEndSheet:returnCode:contextInfo:)
+                                      contextInfo:nil];
+}
+
+- (void)didSaveEditEntry:(KdbEntry*)entry {
+    
+}
 
 @end

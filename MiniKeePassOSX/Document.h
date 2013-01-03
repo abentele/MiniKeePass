@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "PasswordViewControllerOSX.h"
+#import "EditEntryWindowController.h"
 
-@interface Document : NSDocument <NSOutlineViewDataSource, PasswordViewControllerDelegate>
+@interface Document : NSDocument <NSOutlineViewDataSource, PasswordViewControllerDelegate, EditEntryWindowControllerDelegate>
 @end
