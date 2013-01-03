@@ -15,6 +15,8 @@
 
 @implementation ImageAndTextCell
 
+@synthesize image = _image;
+
 - (id)init
 {
 	self = [super init];
@@ -29,6 +31,10 @@
     ImageAndTextCell *cell = (ImageAndTextCell*)[super copyWithZone:zone];
     cell.image = self.image;
     return cell;
+}
+
+- (NSImage*)image {
+    return _image;
 }
 
 - (void)setImage:(NSImage *)aImage
