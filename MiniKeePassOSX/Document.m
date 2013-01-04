@@ -24,6 +24,11 @@
 @property (nonatomic, strong) NSView *overlayView;
 @property (nonatomic, strong) PasswordViewControllerOSX *passwordViewController;
 @property (nonatomic, strong) EditEntryWindowController *editEntryWindowController;
+@property (nonatomic, strong) IBOutlet NSSearchField *searchField;
+
+/* Cache: <parent, array of filtered children> */
+@property (nonatomic, strong) NSMutableDictionary *filteredChildren;
+
 
 - (IBAction)showPasswordDialog:(id)sender;
 
@@ -35,7 +40,7 @@
 {
     self = [super init];
     if (self) {
-        // Add your subclass-specific initialization here.
+        self.filteredChildren = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -130,41 +135,168 @@
     }
 }
 
-
 #pragma mark -
-#pragma mark OutlineView Datasource
+#pragma mark Search filter
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+// search field delegate method
+- (void)controlTextDidChange:(NSNotification *)aNotification
+{
+    if([aNotification object] == self.searchField)
+    {
+        // trigger filtering
+        //NSLog(@"filter with text: %@", self.searchText);
+        
+        // invalidate cache
+        [self.filteredChildren removeAllObjects];
+        
+        // invalidate view
+        [self.outlineView reloadData];
+        
+        // expand all items in search mode
+        if ([self.searchText length] > 0) {
+            [self.outlineView expandItem:nil expandChildren:YES];
+        }
+        else {
+            [self.outlineView collapseItem:nil collapseChildren:YES];
+        }
+    }
+}
+
+- (NSString*)searchText {
+    return [[self.searchField.stringValue stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] lowercaseString];
+}
+
+- (BOOL)searchStringContainedIn:(NSString*)value {
+    NSRange range = [[value lowercaseString] rangeOfString:[self searchText]];
+    return range.location != NSNotFound;
+}
+
+- (BOOL)searchStringMatchesGroup:(KdbGroup*)group {
+    if ([self searchStringContainedIn:group.name]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL)searchStringMatchesEntry:(KdbEntry*)entry {
+    if ([self searchStringContainedIn:entry.title]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSArray*)filteredChildrenOfItem:(id)item {
+    if (item == nil) {
+        item = self.kdbTree.root;
+    }
+
+    // construct cache key (using NSString which supports NSCopying!)
+    id cacheKey;
+    if (item != nil) {
+        cacheKey = item;
+        if ([item isKindOfClass:[Kdb3Entry class]]) {
+            Kdb3Entry *entry = (Kdb3Entry*)item;
+            cacheKey = [NSString stringWithFormat:@"Kdb3Entry-%@", entry.uuid.description];
+        }
+        else if ([item isKindOfClass:[Kdb4Entry class]]) {
+            Kdb4Entry *entry = (Kdb4Entry*)item;
+            cacheKey = [NSString stringWithFormat:@"Kdb4Entry-%@", entry.uuid.description];
+        }
+        else if ([item isKindOfClass:[Kdb3Group class]]) {
+            Kdb3Group *group = (Kdb3Group*)item;
+            cacheKey = [NSString stringWithFormat:@"Kdb3Group-%d", group.groupId];
+        }
+        else if ([item isKindOfClass:[Kdb4Group class]]) {
+            Kdb4Group *group = (Kdb4Group*)item;
+            cacheKey = [NSString stringWithFormat:@"Kdb4Group-%@", group.uuid.description];
+        }
+    }
+    else {
+        cacheKey = @"NULL_KEY";
+    }
+    
+    NSMutableArray *result = [self.filteredChildren objectForKey:cacheKey];
+
+    if (result == nil) {
+        result = [[NSMutableArray alloc] init];
+        
+        if ([item isKindOfClass:[KdbGroup class]]) {
+            KdbGroup *group = (KdbGroup*)item;
+            if ([[self searchText] length] == 0) {
+                for (KdbGroup *childGroup in group.groups) {
+                    [result addObject:childGroup];
+                }
+                for (KdbEntry *childEntry in group.entries) {
+                    [result addObject:childEntry];
+                }
+            }
+            else {
+                for (KdbGroup *childGroup in group.groups) {
+                    if ([self searchStringMatchesGroup:childGroup] || ([self numberOfFilteredChildrenOfItem:childGroup] > 0)) {
+                        [result addObject:childGroup];
+                    }
+                }
+                for (KdbEntry *childEntry in group.entries) {
+                    if ([self searchStringMatchesEntry:childEntry]) {
+                        [result addObject:childEntry];
+                    }
+                }
+            }
+        }
+        [self.filteredChildren setObject:result forKey:cacheKey];
+    }
+    
+    return result;
+}
+
+- (NSInteger)numberOfFilteredChildrenOfItem:(id)item {
+    return [[self filteredChildrenOfItem:item] count];
+    /*
+    NSInteger result = 0;
+    
     if (item == nil) {
         item = self.kdbTree.root;
     }
     
     if ([item isKindOfClass:[KdbGroup class]]) {
         KdbGroup *group = (KdbGroup*)item;
-        return [[group groups] count] + [[group entries] count];
+        if ([[self searchText] length] == 0) {
+            result += group.groups.count + group.entries.count;
+        }
+        else {
+            for (KdbGroup *childGroup in group.groups) {
+                if ([self searchStringMatchesGroup:childGroup] || ([self numberOfFilteredChildrenOfItem:childGroup] > 0)) {
+                    result++;
+                }
+            }
+            for (KdbEntry *childEntry in group.entries) {
+                if ([self searchStringMatchesEntry:childEntry]) {
+                    result++;
+                }
+            }
+        }
     }
     
-    return 0;
+    return result;
+     */
+}
+
+#pragma mark -
+#pragma mark OutlineView Datasource
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
+    return [self numberOfFilteredChildrenOfItem:item];
 }
 
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-    return [item isKindOfClass:[KdbGroup class]];
+    return [self numberOfFilteredChildrenOfItem:item] > 0;
 }
 
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    if (item == nil) {
-        item = self.kdbTree.root;
-    }
-
-    KdbGroup *group = (KdbGroup*)item;
-    if (index < group.groups.count) {
-        return [group.groups objectAtIndex:index];
-    }
-    else {
-        return [group.entries objectAtIndex:index - group.groups.count];
-    }
+    NSArray *children = [self filteredChildrenOfItem:item];
+    return [children objectAtIndex:index];
 }
 
 

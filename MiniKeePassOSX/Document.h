@@ -11,5 +11,5 @@
 #import "PasswordViewControllerOSX.h"
 #import "EditEntryWindowController.h"
 
-@interface Document : NSDocument <NSOutlineViewDataSource, PasswordViewControllerDelegate, EditEntryWindowControllerDelegate>
+@interface Document : NSDocument <NSOutlineViewDataSource, PasswordViewControllerDelegate, EditEntryWindowControllerDelegate, NSTextFieldDelegate>
 @end
