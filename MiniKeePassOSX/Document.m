@@ -9,6 +9,8 @@
 #import "Document.h"
 #import "AppSettings.h"
 #import "Kdb.h"
+#import "Kdb3Node.h"
+#import "Kdb4Node.h"
 #import "KdbPassword.h"
 #import "KdbReaderFactory.h"
 #import "PasswordViewControllerOSX.h"
