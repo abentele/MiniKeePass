@@ -195,14 +195,9 @@
     // construct cache key (using NSString which supports NSCopying!)
     id cacheKey;
     if (item != nil) {
-        cacheKey = item;
-        if ([item isKindOfClass:[Kdb3Entry class]]) {
-            Kdb3Entry *entry = (Kdb3Entry*)item;
-            cacheKey = [NSString stringWithFormat:@"Kdb3Entry-%@", entry.uuid.description];
-        }
-        else if ([item isKindOfClass:[Kdb4Entry class]]) {
-            Kdb4Entry *entry = (Kdb4Entry*)item;
-            cacheKey = [NSString stringWithFormat:@"Kdb4Entry-%@", entry.uuid.description];
+        if ([item isKindOfClass:[KdbEntry class]]) {
+            // always return empty array
+            cacheKey = @"EMPTYARRAY_KEY";
         }
         else if ([item isKindOfClass:[Kdb3Group class]]) {
             Kdb3Group *group = (Kdb3Group*)item;
@@ -216,6 +211,8 @@
     else {
         cacheKey = @"NULL_KEY";
     }
+    
+    //NSLog(@"Cache key: %@", cacheKey);
     
     NSMutableArray *result = [self.filteredChildren objectForKey:cacheKey];
 
@@ -253,34 +250,6 @@
 
 - (NSInteger)numberOfFilteredChildrenOfItem:(id)item {
     return [[self filteredChildrenOfItem:item] count];
-    /*
-    NSInteger result = 0;
-    
-    if (item == nil) {
-        item = self.kdbTree.root;
-    }
-    
-    if ([item isKindOfClass:[KdbGroup class]]) {
-        KdbGroup *group = (KdbGroup*)item;
-        if ([[self searchText] length] == 0) {
-            result += group.groups.count + group.entries.count;
-        }
-        else {
-            for (KdbGroup *childGroup in group.groups) {
-                if ([self searchStringMatchesGroup:childGroup] || ([self numberOfFilteredChildrenOfItem:childGroup] > 0)) {
-                    result++;
-                }
-            }
-            for (KdbEntry *childEntry in group.entries) {
-                if ([self searchStringMatchesEntry:childEntry]) {
-                    result++;
-                }
-            }
-        }
-    }
-    
-    return result;
-     */
 }
 
 #pragma mark -
