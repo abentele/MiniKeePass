@@ -11,6 +11,7 @@
 #define DEFAULT_TRANSFORMATION_ROUNDS 6000
 
 @class KdbEntry;
+@class UUID;
 
 @interface KdbGroup : NSObject {
     KdbGroup * parent;
@@ -46,6 +47,8 @@
 - (void)removeGroup:(KdbGroup *)group;
 - (void)moveGroup:(KdbGroup *)group toGroup:(KdbGroup *)toGroup;
 
+- (KdbEntry*)currentEntryOfCopy:(KdbEntry*)copy;
+- (void)replaceEntryWithCopy:(KdbEntry *)copy;
 - (void)addEntry:(KdbEntry *)entry;
 - (void)removeEntry:(KdbEntry *)entry;
 - (void)moveEntry:(KdbEntry *)entry toGroup:(KdbGroup *)toGroup;
@@ -54,19 +57,15 @@
 
 @end
 
-@interface KdbEntry : NSObject {
-    KdbGroup * parent;
-
-    NSInteger image;
-
+@interface KdbEntry : NSObject <NSCopying> {
     NSDate *creationTime;
     NSDate *lastModificationTime;
     NSDate *lastAccessTime;
     NSDate *expiryTime;
 }
 
+@property(nonatomic, strong) UUID *uuid;
 @property(nonatomic, strong) KdbGroup *parent;
-
 @property(nonatomic, assign) NSInteger image;
 
 - (NSString *)title;

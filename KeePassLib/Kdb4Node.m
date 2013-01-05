@@ -77,6 +77,12 @@
 
 @implementation Association
 
+- (id)copyWithZone:(NSZone *)zone {
+    Association *copy = [self init];
+    copy.window = self.window;
+    copy.keystrokeSequence = self.keystrokeSequence;
+    return copy;
+}
 
 @end
 
@@ -91,6 +97,14 @@
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    AutoType *copy = [self init];
+    copy.enabled = self.enabled;
+    copy.dataTransferObfuscation = self.dataTransferObfuscation;
+    copy.defaultSequence = self.defaultSequence;
+    copy.associations = [self.associations copyWithZone:zone];
+    return copy;
+}
 
 @end
 
@@ -107,6 +121,28 @@
     return self;
 }
 
+- (id)copyWithZone:(NSZone *)zone {
+    Kdb4Entry *copy = [super copyWithZone:zone];
+    copy.titleStringField = [self.titleStringField copyWithZone:zone];
+    copy.usernameStringField = [self.usernameStringField copyWithZone:zone];
+    copy.passwordStringField = [self.passwordStringField copyWithZone:zone];
+    copy.urlStringField = [self.urlStringField copyWithZone:zone];
+    copy.notesStringField = [self.notesStringField copyWithZone:zone];
+    copy.customIconUuid = self.customIconUuid; // don't change uuid by copying
+    copy.foregroundColor = self.foregroundColor;
+    copy.backgroundColor = self.backgroundColor;
+    copy.overrideUrl = self.overrideUrl;
+    copy.tags = self.tags;
+    copy.expires = self.expires;
+    copy.expiryTime = self.expiryTime;
+    copy.usageCount = self.usageCount;
+    copy.locationChanged = self.locationChanged;
+    copy.stringFields = [self.stringFields copyWithZone:zone];
+    copy.binaries = [self.binaries copyWithZone:zone];
+    copy.autoType = [self.autoType copyWithZone:zone];
+    copy.history = [self.history copyWithZone:zone];
+    return copy;
+}
 
 - (NSString *)title {
     return _titleStringField.value;
@@ -114,6 +150,7 @@
 
 - (void)setTitle:(NSString *)title {
     _titleStringField.value = title;
+    NSLog(@"Set title: %@", _titleStringField.value);
 }
 
 - (NSString *)username {

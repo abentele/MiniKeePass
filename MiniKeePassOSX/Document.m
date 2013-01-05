@@ -17,6 +17,7 @@
 #import "ImageAndTextCell.h"
 #import "ImageCache.h"
 #import "EditEntryWindowController.h"
+#import "KdbWriterFactory.h"
 
 @interface Document ()
 
@@ -67,13 +68,10 @@
     return YES;
 }
 
-- (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
+- (BOOL)writeToURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError *__autoreleasing *)outError
 {
-    // Insert code here to write your document to data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning nil.
-    // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    NSException *exception = [NSException exceptionWithName:@"UnimplementedMethod" reason:[NSString stringWithFormat:@"%@ is unimplemented", NSStringFromSelector(_cmd)] userInfo:nil];
-    @throw exception;
-    return nil;
+    [KdbWriterFactory persist:self.kdbTree file:url.path withPassword:self.kdbPassword];
+    return YES;
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
@@ -399,7 +397,7 @@
     NSInteger row = self.outlineView.clickedRow;
     id item = [self.outlineView itemAtRow:row];
     if ([item isKindOfClass:[KdbEntry class]]) {
-        KdbEntry *entry = (KdbEntry*)item;
+        KdbEntry *entry = [(KdbEntry*)item copyWithZone:nil];
         [self editEntry:entry];
     }
     else if ([item isKindOfClass:[KdbGroup class]]) {
@@ -422,7 +420,20 @@
 }
 
 - (void)didSaveEditEntry:(KdbEntry*)entry {
-    
+    [self replaceEntry:entry];
+}
+
+- (void)replaceEntry:(KdbEntry*)entry {
+    //NSLog(@"Save entry with title:%@", entry.title);
+    [[self undoManager] setActionName:[NSString stringWithFormat:@"Modify entry: %@", entry.title]];
+    KdbEntry *current = [entry.parent currentEntryOfCopy:entry];
+    //NSLog(@"Add to undoManager: %@", current.title);
+    [[[self undoManager] prepareWithInvocationTarget:self] replaceEntry:current];
+
+    //NSLog(@"Replace entry: %@", entry.title);
+    [entry.parent replaceEntryWithCopy:entry];
+    [self.filteredChildren removeAllObjects];
+    [self.outlineView reloadData];
 }
 
 @end

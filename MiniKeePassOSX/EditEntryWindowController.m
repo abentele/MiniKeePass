@@ -237,6 +237,7 @@
 
 - (IBAction)okClicked:(id)sender {
     [[NSApplication sharedApplication] endSheet: self.window];
+    [self.window makeFirstResponder:nil];
     [self.delegate didSaveEditEntry:self.entry];
 }
 

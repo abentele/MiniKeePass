@@ -29,6 +29,7 @@
 
 - (void)getBytes:(uint8_t *)bytes length:(NSUInteger)length;
 - (NSData *)getData;
+- (NSString*)toString;
 
 + (UUID *)uuid;
 + (UUID *)nullUuid;

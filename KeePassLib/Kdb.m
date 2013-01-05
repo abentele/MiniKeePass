@@ -7,6 +7,7 @@
 //
 
 #import "Kdb.h"
+#import "UUID.h"
 
 @implementation KdbGroup
 
@@ -45,6 +46,26 @@
 - (void)moveGroup:(KdbGroup *)group toGroup:(KdbGroup *)toGroup {
     [self removeGroup:group];
     [toGroup addGroup:group];
+}
+
+- (KdbEntry*)currentEntryOfCopy:(KdbEntry*)copy {
+    KdbEntry *current = nil;
+    for (KdbEntry *e in copy.parent.entries) {
+        if ([e.uuid.toString isEqualToString:copy.uuid.toString]) {
+            current = e;
+            break;
+        }
+    }
+    return current;
+}
+
+- (void)replaceEntryWithCopy:(KdbEntry *)copy {
+    KdbEntry *entryToReplace = [self currentEntryOfCopy:copy];
+    //NSLog(@"entryToReplace: %@", entryToReplace.title);
+    
+    int index = [self.entries indexOfObject:entryToReplace];
+    //NSLog(@"index: %d", index);
+    [entries replaceObjectAtIndex:index withObject:copy];
 }
 
 - (void)addEntry:(KdbEntry *)entry {
@@ -97,6 +118,24 @@
 @synthesize lastAccessTime;
 @synthesize expiryTime;
 
+- (id)copyWithZone:(NSZone *)zone {
+    KdbEntry *copy = [[self.class alloc] init];
+    NSLog(@"created copy instance: %@", copy);
+    copy.uuid = self.uuid;
+    copy.parent = self.parent;
+    copy.username = self.username;
+    copy.password = self.password;
+    copy.url = self.url;
+    copy.notes = self.notes;
+    copy.image = self.image;
+    copy.title = [self.title copyWithZone:zone];
+    copy.creationTime = [self.creationTime copyWithZone:zone];
+    copy.lastModificationTime = [self.lastModificationTime copyWithZone:zone];
+    copy.lastAccessTime = [self.lastAccessTime copyWithZone:zone];
+    copy.expiryTime = [self.expiryTime copyWithZone:zone];
+    NSLog(@"filled copy instance: %@", copy);
+    return copy;
+}
 
 - (NSString *)title {
     [self doesNotRecognizeSelector:_cmd];

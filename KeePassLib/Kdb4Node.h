@@ -113,7 +113,7 @@
 @end
 
 
-@interface Association : NSObject
+@interface Association : NSObject <NSCopying>
 
 @property(nonatomic, copy) NSString *window;
 @property(nonatomic, copy) NSString *keystrokeSequence;
@@ -121,19 +121,18 @@
 @end
 
 
-@interface AutoType : NSObject
+@interface AutoType : NSObject <NSCopying>
 
 @property(nonatomic, assign) BOOL enabled;
 @property(nonatomic, assign) NSInteger dataTransferObfuscation;
 @property(nonatomic, copy) NSString *defaultSequence;
-@property(nonatomic, readonly) NSMutableArray *associations;
+@property(nonatomic, strong) NSMutableArray *associations;
 
 @end
 
 
 @interface Kdb4Entry : KdbEntry
 
-@property(nonatomic, strong) UUID *uuid;
 @property(nonatomic, strong) StringField *titleStringField;
 @property(nonatomic, strong) StringField *usernameStringField;
 @property(nonatomic, strong) StringField *passwordStringField;
@@ -147,10 +146,10 @@
 @property(nonatomic, assign) BOOL expires;
 @property(nonatomic, assign) NSInteger usageCount;
 @property(nonatomic, strong) NSDate *locationChanged;
-@property(nonatomic, readonly) NSMutableArray *stringFields;
-@property(nonatomic, readonly) NSMutableArray *binaries;
+@property(nonatomic, strong) NSMutableArray *stringFields;
+@property(nonatomic, strong) NSMutableArray *binaries;
 @property(nonatomic, strong) AutoType *autoType;
-@property(nonatomic, readonly) NSMutableArray *history;
+@property(nonatomic, strong) NSMutableArray *history;
 
 @end
 

@@ -45,6 +45,12 @@
 
 @implementation Kdb3Entry
 
+- (id)copyWithZone:(NSZone *)zone {
+    Kdb3Entry *copy = [super copyWithZone:zone];
+    copy.binaryDesc = [self.binaryDesc copyWithZone:zone];
+    copy.binary = [self.binary copyWithZone:zone];
+    return copy;
+}
 
 - (BOOL)isMeta {
     if (!_binary || _binary.length == 0) {
@@ -65,7 +71,7 @@
     if (!_url || [_url compare:@"$"]) {
         return NO;
     }
-    if (image) {
+    if (self.image) {
         return NO;
     }
     return YES;

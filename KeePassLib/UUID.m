@@ -95,8 +95,7 @@ static UUID *AES_UUID;
 }
 
 - (NSString*)description {
-    NSString *uuidString = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, uuid));
-    return uuidString;
+    return [self toString];
 }
 
 + (UUID *)uuid {
@@ -125,6 +124,11 @@ static UUID *AES_UUID;
         }
     }
     return AES_UUID;
+}
+
+- (NSString*)toString {
+    NSString *uuidString = (NSString *)CFBridgingRelease(CFUUIDCreateString(NULL, uuid));
+    return uuidString;
 }
 
 @end
