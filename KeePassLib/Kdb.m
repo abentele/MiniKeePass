@@ -78,7 +78,11 @@
 }
 
 - (NSString*)description {
+#if TARGET_OS_IPHONE
     return [NSString stringWithFormat:@"KdbGroup [image=%d, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, name, creationTime, lastModificationTime, lastAccessTime, expiryTime];
+#elif TARGET_OS_MAC
+    return [NSString stringWithFormat:@"KdbGroup [image=%ld, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, name, creationTime, lastModificationTime, lastAccessTime, expiryTime];
+#endif
 }
 
 @end
@@ -140,7 +144,11 @@
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"KdbEntry [image=%d, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, self.title, self.username, self.password, self.url, self.notes, creationTime, lastModificationTime, lastAccessTime, expiryTime];
+#if TARGET_OS_IPHONE
+    return [NSString stringWithFormat:@"KdbEntry [image=%d, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", self.image, self.title, self.username, self.password, self.url, self.notes, self.creationTime, self.lastModificationTime, self.lastAccessTime, self.expiryTime];
+#elif TARGET_OS_MAC
+    return [NSString stringWithFormat:@"KdbEntry [image=%ld, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", self.image, self.title, self.username, self.password, self.url, self.notes, self.creationTime, self.lastModificationTime, self.lastAccessTime, self.expiryTime];
+#endif
 }
 
 @end
