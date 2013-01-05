@@ -18,7 +18,6 @@
 #import <UIKit/UIKit.h>
 
 @interface TextViewCell : UITableViewCell <UITextViewDelegate> {
-	UITextView *textView;
 }
 
 @property (nonatomic, retain) UITextView *textView;

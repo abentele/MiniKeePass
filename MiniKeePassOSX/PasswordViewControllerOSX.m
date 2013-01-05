@@ -10,12 +10,12 @@
 
 @interface PasswordViewControllerOSX ()
 
-@property (nonatomic, assign) IBOutlet NSTextField *fileNameLabel;
-@property (nonatomic, assign) IBOutlet NSButton *passwordCheckbox;
-@property (nonatomic, assign) IBOutlet NSSecureTextField *passwordField;
-@property (nonatomic, assign) IBOutlet NSButton *keyFileCheckbox;
-@property (nonatomic, assign) IBOutlet NSTextField *keyFileField;
-@property (nonatomic, assign) IBOutlet NSButton *doneButton;
+@property (nonatomic, weak) IBOutlet NSTextField *fileNameLabel;
+@property (nonatomic, weak) IBOutlet NSButton *passwordCheckbox;
+@property (nonatomic, weak) IBOutlet NSSecureTextField *passwordField;
+@property (nonatomic, weak) IBOutlet NSButton *keyFileCheckbox;
+@property (nonatomic, weak) IBOutlet NSTextField *keyFileField;
+@property (nonatomic, weak) IBOutlet NSButton *doneButton;
 
 - (IBAction)selectKeyFileButtonClicked:(id)sender;
 - (IBAction)passwordCheckboxClicked:(id)sender;

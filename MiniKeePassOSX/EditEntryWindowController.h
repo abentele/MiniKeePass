@@ -16,7 +16,7 @@
 }
 
 @property (nonatomic, strong) KdbEntry *entry;
-@property (nonatomic, assign) id<EditEntryWindowControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<EditEntryWindowControllerDelegate> delegate;
 
 - (id)initWithEntry:(KdbEntry*)entry;
 

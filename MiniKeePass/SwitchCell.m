@@ -19,8 +19,6 @@
 
 @implementation SwitchCell
 
-@synthesize switchControl;
-
 - (id)initWithLabel:(NSString*)labelText {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     if (self) {
@@ -29,16 +27,11 @@
         
         self.textLabel.text = labelText;
         
-        switchControl = [[UISwitch alloc] init];
+        self.switchControl = [[UISwitch alloc] init];
         
-        self.accessoryView = switchControl;
+        self.accessoryView = self.switchControl;
     }
     return self;
-}
-
-- (void)dealloc {
-    [switchControl release];
-    [super dealloc];
 }
 
 - (void)setEnabled:(BOOL)enabled {

@@ -21,12 +21,11 @@
 
 @interface LengthCell : UITableViewCell <UIPickerViewDelegate, UIPickerViewDataSource> {
     UIPickerView *pickerView;
-    id<LengthCellDelegate> delegate;
 }
 
-@property (nonatomic, retain) id<LengthCellDelegate> delegate;
-@property (nonatomic, retain) UIView *inputView;
-@property (nonatomic, retain) UIView *inputAccessoryView;
+@property (nonatomic, strong) id<LengthCellDelegate> delegate;
+@property (nonatomic, strong) UIView *inputView;
+@property (nonatomic, strong) UIView *inputAccessoryView;
 
 - (void)setLength:(NSInteger)length;
 

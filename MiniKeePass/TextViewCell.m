@@ -19,25 +19,18 @@
 
 @implementation TextViewCell
 
-@synthesize textView;
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        textView = [[UITextView alloc] initWithFrame:CGRectZero];
-        textView.font = [UIFont systemFontOfSize:16];
-        textView.delegate = self;
-        [self addSubview:textView];
+        self.textView = [[UITextView alloc] initWithFrame:CGRectZero];
+        self.textView.font = [UIFont systemFontOfSize:16];
+        self.textView.delegate = self;
+        [self addSubview:self.textView];
     }
     return self;
-}
-
-- (void)dealloc {
-    [textView release];
-    [super dealloc];
 }
 
 - (void)layoutSubviews {
@@ -45,7 +38,7 @@
     
     CGRect rect = self.contentView.frame;
     
-    textView.frame = CGRectMake(rect.origin.x + 3, rect.origin.y + 3, rect.size.width - 6, rect.size.height - 6);
+    self.textView.frame = CGRectMake(rect.origin.x + 3, rect.origin.y + 3, rect.size.width - 6, rect.size.height - 6);
 }
 
 - (void)textViewDidBeginEditing:(UITextView *)view {

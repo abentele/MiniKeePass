@@ -99,7 +99,7 @@ static AppSettings *sharedInstance;
 - (id)init {
     self = [super init];
     if (self) {
-        userDefaults = [[NSUserDefaults standardUserDefaults] retain];
+        userDefaults = [NSUserDefaults standardUserDefaults];
 
         // Register the default values
         NSMutableDictionary *defaultsDict = [NSMutableDictionary dictionary];
@@ -125,10 +125,6 @@ static AppSettings *sharedInstance;
     return self;
 }
 
-- (void)dealloc {
-    [userDefaults release];
-    [super dealloc];
-}
 
 - (NSDate *)exitTime {
     return [userDefaults valueForKey:EXIT_TIME];

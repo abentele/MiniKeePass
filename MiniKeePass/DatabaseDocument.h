@@ -19,19 +19,13 @@
 #import "KdbLib.h"
 
 @interface DatabaseDocument : NSObject {
-    KdbTree *kdbTree;
-    NSString *filename;
-    BOOL dirty;
-    
     KdbPassword *kdbPassword;
-    
-    UIDocumentInteractionController *documentInteractionController;
 }
 
-@property (nonatomic, retain) KdbTree *kdbTree;
+@property (nonatomic, strong) KdbTree *kdbTree;
 @property (nonatomic, copy) NSString *filename;
 @property (nonatomic) BOOL dirty;
-@property (nonatomic, readonly) UIDocumentInteractionController *documentInteractionController;
+@property (nonatomic, strong) UIDocumentInteractionController *documentInteractionController;
 
 - (void)open:(NSString *)newFilename password:(NSString *)password keyFile:(NSString *)keyFile;
 - (void)save;

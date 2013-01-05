@@ -36,20 +36,14 @@
 - init {
     self = [super init];
     if (self) {
-        masterSeed = [[Utils randomBytes:16] retain];
-        encryptionIv = [[Utils randomBytes:16] retain];
-        transformSeed = [[Utils randomBytes:32] retain];
+        masterSeed = [Utils randomBytes:16];
+        encryptionIv = [Utils randomBytes:16];
+        transformSeed = [Utils randomBytes:32];
         firstGroup = YES;
     }
     return self;
 }
 
-- (void)dealloc {
-    [masterSeed release];
-    [encryptionIv release];
-    [transformSeed release];
-    [super dealloc];
-}
 
 /**
  * Get the number of groups in the KDB tree
@@ -106,7 +100,6 @@
         [shaOutputStream close];
 
         // Release and reopen the file back up and write the content hash
-        [fileOutputStream release];
         fileOutputStream = [[FileOutputStream alloc] initWithFilename:filename flags:O_WRONLY mode:0644];
         [fileOutputStream seek:56];
         [fileOutputStream write:[shaOutputStream getHash] length:32];
@@ -119,9 +112,9 @@
                                                 error:nil];
 #endif
     } @finally {
-        [shaOutputStream release];
-        [aesOutputStream release];
-        [fileOutputStream release];
+        shaOutputStream = nil;
+        aesOutputStream = nil;
+        fileOutputStream = nil;
     }
 }
 
@@ -199,7 +192,6 @@
         // Write the extra data to a field with id 0
         [self appendField:0 size:dataOutputStream.data.length bytes:dataOutputStream.data.bytes withOutputStream:outputStream];
 
-        [dataOutputStream release];
         firstGroup = NO;
     }
 
@@ -372,8 +364,6 @@
     
     [self persist:tree file:fileName withPassword:kdbPassword];
     
-    [tree release];
-    [rootGroup release];
 }
 
 @end

@@ -19,27 +19,20 @@
 
 @implementation FormViewController
 
-@synthesize controls;
-@synthesize headerTitle;
-@synthesize footerTitle;
-@synthesize delegate;
-
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         self.tableView.scrollEnabled = NO;
         self.tableView.delegate = self;
         
-        headerTitle = nil;
-        footerTitle = nil;
+        self.headerTitle = nil;
+        self.footerTitle = nil;
         
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(okPressed:)];
         self.navigationItem.rightBarButtonItem = doneButton;
-        [doneButton release];
         
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPressed:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
-        [cancelButton release];
         
         infoBar = [[InfoBar alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), 20)];
         infoBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -62,23 +55,14 @@
     [notificationCenter removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
 
-- (void)dealloc {
-    [controls release];
-    [cells release];
-    [infoBar release];
-    [headerTitle release];
-    [footerTitle release];
-    [super dealloc];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    UITextField *textField = [controls objectAtIndex:0];
+    UITextField *textField = [self.controls objectAtIndex:0];
     [textField becomeFirstResponder];
 }
 
 - (void)applicationWillResignActive:(id)sender {
-    for (UITextField *textField in controls) {
+    for (UITextField *textField in self.controls) {
         if ([textField isFirstResponder]) {
             [textField resignFirstResponder];
         }
@@ -92,14 +76,14 @@
 }
 
 - (void)okPressed:(id)sender {
-    if ([delegate respondsToSelector:@selector(formViewController:button:)]) {
-        [delegate formViewController:self button:FormViewControllerButtonOk];
+    if ([self.delegate respondsToSelector:@selector(formViewController:button:)]) {
+        [self.delegate formViewController:self button:FormViewControllerButtonOk];
     }
 }
 
 - (void)cancelPressed:(id)sender {
-    if ([delegate respondsToSelector:@selector(formViewController:button:)]) {
-        [delegate formViewController:self button:FormViewControllerButtonCancel];
+    if ([self.delegate respondsToSelector:@selector(formViewController:button:)]) {
+        [self.delegate formViewController:self button:FormViewControllerButtonCancel];
     }
 }
 
@@ -108,35 +92,34 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [controls count];
+    return [self.controls count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return headerTitle;
+    return self.headerTitle;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-    return footerTitle;
+    return self.footerTitle;
 }
 
 // Create a local array of pre-generated cells.
 // This has potential memory issues if a large number of cells are created, but it solves a probem with scrolling the form
 - (void)setControls:(NSArray *)newControls {
-    [controls release];
-    controls = [newControls retain];
+    _controls = newControls;
     
     if (cells == nil) {
-        cells = [[NSMutableArray alloc] initWithCapacity:[controls count]];
+        cells = [[NSMutableArray alloc] initWithCapacity:[self.controls count]];
     } else {
         [cells removeAllObjects];
     }
     
     UITableViewCell *cell;
-    for (UIView *controlView in controls) {
+    for (UIView *controlView in self.controls) {
         if ([controlView isKindOfClass:[UITableViewCell class]]) {
             cell = (UITableViewCell*)controlView;
         } else {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil] autorelease];
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             controlView.frame = [self calculateNewFrameForView:controlView inOrientation:[[UIApplication sharedApplication] statusBarOrientation]];

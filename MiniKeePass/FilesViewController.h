@@ -29,7 +29,6 @@
     
     NSMutableArray *databaseFiles;
     NSMutableArray *keyFiles;
-    NSString *selectedFile;
 }
 
 - (void)updateFiles;

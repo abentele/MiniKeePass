@@ -23,17 +23,12 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _imageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+        self.imageButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
         
         self.accessoryButton = self.imageButton;
         self.editAccessoryButton = self.imageButton;
     }
     return self;
-}
-
-- (void)dealloc {
-    [_imageButton release];
-    [super dealloc];
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)inTextField {

@@ -22,21 +22,15 @@
 @protocol FormViewControllerDelegate;
 
 @interface FormViewController : AutorotatingTableViewController <UITextFieldDelegate> {
-    NSArray *controls;
     NSMutableArray *cells;
-    NSString *headerTitle;
-    NSString *footerTitle;
-    
     InfoBar *infoBar;
-    
-    id<FormViewControllerDelegate> delegate;
 }
 
-@property (nonatomic, retain) NSArray *controls;
+@property (nonatomic, strong) NSArray *controls;
 @property (nonatomic, copy) NSString *headerTitle;
 @property (nonatomic, copy) NSString *footerTitle;
 
-@property (nonatomic, retain) id<FormViewControllerDelegate> delegate;
+@property (nonatomic, strong) id<FormViewControllerDelegate> delegate;
 
 - (void)showErrorMessage:(NSString*)message;
 - (void)okPressed:(id)sender;

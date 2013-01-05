@@ -61,9 +61,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 - (void)updateState {
     uint8_t t = 0;

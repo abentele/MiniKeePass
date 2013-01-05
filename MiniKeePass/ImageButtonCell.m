@@ -19,8 +19,6 @@
 
 @implementation ImageButtonCell
 
-@synthesize imageButton;
-
 - (id)initWithLabel:(NSString*)labelText {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
     if (self) {
@@ -34,11 +32,6 @@
         self.accessoryView = imageButton;
     }
     return self;
-}
-
-- (void)dealloc {
-    [imageButton release];
-    [super dealloc];
 }
 
 @end

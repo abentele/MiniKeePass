@@ -26,7 +26,6 @@
     MiniKeePassAppDelegate *appDelegate;
     UISearchDisplayController *searchDisplayController;
     NSMutableArray *results;
-    KdbGroup *group;
     NSString *pushedKdbTitle;
     BOOL sortingEnabled;
     NSMutableArray *groupsArray;
@@ -35,6 +34,6 @@
     NSComparisonResult (^entryComparator) (id obj1, id obj2);
 }
 
-@property (nonatomic, assign) KdbGroup *group;
+@property (nonatomic, strong) KdbGroup *group;
 
 @end

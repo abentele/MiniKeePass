@@ -19,9 +19,6 @@
 
 @implementation ChoiceCell
 
-@synthesize prefix;
-@synthesize choices;
-
 - (id)initWithLabel:(NSString*)labelText choices:(NSArray*)newChoices selectedIndex:(NSInteger)selectedIdx {
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
     if (self) {
@@ -34,12 +31,6 @@
         [self setSelectedIndex:selectedIdx];
     }
     return self;
-}
-
-- (void)dealloc {
-    [prefix release];
-    [choices release];
-    [super dealloc];
 }
 
 - (void)setEnabled:(BOOL)enabled {

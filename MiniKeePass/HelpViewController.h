@@ -18,6 +18,13 @@
 #import <UIKit/UIKit.h>
 #import "AutorotatingTableViewController.h"
 
+@interface HelpTopic : NSObject
+
+@property (nonatomic, strong) NSString *title;
+@property (nonatomic, strong) NSString *resource;
+
+@end
+
 @interface HelpViewController : AutorotatingTableViewController {
 }
 

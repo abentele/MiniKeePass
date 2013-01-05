@@ -26,7 +26,7 @@
 - (void)clearEntry;
 - (void)keyboardDidHide;
 
-@property (nonatomic, copy) UILabel *textLabel;
+@property (nonatomic, strong) UILabel *textLabel;
 @property (nonatomic, assign) id<PinViewControllerDelegate> delegate;
 
 @end

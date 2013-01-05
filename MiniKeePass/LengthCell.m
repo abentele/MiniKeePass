@@ -19,10 +19,6 @@
 
 @implementation LengthCell
 
-@synthesize delegate;
-@synthesize inputView;
-@synthesize inputAccessoryView;
-
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -45,21 +41,10 @@
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(resignFirstResponder)];
 
         toolbar.items = [NSArray arrayWithObjects:flexibleSpace, doneButton, nil];
-        [flexibleSpace release];
-        [doneButton release];
         
         self.inputAccessoryView = toolbar;
-        [toolbar release];
     }
     return self;
-}
-
-- (void)dealloc {
-    [pickerView release];
-    [delegate release];
-    [inputView release];
-    [inputAccessoryView release];
-    [super dealloc];
 }
 
 - (void)setLength:(NSInteger)length {
@@ -97,8 +82,8 @@
     
     self.detailTextLabel.text = [[NSNumber numberWithInteger:length] stringValue];
 
-    if ([delegate respondsToSelector:@selector(lengthCell:length:)]) {
-        [delegate lengthCell:self length:length];
+    if ([self.delegate respondsToSelector:@selector(lengthCell:length:)]) {
+        [self.delegate lengthCell:self length:length];
     }
 }
 

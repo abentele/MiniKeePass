@@ -18,31 +18,44 @@
 #import "HelpViewController.h"
 #import "AutorotatingViewController.h"
 
+@interface HelpViewController ()
+
+@property (nonatomic, retain) NSArray *helpTopics;
+
+@end
+
+@implementation HelpTopic
+
+- (id)initWithTitle:(NSString*)title resource:(NSString*)resource {
+    self = [super init];
+    if (self) {
+        self.title = title;
+        self.resource = resource;
+    }
+    return self;
+}
+
+@end
+
 @implementation HelpViewController
-
-typedef struct {
-    NSString *title;
-    NSString *resource;
-} help_topic_t;
-
-help_topic_t help_topics[] = {
-    {@"iTunes Import/Export", @"itunes"},
-    {@"Dropbox Import/Export", @"dropbox"},
-    {@"Safari/Email Import", @"safariemail"},
-    {@"Create New Database", @"createdb"},
-    {@"Key Files", @"keyfiles"}
-};
 
 - (id)init {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         self.title = NSLocalizedString(@"Help", nil);
+        self.helpTopics = [[NSArray alloc] initWithObjects:
+                           [[HelpTopic alloc] initWithTitle:@"iTunes Import/Export" resource:@"itunes"],
+                           [[HelpTopic alloc] initWithTitle:@"Dropbox Import/Export" resource:@"dropbox"],
+                           [[HelpTopic alloc] initWithTitle:@"Safari/Email Import" resource:@"safariemail"],
+                           [[HelpTopic alloc] initWithTitle:@"Create New Database" resource:@"createdb"],
+                           [[HelpTopic alloc] initWithTitle:@"Key Files" resource:@"keyfiles"],
+                           nil];
     }
     return self;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return sizeof(help_topics) / sizeof(help_topic_t);
+    return self.helpTopics.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -50,20 +63,22 @@ help_topic_t help_topics[] = {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     // Configure the cell
-    cell.textLabel.text = NSLocalizedString(help_topics[indexPath.row].title, nil);
+    HelpTopic *helpTopic = (HelpTopic*)[self.helpTopics objectAtIndex:indexPath.row];
+    cell.textLabel.text = NSLocalizedString(helpTopic.title, nil);
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     // Get the title and resource of the selected help page
-    NSString *title = help_topics[indexPath.row].title;
-    NSString *resource = help_topics[indexPath.row].resource;
+    HelpTopic *helpTopic = (HelpTopic*)[self.helpTopics objectAtIndex:indexPath.row];
+    NSString *title = helpTopic.title;
+    NSString *resource = helpTopic.resource;
     
     NSString *language = [[NSLocale preferredLanguages] objectAtIndex:0];
     NSString *localizedResource = [NSString stringWithFormat:@"%@-%@", language, resource];
@@ -84,11 +99,8 @@ help_topic_t help_topics[] = {
     UIViewController *viewController = [[AutorotatingViewController alloc] init];
     viewController.title = NSLocalizedString(title, nil);
     viewController.view = webView;
-    [webView release];
     
     [self.navigationController pushViewController:viewController animated:YES];
-    
-    [viewController release];
 }
 
 @end

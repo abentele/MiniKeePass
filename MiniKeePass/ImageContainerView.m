@@ -44,7 +44,6 @@ NSUInteger selectedImageIndex;
             UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
             [self addSubview:imageView];                
             [imageViews addObject:imageView];
-            [imageView release];
         }
         
         UIImage *selectedImage = [UIImage imageNamed:@"checkmark"];
@@ -54,12 +53,6 @@ NSUInteger selectedImageIndex;
         [self setSelectedImage:0];
     }
     return self;
-}
-
--(void)dealloc {
-    [imageViews release];
-    [selectedImageView release];
-    [super dealloc];
 }
 
 - (void)layoutSubviews {

@@ -34,38 +34,32 @@
         frame.origin.x = INSET;
         frame.size.width -= INSET;
         
-        _textField = [[UITextField alloc] initWithFrame:frame];
-        _textField.delegate = self;
-        _textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        _textField.textColor = [UIColor colorWithRed:.285 green:.376 blue:.541 alpha:1];
-        _textField.font = [UIFont systemFontOfSize:16];
-        _textField.returnKeyType = UIReturnKeyNext;
-        _textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _textField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-        _textField.font = [UIFont boldSystemFontOfSize:15];
-        _textField.textColor = [UIColor blackColor];
+        self.textField = [[UITextField alloc] initWithFrame:frame];
+        self.textField.delegate = self;
+        self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        self.textField.textColor = [UIColor colorWithRed:.285 green:.376 blue:.541 alpha:1];
+        self.textField.font = [UIFont systemFontOfSize:16];
+        self.textField.returnKeyType = UIReturnKeyNext;
+        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.textField.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+        self.textField.font = [UIFont boldSystemFontOfSize:15];
+        self.textField.textColor = [UIColor blackColor];
         
         [self.contentView addSubview:self.textField];
 
         CGFloat grayIntensity = 202.0 / 255.0;
         UIColor *color = [UIColor colorWithRed:grayIntensity green:grayIntensity blue:grayIntensity alpha:1];
 
-        _grayBar = [[UIView alloc] initWithFrame:CGRectMake(79, -1, 1, self.contentView.frame.size.height - 4)];
-        _grayBar.backgroundColor = color;
-        _grayBar.hidden = YES;
+        self.grayBar = [[UIView alloc] initWithFrame:CGRectMake(79, -1, 1, self.contentView.frame.size.height - 4)];
+        self.grayBar.backgroundColor = color;
+        self.grayBar.hidden = YES;
         [self.contentView addSubview:_grayBar];
     }
     return self;
 }
 
 - (void)dealloc {
-    [_textField release];
-    [_grayBar release];
-    _textFieldCellDelegate = nil;
-    
-    [_accessoryButton release];
-    [_editAccessoryButton release];
-    [super dealloc];
+    self.textFieldCellDelegate = nil;
 }
 
 - (BOOL)showGrayBar {
@@ -77,18 +71,12 @@
 }
 
 - (void)setAccessoryButton:(UIButton *)accessoryButton {
-    if (self.accessoryButton != nil) {
-        [_accessoryButton release];
-    }
-    _accessoryButton = [accessoryButton retain];
+    _accessoryButton = accessoryButton;
     self.accessoryView = accessoryButton;
 }
 
 - (void)setEditAccessoryButton:(UIButton *)editAccessoryButton {
-    if (self.editAccessoryButton != nil) {
-        [_editAccessoryButton release];
-    }
-    _editAccessoryButton = [editAccessoryButton retain];
+    _editAccessoryButton = editAccessoryButton;
     self.editingAccessoryView = editAccessoryButton;
 }
 

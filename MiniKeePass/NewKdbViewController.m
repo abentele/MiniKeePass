@@ -24,59 +24,46 @@
 
 @implementation NewKdbViewController
 
-@synthesize nameTextField;
-@synthesize passwordTextField1;
-@synthesize passwordTextField2;
-@synthesize versionSegmentedControl;
-
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         self.headerTitle = NSLocalizedString(@"New Database", nil);
         
-        nameTextField = [[UITextField alloc] init];
-        nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        nameTextField.placeholder = NSLocalizedString(@"Name", nil);
-        nameTextField.returnKeyType = UIReturnKeyNext;
-        nameTextField.delegate = self;
+        self.nameTextField = [[UITextField alloc] init];
+        self.nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.nameTextField.placeholder = NSLocalizedString(@"Name", nil);
+        self.nameTextField.returnKeyType = UIReturnKeyNext;
+        self.nameTextField.delegate = self;
         
-        passwordTextField1 = [[UITextField alloc] init];
-        passwordTextField1.clearButtonMode = UITextFieldViewModeWhileEditing;
-        passwordTextField1.placeholder = NSLocalizedString(@"Password", nil);
-        passwordTextField1.secureTextEntry = YES;
-        passwordTextField1.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        passwordTextField1.autocorrectionType = UITextAutocorrectionTypeNo;
-        passwordTextField1.returnKeyType = UIReturnKeyNext;
-        passwordTextField1.delegate = self;
+        self.passwordTextField1 = [[UITextField alloc] init];
+        self.passwordTextField1.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.passwordTextField1.placeholder = NSLocalizedString(@"Password", nil);
+        self.passwordTextField1.secureTextEntry = YES;
+        self.passwordTextField1.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.passwordTextField1.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.passwordTextField1.returnKeyType = UIReturnKeyNext;
+        self.passwordTextField1.delegate = self;
         
-        passwordTextField2 = [[UITextField alloc] init];
-        passwordTextField2.clearButtonMode = UITextFieldViewModeWhileEditing;
-        passwordTextField2.placeholder = NSLocalizedString(@"Confirm Password", nil);
-        passwordTextField2.secureTextEntry = YES;
-        passwordTextField2.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        passwordTextField2.autocorrectionType = UITextAutocorrectionTypeNo;
-        passwordTextField2.returnKeyType = UIReturnKeyDone;
-        passwordTextField2.delegate = self;
+        self.passwordTextField2 = [[UITextField alloc] init];
+        self.passwordTextField2.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.passwordTextField2.placeholder = NSLocalizedString(@"Confirm Password", nil);
+        self.passwordTextField2.secureTextEntry = YES;
+        self.passwordTextField2.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.passwordTextField2.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.passwordTextField2.returnKeyType = UIReturnKeyDone;
+        self.passwordTextField2.delegate = self;
 
-        versionSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:NSLocalizedString(@"Version 1.x", nil), NSLocalizedString(@"Version 2.x", nil), nil]];
-        versionSegmentedControl.selectedSegmentIndex = 0;
-        versionSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
-        versionSegmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.versionSegmentedControl = [[UISegmentedControl alloc] initWithItems:[NSArray arrayWithObjects:NSLocalizedString(@"Version 1.x", nil), NSLocalizedString(@"Version 2.x", nil), nil]];
+        self.versionSegmentedControl.selectedSegmentIndex = 0;
+        self.versionSegmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
+        self.versionSegmentedControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	  	
-        self.navigationItem.titleView = versionSegmentedControl;
+        self.navigationItem.titleView = self.versionSegmentedControl;
         
-        self.controls = [NSArray arrayWithObjects:nameTextField, passwordTextField1, passwordTextField2, nil];
+        self.controls = [NSArray arrayWithObjects:self.nameTextField, self.passwordTextField1, self.passwordTextField2, nil];
         self.tableView.scrollEnabled = YES;
     }
     return self;
-}
-
-- (void)dealloc {
-    [nameTextField release];
-    [passwordTextField1 release];
-    [passwordTextField2 release];
-    [versionSegmentedControl release];
-    [super dealloc];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {    
@@ -86,11 +73,11 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if (textField == nameTextField) {
-        [passwordTextField1 becomeFirstResponder];
-    } else if (textField == passwordTextField1) {
-        [passwordTextField2 becomeFirstResponder];
-    } else if (textField == passwordTextField2) {
+    if (textField == self.nameTextField) {
+        [self.passwordTextField1 becomeFirstResponder];
+    } else if (textField == self.passwordTextField1) {
+        [self.passwordTextField2 becomeFirstResponder];
+    } else if (textField == self.passwordTextField2) {
         [self okPressed:nil];
     }
     

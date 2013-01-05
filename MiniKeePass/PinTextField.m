@@ -19,26 +19,19 @@
 
 @implementation PinTextField
 
-@synthesize label;
-
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         CGFloat w = frame.size.width;
         CGFloat h = frame.size.height;
         
-        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, w, h)];
-        label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"box"]];
-        label.textAlignment = UITextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:32.0f];
-        [self addSubview:label];
+        self.label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, w, h)];
+        self.label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"box"]];
+        self.label.textAlignment = UITextAlignmentCenter;
+        self.label.font = [UIFont systemFontOfSize:32.0f];
+        [self addSubview:self.label];
     }
     return self;
-}
-
-- (void)dealloc {
-    [label release];
-    [super dealloc];
 }
 
 @end

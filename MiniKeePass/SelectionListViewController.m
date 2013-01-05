@@ -19,24 +19,12 @@
 
 @implementation SelectionListViewController
 
-@synthesize items;
-@synthesize selectedIndex;
-@synthesize delegate;
-@synthesize reference;
-
-- (void)dealloc {
-    [items release];
-    [delegate release];
-    [reference release];
-    [super dealloc];
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [items count];
+    return [self.items count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -44,13 +32,13 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
     // Configure the cell
-    cell.textLabel.text = [items objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.items objectAtIndex:indexPath.row];
     
-    if (indexPath.row == selectedIndex) {
+    if (indexPath.row == self.selectedIndex) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         cell.textLabel.textColor = [UIColor colorWithRed:0.243 green:0.306 blue:0.435 alpha:1];
     } else {
@@ -64,9 +52,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell;
     
-    if (indexPath.row != selectedIndex) {
+    if (indexPath.row != self.selectedIndex) {
         // Remove the checkmark from the current selection
-        cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:selectedIndex inSection:0]];
+        cell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.selectedIndex inSection:0]];
         cell.accessoryType = UITableViewCellAccessoryNone;
         cell.textLabel.textColor = [UIColor blackColor];
         
@@ -75,11 +63,11 @@
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         cell.textLabel.textColor = [UIColor colorWithRed:0.243 green:0.306 blue:0.435 alpha:1];
         
-        selectedIndex = indexPath.row;
+        self.selectedIndex = indexPath.row;
         
         // Notify the delegate
-        if ([delegate respondsToSelector:@selector(selectionListViewController:selectedIndex:withReference:)]) {
-            [delegate selectionListViewController:self selectedIndex:selectedIndex withReference:reference];
+        if ([self.delegate respondsToSelector:@selector(selectionListViewController:selectedIndex:withReference:)]) {
+            [self.delegate selectionListViewController:self selectedIndex:self.selectedIndex withReference:self.reference];
         }
     }
     

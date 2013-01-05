@@ -27,8 +27,6 @@ NSInteger imagesPerRow;
 
 @implementation ImagesViewController
 
-@synthesize delegate;
-
 - (id)init {
     self = [super init];
     if (self) {
@@ -37,7 +35,6 @@ NSInteger imagesPerRow;
         scrollView.alwaysBounceHorizontal = NO;
         UIGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageSelected:)];
         [scrollView addGestureRecognizer:gestureRecognizer];
-        [gestureRecognizer release];
 
         CGRect frame = self.view.frame;
         frame.origin = CGPointMake(0.0, 0.0);
@@ -45,15 +42,8 @@ NSInteger imagesPerRow;
         imageContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [scrollView addSubview:imageContainerView];
         self.view = scrollView;
-        [scrollView release];
     }
     return self;
-}
-
-- (void)dealloc {
-    [imageContainerView release];
-    [delegate release];
-    [super dealloc];
 }
 
 - (void)imageSelected:(UIGestureRecognizer*)gestureRecognizer {
@@ -64,8 +54,8 @@ NSInteger imagesPerRow;
     NSUInteger index = row * imagesPerRow + col;
     [self setSelectedImage:index];
     
-    if ([delegate respondsToSelector:@selector(imagesViewController:imageSelected:)]) {
-        [delegate imagesViewController:self imageSelected:index];
+    if ([self.delegate respondsToSelector:@selector(imagesViewController:imageSelected:)]) {
+        [self.delegate imagesViewController:self imageSelected:index];
     }
 }
 

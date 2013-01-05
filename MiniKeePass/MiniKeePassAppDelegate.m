@@ -48,7 +48,7 @@
     _databaseDocument = nil;
     
     // Create the files view
-    FilesViewController *filesViewController = [[[FilesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
+    FilesViewController *filesViewController = [[FilesViewController alloc] initWithStyle:UITableViewStylePlain];
     navigationController = [[UINavigationController alloc] initWithRootViewController:filesViewController];
     navigationController.toolbarHidden = NO;
     
@@ -69,18 +69,6 @@
     [LockScreenController present];
 
     return YES;
-}
-
-- (void)dealloc {
-    int i;
-    for (i = 0; i < NUM_IMAGES; i++) {
-        [images[i] release];
-    }
-    [_databaseDocument release];
-    [_fileToOpen release];
-    [_window release];
-    [navigationController release];
-    [super dealloc];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -171,21 +159,19 @@
         [self closeDatabase];
     }
     
-    _databaseDocument = [newDatabaseDocument retain];
+    _databaseDocument = newDatabaseDocument;
     
     // Create and push on the root group view controller
     GroupViewController *groupViewController = [[GroupViewController alloc] initWithStyle:UITableViewStylePlain];
     groupViewController.title = [[_databaseDocument.filename lastPathComponent] stringByDeletingPathExtension];
     groupViewController.group = _databaseDocument.kdbTree.root;
     [navigationController pushViewController:groupViewController animated:YES];
-    [groupViewController release];
 }
 
 - (void)closeDatabase {
     // Close any open database views
     [navigationController popToRootViewControllerAnimated:NO];
     
-    [_databaseDocument release];
     _databaseDocument = nil;
 }
 
@@ -223,7 +209,7 @@
     }
     
     if (images[index] == nil) {
-        images[index] = [[UIImage imageNamed:[NSString stringWithFormat:@"%d", index]] retain];
+        images[index] = [UIImage imageNamed:[NSString stringWithFormat:@"%d", index]];
     }
     
     return images[index];
@@ -274,15 +260,11 @@
     
     UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismissSettingsView)];
     settingsViewController.navigationItem.rightBarButtonItem = doneButton;
-    [doneButton release];
     
     UINavigationController *settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
     settingsNavController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     
     [self.window.rootViewController presentModalViewController:settingsNavController animated:YES];
-
-    [settingsViewController release];
-    [settingsNavController release];
 }
 
 - (void)dismissSettingsView {
@@ -294,12 +276,11 @@
         [myActionSheet dismissWithClickedButtonIndex:myActionSheet.cancelButtonIndex animated:NO];
     }
 
-    myActionSheet = [actionSheet retain];
+    myActionSheet = actionSheet;
     myActionSheetDelegate = actionSheet.delegate;
     
     actionSheet.delegate = self;
     [actionSheet showInView:self.window.rootViewController.view];
-    [actionSheet release];
 }
 
 - (void)dismissActionSheet {

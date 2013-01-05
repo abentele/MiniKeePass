@@ -23,9 +23,6 @@
 
 @implementation DatabaseManager
 
-@synthesize selectedFilename;
-@synthesize animated;
-
 static DatabaseManager *sharedInstance;
 
 + (void)initialize {
@@ -38,11 +35,6 @@ static DatabaseManager *sharedInstance;
 
 + (DatabaseManager*)sharedInstance {
     return sharedInstance;
-}
-
-- (void)dealloc {
-    [selectedFilename release];
-    [super dealloc];
 }
 
 - (void)openDatabaseDocument:(NSString*)filename animated:(BOOL)newAnimated {
@@ -59,13 +51,13 @@ static DatabaseManager *sharedInstance;
     NSString *documentsDirectory = [paths objectAtIndex:0];
     
     // Load the password and keyfile from the keychain
-    NSString *password = [SFHFKeychainUtils getPasswordForUsername:selectedFilename andServiceName:@"com.jflan.MiniKeePass.passwords" error:nil];
-    NSString *keyFile = [SFHFKeychainUtils getPasswordForUsername:selectedFilename andServiceName:@"com.jflan.MiniKeePass.keyfiles" error:nil];
+    NSString *password = [SFHFKeychainUtils getPasswordForUsername:self.selectedFilename andServiceName:@"com.jflan.MiniKeePass.passwords" error:nil];
+    NSString *keyFile = [SFHFKeychainUtils getPasswordForUsername:self.selectedFilename andServiceName:@"com.jflan.MiniKeePass.keyfiles" error:nil];
     
     // Try and load the database with the cached password from the keychain
     if (password != nil || keyFile != nil) {
         // Get the absolute path to the database
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:selectedFilename];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:self.selectedFilename];
         
         // Get the absolute path to the keyfile
         NSString *keyFilePath = nil;
@@ -85,8 +77,6 @@ static DatabaseManager *sharedInstance;
         } @catch (NSException * exception) {
             // Ignore
         }
-        
-        [dd release];
     }
     
     // Prompt the user for the password if we haven't loaded the database yet
@@ -108,10 +98,7 @@ static DatabaseManager *sharedInstance;
         
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:passwordViewController];
         
-        [appDelegate.window.rootViewController presentModalViewController:navigationController animated:animated];
-        
-        [navigationController release];
-        [passwordViewController release];
+        [appDelegate.window.rootViewController presentModalViewController:navigationController animated:self.animated];
     }
 }
 
@@ -119,8 +106,6 @@ static DatabaseManager *sharedInstance;
     // Set the database document in the application delegate
     MiniKeePassAppDelegate *appDelegate = (MiniKeePassAppDelegate*)[[UIApplication sharedApplication] delegate];
     appDelegate.databaseDocument = databaseDocument;
-    
-    [databaseDocument release];
 }
 
 - (void)formViewController:(FormViewController *)controller button:(FormViewControllerButton)button {
@@ -131,7 +116,7 @@ static DatabaseManager *sharedInstance;
     if (button == FormViewControllerButtonOk) {
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *path = [documentsDirectory stringByAppendingPathComponent:selectedFilename];
+        NSString *path = [documentsDirectory stringByAppendingPathComponent:self.selectedFilename];
         
         // Get the password
         NSString *password = passwordViewController.passwordTextField.text;
@@ -162,8 +147,8 @@ static DatabaseManager *sharedInstance;
             // Store the password in the keychain
             if ([[AppSettings sharedInstance] rememberPasswordsEnabled]) {
                 NSError *error;
-                [SFHFKeychainUtils storeUsername:selectedFilename andPassword:password forServiceName:@"com.jflan.MiniKeePass.passwords" updateExisting:YES error:&error];
-                [SFHFKeychainUtils storeUsername:selectedFilename andPassword:keyFile forServiceName:@"com.jflan.MiniKeePass.keyfiles" updateExisting:YES error:&error];
+                [SFHFKeychainUtils storeUsername:self.selectedFilename andPassword:password forServiceName:@"com.jflan.MiniKeePass.passwords" updateExisting:YES error:&error];
+                [SFHFKeychainUtils storeUsername:self.selectedFilename andPassword:keyFile forServiceName:@"com.jflan.MiniKeePass.keyfiles" updateExisting:YES error:&error];
             }
             
             // Load the database after a short delay so the push animation is visible
@@ -171,7 +156,6 @@ static DatabaseManager *sharedInstance;
         } @catch (NSException *exception) {
             shouldDismiss = NO;
             [passwordViewController showErrorMessage:exception.reason];
-            [dd release];
         }
     }
     

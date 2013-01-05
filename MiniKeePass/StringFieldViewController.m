@@ -22,26 +22,26 @@
 - (id)initWithStringField:(StringField *)stringField {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
-        _stringField = [stringField retain];
+        self.stringField = stringField;
 
         self.title = NSLocalizedString(@"Custom Field", nil);
 
-        _keyTextField = [[UITextField alloc] init];
-        _keyTextField.placeholder = NSLocalizedString(@"Name", nil);
-        _keyTextField.returnKeyType = UIReturnKeyNext;
-        _keyTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _keyTextField.delegate = self;
-        _keyTextField.text = stringField.key;
+        self.keyTextField = [[UITextField alloc] init];
+        self.keyTextField.placeholder = NSLocalizedString(@"Name", nil);
+        self.keyTextField.returnKeyType = UIReturnKeyNext;
+        self.keyTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.keyTextField.delegate = self;
+        self.keyTextField.text = stringField.key;
 
-        _valueTextField = [[UITextField alloc] init];
-        _valueTextField.placeholder = NSLocalizedString(@"Value", nil);
-        _valueTextField.returnKeyType = UIReturnKeyDone;
-        _valueTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        _valueTextField.delegate = self;
-        _valueTextField.text = stringField.value;
+        self.valueTextField = [[UITextField alloc] init];
+        self.valueTextField.placeholder = NSLocalizedString(@"Value", nil);
+        self.valueTextField.returnKeyType = UIReturnKeyDone;
+        self.valueTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.valueTextField.delegate = self;
+        self.valueTextField.text = stringField.value;
 
-        _protectedSwitchCell = [[SwitchCell alloc] initWithLabel:NSLocalizedString(@"In Memory Protection", nil)];
-        _protectedSwitchCell.switchControl.on = stringField.protected;
+        self.protectedSwitchCell = [[SwitchCell alloc] initWithLabel:NSLocalizedString(@"In Memory Protection", nil)];
+        self.protectedSwitchCell.switchControl.on = stringField.protected;
 
         self.controls = @[_keyTextField, _valueTextField, _protectedSwitchCell];
         self.delegate = self;
@@ -49,19 +49,9 @@
     return self;
 }
 
-- (void)dealloc {
-    [_stringField release];
-    [_keyTextField release];
-    [_valueTextField release];
-    [_protectedSwitchCell release];
-    [_object release];
-    [_stringFieldViewDelegate release];
-    [super dealloc];
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == _keyTextField) {
-        [_valueTextField becomeFirstResponder];
+        [self.valueTextField becomeFirstResponder];
     } else if (textField == _valueTextField) {
         [self okPressed:nil];
     }
@@ -75,7 +65,6 @@
         NSString *ok = NSLocalizedString(@"Ok", nil);
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:ok otherButtonTitles:nil];
         [alert show];
-        [alert release];
         return;
     }
 

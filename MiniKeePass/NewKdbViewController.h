@@ -19,15 +19,11 @@
 #import "FormViewController.h"
 
 @interface NewKdbViewController : FormViewController <UITextFieldDelegate> {
-    UITextField *nameTextField;
-    UITextField *passwordTextField1;
-    UITextField *passwordTextField2;
-    UISegmentedControl *versionSegmentedControl;
 }
 
-@property (nonatomic, readonly) UITextField *nameTextField;
-@property (nonatomic, readonly) UITextField *passwordTextField1;
-@property (nonatomic, readonly) UITextField *passwordTextField2;
-@property (nonatomic, readonly) UISegmentedControl *versionSegmentedControl;
+@property (nonatomic, strong) UITextField *nameTextField;
+@property (nonatomic, strong) UITextField *passwordTextField1;
+@property (nonatomic, strong) UITextField *passwordTextField2;
+@property (nonatomic, strong) UISegmentedControl *versionSegmentedControl;
 
 @end

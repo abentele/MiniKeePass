@@ -27,8 +27,6 @@
     UITableViewCell *characterSetsCell;
     UITableViewCell *passwordCell;
     
-    id<PasswordGeneratorDelegate> delegate;
-    
     NSInteger length;
     NSInteger charSets;
 }

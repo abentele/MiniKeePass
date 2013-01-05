@@ -21,12 +21,10 @@
 @protocol TextEntryControllerDelegate;
 
 @interface TextEntryController : FormViewController <FormViewControllerDelegate> {
-    UITextField *textField;
-    id<TextEntryControllerDelegate> textEntryDelegate;
 }
 
-@property (nonatomic, readonly) UITextField *textField;
-@property (nonatomic, retain) id<TextEntryControllerDelegate> textEntryDelegate;
+@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) id<TextEntryControllerDelegate> textEntryDelegate;
 
 @end
 

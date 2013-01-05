@@ -19,6 +19,6 @@
 
 @interface TitleFieldCell : TextFieldCell
 
-@property (nonatomic, readonly) UIButton *imageButton;
+@property (nonatomic, strong) UIButton *imageButton;
 
 @end

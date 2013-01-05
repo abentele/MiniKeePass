@@ -36,14 +36,8 @@
         
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismissModalViewControllerAnimated:)];
         self.navigationItem.leftBarButtonItem = cancelButton;
-        [cancelButton release];
     }
     return self;
-}
-
-- (void)dealloc {
-    [allGroups release];
-    [super dealloc];
 }
 
 - (void)addGroups:(NSArray *)groups toArray:(NSMutableArray *)array atLevel:(NSInteger)level {
@@ -101,7 +95,7 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     NSDictionary *dict = [allGroups objectAtIndex:indexPath.row];

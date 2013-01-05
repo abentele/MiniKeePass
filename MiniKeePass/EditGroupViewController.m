@@ -20,38 +20,33 @@
 
 @implementation EditGroupViewController
 
-@synthesize nameTextField;
+@synthesize selectedImageIndex = _selectedImageIndex;
 
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         self.title = NSLocalizedString(@"Edit Group", nil);
         
-        nameTextField = [[UITextField alloc] init];
-        nameTextField.placeholder = NSLocalizedString(@"Name", nil);
-        nameTextField.delegate = self;
-        nameTextField.returnKeyType = UIReturnKeyDone;
-        nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.nameTextField = [[UITextField alloc] init];
+        self.nameTextField.placeholder = NSLocalizedString(@"Name", nil);
+        self.nameTextField.delegate = self;
+        self.nameTextField.returnKeyType = UIReturnKeyDone;
+        self.nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
         
         imageButtonCell = [[ImageButtonCell alloc] initWithLabel:NSLocalizedString(@"Image", nil)];
         [imageButtonCell.imageButton addTarget:self action:@selector(imageButtonPressed) forControlEvents:UIControlEventTouchUpInside];
         
-        self.controls = [NSArray arrayWithObjects:nameTextField, imageButtonCell, nil];
+        self.controls = [NSArray arrayWithObjects:self.nameTextField, imageButtonCell, nil];
     }
     return self;
 }
 
-- (void)dealloc {
-    [nameTextField release];
-    [super dealloc];
-}
-
 - (NSUInteger)selectedImageIndex {
-    return selectedImageIndex;
+    return self.selectedImageIndex;
 }
 
 - (void)setSelectedImageIndex:(NSUInteger)index {
-    selectedImageIndex = index;
+    _selectedImageIndex = index;
     
     MiniKeePassAppDelegate *appDelegate = (MiniKeePassAppDelegate*)[[UIApplication sharedApplication] delegate];
     [imageButtonCell.imageButton setImage:[appDelegate loadImage:index] forState:UIControlStateNormal];
@@ -60,9 +55,8 @@
 - (void)imageButtonPressed {
     ImagesViewController *imagesViewController = [[ImagesViewController alloc] init];
     imagesViewController.delegate = self;
-    [imagesViewController setSelectedImage:selectedImageIndex];
+    [imagesViewController setSelectedImage:self.selectedImageIndex];
     [self.navigationController pushViewController:imagesViewController animated:YES];
-    [imagesViewController release];
 }
 
 - (void)imagesViewController:(ImagesViewController *)controller imageSelected:(NSUInteger)index {

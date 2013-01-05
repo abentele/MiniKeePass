@@ -25,12 +25,13 @@
 #define PINTEXTFIELDHEIGHT 52.0f
 #define TEXTFIELDSPACE     10.0f
 
-@interface PinViewController () {
-    UITextField *textField;
-    NSArray *pinTextFields;
-    UIToolbar *topBar;
-    UIToolbar *pinBar;
-}
+@interface PinViewController ()
+
+@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) NSArray *pinTextFields;
+@property (nonatomic, strong) UIToolbar *topBar;
+@property (nonatomic, strong) UIToolbar *pinBar;
+
 @end
 
 @implementation PinViewController
@@ -45,18 +46,18 @@
         self.view.backgroundColor = [UIColor darkGrayColor];
         CGFloat frameWidth = CGRectGetWidth(self.view.frame);
 
-        textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-        textField.delegate = self;
-        textField.hidden = YES;
-        textField.secureTextEntry = YES;
-        textField.keyboardType = UIKeyboardTypeNumberPad;
-        textField.keyboardAppearance = UIKeyboardAppearanceAlert;
-        [self.view addSubview:textField];
+        self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        self.textField.delegate = self;
+        self.textField.hidden = YES;
+        self.textField.secureTextEntry = YES;
+        self.textField.keyboardType = UIKeyboardTypeNumberPad;
+        self.textField.keyboardAppearance = UIKeyboardAppearanceAlert;
+        [self.view addSubview:self.textField];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:textField];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:UITextFieldTextDidChangeNotification object:self.textField];
         
         // Create topbar
-        _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frameWidth, 95)];
+        self.textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frameWidth, 95)];
         self.textLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.textLabel.backgroundColor = [UIColor clearColor];
         self.textLabel.textColor = [UIColor whiteColor];
@@ -65,13 +66,13 @@
         self.textLabel.textAlignment = UITextAlignmentCenter;
         self.textLabel.text = text;
         
-        topBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frameWidth, 95)];
-        topBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        topBar.barStyle = UIBarStyleBlackTranslucent;
+        self.topBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frameWidth, 95)];
+        self.topBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        self.topBar.barStyle = UIBarStyleBlackTranslucent;
 
-        [topBar addSubview:self.textLabel];
+        [self.topBar addSubview:self.textLabel];
 
-        [self.view addSubview:topBar];
+        [self.view addSubview:self.topBar];
         
         CGFloat textFieldViewWidth = PINTEXTFIELDWIDTH * 4 + TEXTFIELDSPACE * 3;
         
@@ -95,20 +96,14 @@
         PinTextField *pinTextField4 = [[PinTextField alloc] initWithFrame:CGRectMake(xOrigin, 0, PINTEXTFIELDWIDTH, PINTEXTFIELDHEIGHT)];
         [textFieldsView addSubview:pinTextField4];
         
-        pinTextFields = [[NSArray arrayWithObjects:pinTextField1, pinTextField2, pinTextField3, pinTextField4, nil] retain];
+        self.pinTextFields = [NSArray arrayWithObjects:pinTextField1, pinTextField2, pinTextField3, pinTextField4, nil];
         
-        [pinTextField1 release];
-        [pinTextField2 release];
-        [pinTextField3 release];
-        [pinTextField4 release];
-        
-        pinBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frameWidth, 95)];
-        pinBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [pinBar setBarStyle:UIBarStyleBlackTranslucent];
-        [pinBar addSubview:textFieldsView];
-        [textFieldsView release];
+        self.pinBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, frameWidth, 95)];
+        self.pinBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        [self.pinBar setBarStyle:UIBarStyleBlackTranslucent];
+        [self.pinBar addSubview:textFieldsView];
 
-        textField.inputAccessoryView = pinBar;
+        self.textField.inputAccessoryView = self.pinBar;
 
         // If the keyboard is dismissed, show it again.
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -118,15 +113,6 @@
     }
     
     return self;
-}
-
-- (void)dealloc {
-    [topBar release];
-    [pinBar release];
-    [textField release];
-    [pinTextFields release];
-    [_textLabel release];
-    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -141,12 +127,12 @@
     // Nothing needs to be done for the iPad; return
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) return;
 
-    CGRect newFrame = topBar.frame;
+    CGRect newFrame = self.topBar.frame;
     newFrame.size.height = UIInterfaceOrientationIsPortrait(toInterfaceOrientation) ? 95 : 68;
 
-    topBar.frame = newFrame;
+    self.topBar.frame = newFrame;
     self.textLabel.frame = newFrame;
-    pinBar.frame = newFrame;
+    self.pinBar.frame = newFrame;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -195,9 +181,9 @@
 }
 
 - (void)textDidChange:(NSNotification*)notification {
-    NSUInteger n = [textField.text length];
+    NSUInteger n = [self.textField.text length];
     for (NSUInteger i = 0; i < 4; i++) {
-        PinTextField *pinTextField = [pinTextFields objectAtIndex:i];
+        PinTextField *pinTextField = [self.pinTextFields objectAtIndex:i];
         if (i < n) {
             pinTextField.label.text = @"●";
         } else {
@@ -205,33 +191,33 @@
         }
     }
     
-    if ([textField.text length] == 4) {
+    if ([self.textField.text length] == 4) {
         [self performSelector:@selector(checkPin:) withObject:nil afterDelay:0.3];
     }
 }
 
 - (void)checkPin:(id)sender {
     if ([self.delegate respondsToSelector:@selector(pinViewController:pinEntered:)]) {
-        [self.delegate pinViewController:self pinEntered:textField.text];
+        [self.delegate pinViewController:self pinEntered:self.textField.text];
     }
 }
 
 - (BOOL)becomeFirstResponder {
     [super becomeFirstResponder];
     
-    return [textField becomeFirstResponder];
+    return [self.textField becomeFirstResponder];
 }
 
 - (BOOL)resignFirstResponder {
     [super resignFirstResponder];
     
-    return [textField resignFirstResponder];
+    return [self.textField resignFirstResponder];
 }
 
 - (void)clearEntry {
-    textField.text = @"";
+    self.textField.text = @"";
     
-    for (PinTextField *pinTextField in pinTextFields) {
+    for (PinTextField *pinTextField in self.pinTextFields) {
         pinTextField.label.text = @"";
     }
 }

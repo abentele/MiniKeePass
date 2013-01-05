@@ -24,63 +24,49 @@
 
 @implementation DatabaseDocument
 
-@synthesize kdbTree;
-@synthesize filename;
-@synthesize dirty;
+@synthesize documentInteractionController = _documentInteractionController;
 
 - (id)init {
     self = [super init];
     if (self) {
-        kdbTree = nil;
-        filename = nil;
-        dirty = NO;
+        self.kdbTree = nil;
+        self.filename = nil;
+        self.dirty = NO;
         kdbPassword = nil;
-        documentInteractionController = nil;
+        self.documentInteractionController = nil;
     }
     return self;
 }
 
 
-- (void)dealloc {
-    [kdbTree release];
-    [filename release];
-    [kdbPassword release];
-    [documentInteractionController release];
-    [super dealloc];
-}
-
 - (UIDocumentInteractionController *)documentInteractionController {
-    if (documentInteractionController == nil) {
-        NSURL *url = [NSURL fileURLWithPath:filename];
-        documentInteractionController = [[UIDocumentInteractionController interactionControllerWithURL:url] retain];
+    if (_documentInteractionController == nil) {
+        NSURL *url = [NSURL fileURLWithPath:self.filename];
+        _documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:url];
     }
-    return documentInteractionController;
+    return _documentInteractionController;
 }
 
 - (void)open:(NSString *)newFilename password:(NSString *)password keyFile:(NSString *)keyFile {
     if (password == nil && keyFile == nil) {
         @throw [NSException exceptionWithName:@"IllegalArgument" reason:@"No password or keyfile specified" userInfo:nil];
     }
-    
-    [kdbTree release];
-    [filename release];
-    [kdbPassword release];
 
-    filename = [newFilename copy];
-    dirty = NO;
+    self.filename = [newFilename copy];
+    self.dirty = NO;
 
     NSStringEncoding passwordEncoding = [[AppSettings sharedInstance] passwordEncoding];
     kdbPassword = [[KdbPassword alloc] initWithPassword:password
                                        passwordEncoding:passwordEncoding
                                                 keyFile:keyFile];
 
-    self.kdbTree = [KdbReaderFactory load:[NSURL fileURLWithPath:filename] withPassword:kdbPassword];
+    self.kdbTree = [KdbReaderFactory load:self.filename withPassword:kdbPassword];
 }
 
 - (void)save {
-    if (dirty) {
-        dirty = NO;
-        [KdbWriterFactory persist:kdbTree file:filename withPassword:kdbPassword];
+    if (self.dirty) {
+        self.dirty = NO;
+        [KdbWriterFactory persist:self.kdbTree file:self.filename withPassword:kdbPassword];
     }
 }
 

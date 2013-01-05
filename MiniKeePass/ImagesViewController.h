@@ -23,7 +23,6 @@
 
 @interface ImagesViewController : AutorotatingViewController {
     ImageContainerView *imageContainerView;
-    id<ImagesViewControllerDelegate> delegate;
 }
 
 - (void)setSelectedImage:(NSUInteger)index;

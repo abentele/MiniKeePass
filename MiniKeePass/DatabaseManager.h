@@ -19,8 +19,6 @@
 #import "FormViewController.h"
 
 @interface DatabaseManager : NSObject <FormViewControllerDelegate> {
-    NSString *selectedFilename;
-    BOOL animated;
 }
 
 @property (nonatomic, copy) NSString *selectedFilename;

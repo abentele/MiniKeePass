@@ -19,38 +19,29 @@
 
 @implementation TextEntryController
 
-@synthesize textField;
-@synthesize textEntryDelegate;
-
 - (id)initWithStyle:(UITableViewStyle)style {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
         self.delegate = self;
         
-        textField = [[UITextField alloc] init];
-        textField.delegate = self;
-        textField.returnKeyType = UIReturnKeyDone;
-        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        self.textField = [[UITextField alloc] init];
+        self.textField.delegate = self;
+        self.textField.returnKeyType = UIReturnKeyDone;
+        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         
-        self.controls = [NSArray arrayWithObject:textField];
+        self.controls = [NSArray arrayWithObject:self.textField];
     }
     return self;
 }
 
-- (void)dealloc {
-    [textField release];
-    [textEntryDelegate release];
-    [super dealloc];
-}
-
 - (void)formViewController:(FormViewController *)controller button:(FormViewControllerButton)button {
     if (button == FormViewControllerButtonOk) {
-        if ([textEntryDelegate respondsToSelector:@selector(textEntryController:textEntered:)]) {
-            [textEntryDelegate textEntryController:self textEntered:textField.text];
+        if ([self.textEntryDelegate respondsToSelector:@selector(textEntryController:textEntered:)]) {
+            [self.textEntryDelegate textEntryController:self textEntered:self.textField.text];
         }
     } else {
-        if ([textEntryDelegate respondsToSelector:@selector(textEntryControllerCancelButtonPressed:)]) {
-            [textEntryDelegate textEntryControllerCancelButtonPressed:self];
+        if ([self.textEntryDelegate respondsToSelector:@selector(textEntryControllerCancelButtonPressed:)]) {
+            [self.textEntryDelegate textEntryControllerCancelButtonPressed:self];
         }
     }
 }

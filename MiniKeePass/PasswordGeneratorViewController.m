@@ -47,8 +47,6 @@ enum {
 
 @implementation PasswordGeneratorViewController
 
-@synthesize delegate;
-
 - (id)init {
     self = [super initWithStyle:UITableViewStyleGrouped];
     if (self) {
@@ -57,11 +55,9 @@ enum {
         
         UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(donePressed)];
         self.navigationItem.rightBarButtonItem = doneButton;
-        [doneButton release];
 
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)];
         self.navigationItem.leftBarButtonItem = cancelButton;
-        [cancelButton release];
 
         lengthCell = [[LengthCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:nil];
         lengthCell.delegate = self;
@@ -85,13 +81,6 @@ enum {
     return self;
 }
 
-- (void)dealloc {
-    [lengthCell release];
-    [characterSetsCell release];
-    [passwordCell release];
-    [super dealloc];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
@@ -106,8 +95,8 @@ enum {
 }
 
 - (void)donePressed {
-    if ([delegate respondsToSelector:@selector(passwordGeneratorViewController:password:)]) {
-        [delegate passwordGeneratorViewController:self password:passwordCell.textLabel.text];
+    if ([self.delegate respondsToSelector:@selector(passwordGeneratorViewController:password:)]) {
+        [self.delegate passwordGeneratorViewController:self password:passwordCell.textLabel.text];
     }
     
     [self dismissModalViewControllerAnimated:YES];
@@ -161,8 +150,6 @@ enum {
         NSUInteger idx = [cryptoRandomStream getInt] % [charSet length];
 	        [password appendString:[charSet substringWithRange:NSMakeRange(idx, 1)]];
     }
-    
-    [cryptoRandomStream release];
     
     passwordCell.textLabel.text = password;
     [passwordCell setNeedsLayout];
@@ -240,7 +227,7 @@ enum {
         [str appendString:NSLocalizedString(@"None Selected", nil)];
     }
     
-    return [str autorelease];
+    return str;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -295,7 +282,6 @@ enum {
     if (indexPath.section == SECTION_SETTINGS && indexPath.row == ROW_SETTINGS_CHARSET) {
         CharacterSetsViewController *characterSetViewController = [[CharacterSetsViewController alloc] init];
         [self.navigationController pushViewController:characterSetViewController animated:YES];
-        [characterSetViewController release];
     }
 }
 

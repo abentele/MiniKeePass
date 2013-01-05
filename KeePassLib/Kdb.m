@@ -31,16 +31,6 @@
     return self;
 }
 
-- (void)dealloc {
-    [name release];
-    [groups release];
-    [entries release];
-    [creationTime release];
-    [lastModificationTime release];
-    [lastAccessTime release];
-    [expiryTime release];
-    [super dealloc];
-}
 
 - (void)addGroup:(KdbGroup *)group {
     group.parent = self;
@@ -88,7 +78,7 @@
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"KdbGroup [image=%ld, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, name, creationTime, lastModificationTime, lastAccessTime, expiryTime];
+    return [NSString stringWithFormat:@"KdbGroup [image=%d, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, name, creationTime, lastModificationTime, lastAccessTime, expiryTime];
 }
 
 @end
@@ -103,13 +93,6 @@
 @synthesize lastAccessTime;
 @synthesize expiryTime;
 
-- (void)dealloc {
-    [creationTime release];
-    [lastModificationTime release];
-    [lastAccessTime release];
-    [expiryTime release];
-    [super dealloc];
-}
 
 - (NSString *)title {
     [self doesNotRecognizeSelector:_cmd];
@@ -157,7 +140,7 @@
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"KdbEntry [image=%ld, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, self.title, self.username, self.password, self.url, self.notes, creationTime, lastModificationTime, lastAccessTime, expiryTime];
+    return [NSString stringWithFormat:@"KdbEntry [image=%d, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, self.title, self.username, self.password, self.url, self.notes, creationTime, lastModificationTime, lastAccessTime, expiryTime];
 }
 
 @end
@@ -167,10 +150,6 @@
 
 @synthesize root;
 
-- (void)dealloc {
-    [root release];
-    [super dealloc];
-}
 
 - (KdbGroup*)createGroup:(KdbGroup*)parent {
     [self doesNotRecognizeSelector:_cmd];

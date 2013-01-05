@@ -22,17 +22,13 @@
 - (id)initWithOutputStream:(OutputStream *)stream {
     self = [super init];
     if (self) {
-        outputStream = [stream retain];
+        outputStream = stream;
         
         CC_SHA256_Init(&shaCtx);
     }
     return self;
 }
 
-- (void)dealloc {
-    [outputStream release];
-    [super dealloc];
-}
 
 - (NSUInteger)write:(const void *)bytes length:(NSUInteger)bytesLength {
     CC_SHA256_Update(&shaCtx, bytes, bytesLength);

@@ -13,7 +13,7 @@
 @interface PasswordViewControllerOSX : NSWindowController <NSTextFieldDelegate>
 
 @property (nonatomic, copy) NSString *fileName;
-@property (nonatomic, assign) id<PasswordViewControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id<PasswordViewControllerDelegate> delegate;
 
 - (id)initWithFilename:(NSString*)fileName;
 

@@ -29,7 +29,6 @@
     } else if (sig1 == KDB4_SIG1 && sig2 == KDB4_SIG2) {
         reader = [[Kdb4Reader alloc] init];
     } else {
-        [inputStream release];
         @throw [NSException exceptionWithName:@"IOException" reason:@"Invalid file signature" userInfo:nil];
     }
 
@@ -37,9 +36,7 @@
     [inputStream seek:0];
     
     KdbTree *tree = [reader load:inputStream withPassword:kdbPassword];
-    [reader release];
     
-    [inputStream release];
 
     NSLog(@"END: load kdb file: %@", fileName);
     
