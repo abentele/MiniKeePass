@@ -220,7 +220,7 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	
 	NSMutableDictionary *attributeQuery = [query mutableCopy];
 	[attributeQuery setObject: (id) kCFBooleanTrue forKey:(__bridge id) kSecReturnAttributes];
-    CFDataRef attributes;
+    CFDataRef attributes = nil;
 	OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef) attributeQuery, (CFTypeRef *) &attributes);
 	
 	
@@ -236,10 +236,10 @@ static NSString *SFHFKeychainUtilsErrorDomain = @"SFHFKeychainUtilsErrorDomain";
 	
 	// We have an existing item, now query for the password data associated with it.
 	
-	CFDataRef resultRef;
 	NSMutableDictionary *passwordQuery = [query mutableCopy];
 	[passwordQuery setObject: (id) kCFBooleanTrue forKey: (__bridge id) kSecReturnData];
     
+	CFDataRef resultRef = nil;
 	status = SecItemCopyMatching((__bridge CFDictionaryRef) passwordQuery, (CFTypeRef *) &resultRef);
 	NSData* resultData =(__bridge_transfer NSData*) resultRef;
     
