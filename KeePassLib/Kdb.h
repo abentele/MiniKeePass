@@ -64,10 +64,6 @@
 @end
 
 @interface KdbEntry : NSObject <NSCopying> {
-    NSDate *creationTime;
-    NSDate *lastModificationTime;
-    NSDate *lastAccessTime;
-    NSDate *expiryTime;
 }
 
 @property(nonatomic, strong) UUID *uuid;
