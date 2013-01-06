@@ -363,10 +363,10 @@
     } @catch (NSException * exception) {
         NSLog(@"Exception when loading the kdbx file: %@", exception);
 
-        NSAlert *alert = [NSAlert alertWithMessageText:@"Unable to open the database."
-                                         defaultButton:@"OK" alternateButton:nil
+        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Unable to open the database.", nil)
+                                         defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:@"Wrong key or database file is corrupt."];
+                             informativeTextWithFormat:NSLocalizedString(@"Wrong key or database file is corrupt.", nil)];
         alert.alertStyle = NSInformationalAlertStyle;
         [alert beginSheetModalForWindow:self.windowForSheet
                           modalDelegate:self
@@ -421,7 +421,7 @@
 
 - (void)didSaveEditEntry:(KdbEntry*)entry unchangedEntry:(KdbEntry *)unchangedEntry {
     //NSLog(@"Save entry with title:%@", entry.title);
-    [[self undoManager] setActionName:[NSString stringWithFormat:@"Modify entry: %@", entry.title]];
+    [[self undoManager] setActionName:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Modify entry", nil), entry.title]];
     //NSLog(@"Add to undoManager: %@", current.title);
     [[[self undoManager] prepareWithInvocationTarget:self] didSaveEditEntry:unchangedEntry unchangedEntry:entry];
     
