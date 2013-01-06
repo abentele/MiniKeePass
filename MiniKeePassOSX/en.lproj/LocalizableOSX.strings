@@ -1,0 +1,41 @@
+/* 
+  LocalizableOSX.strings
+  MiniKeePass
+
+  Created by Andreas Bentele on 06.01.13.
+  Copyright (c) 2013 Andreas Bentele. All rights reserved.
+*/
+
+// Undo/Redo entries
+"Modify entry" = "Modify entry";
+
+// Document
+"Add Entry" = "Add Entry";
+"Add Group" = "Add Group";
+"Search" = "Search";
+// Outline table headers
+"Title" = "Title";
+"Username" = "Username";
+"URL" = "URL";
+
+// Password dialog
+"Enter master key" = "Enter master key";
+"Select key file TOOLTIP" = "Select key file";
+"Unable to open the database." = "Unable to open the database";
+"Wrong key or database file is corrupt." = "Wrong key or database file is corrupt.";
+
+// Edit Entry dialog
+"General" = "General";
+"Additional Attributes" = "Additional Attributes";
+"Attachments" = "Attachments";
+"History" = "History";
+"Show password" = "Show password";
+"Hide password" = "Hide password";
+"Expires" = "Expires";
+"Icon" = "Icon";
+"Change icon" = "Click to change icon";
+"Close" = "Close";
+"Additional attribute - Name" = "Name";
+"Additional attribute - Text" = "Text";
+"Attachments - File name" = "File name";
+"Attachments - Size" = "Size";

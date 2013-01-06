@@ -29,6 +29,14 @@
 @property (nonatomic, strong) EditEntryWindowController *editEntryWindowController;
 @property (nonatomic, strong) IBOutlet NSSearchField *searchField;
 
+// Outlets, for localization
+@property (nonatomic, weak) IBOutlet NSToolbarItem *addGroupButton;
+@property (nonatomic, weak) IBOutlet NSToolbarItem *addEntryButton;
+@property (nonatomic, weak) IBOutlet NSToolbarItem *searchItem;
+@property (nonatomic, weak) IBOutlet NSTableColumn *titleColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *usernameColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *urlColumn;
+
 /* Cache: <parent, array of filtered children> */
 @property (nonatomic, strong) NSMutableDictionary *filteredChildren;
 
@@ -61,6 +69,17 @@
 - (void)windowControllerDidLoadNib:(NSWindowController *)windowController {
     [super windowControllerDidLoadNib:windowController];
     self.outlineView.doubleAction = @selector(doubleClick:);
+    
+    // localization
+    self.addEntryButton.label = LocalizedStringOSX(@"Add Entry");
+    self.addEntryButton.paletteLabel = self.addEntryButton.label;
+    self.addGroupButton.label = LocalizedStringOSX(@"Add Group");
+    self.addGroupButton.paletteLabel = self.addGroupButton.label;
+    self.searchItem.label = LocalizedStringOSX(@"Search");
+    self.searchItem.paletteLabel = self.searchItem.label;
+    [self.titleColumn.headerCell setStringValue:LocalizedStringOSX(@"Title")];
+    [self.usernameColumn.headerCell setStringValue:LocalizedStringOSX(@"Username")];
+    [self.urlColumn.headerCell setStringValue:LocalizedStringOSX(@"URL")];
 }
 
 + (BOOL)autosavesInPlace
@@ -301,8 +320,8 @@
         // Prompt the user for a password
         self.passwordViewController = [[PasswordViewControllerOSX alloc] initWithFilename:self.fileURL.path];
         self.passwordViewController.delegate = self;
-        NSLog(@"windowForSheet = %@", self.windowForSheet);
-        NSLog(@"passwordViewController.window = %@", self.passwordViewController.window);
+        //NSLog(@"windowForSheet = %@", self.windowForSheet);
+        //NSLog(@"passwordViewController.window = %@", self.passwordViewController.window);
         
         if (self.overlayView == nil) {
             // add gray overlay view
@@ -363,10 +382,11 @@
     } @catch (NSException * exception) {
         NSLog(@"Exception when loading the kdbx file: %@", exception);
 
-        NSAlert *alert = [NSAlert alertWithMessageText:NSLocalizedString(@"Unable to open the database.", nil)
-                                         defaultButton:NSLocalizedString(@"OK", nil) alternateButton:nil
+        NSAlert *alert = [NSAlert alertWithMessageText:LocalizedStringOSX(@"Unable to open the database.")
+                                         defaultButton:LocalizedStringOSX(@"OK")
+                                       alternateButton:nil
                                            otherButton:nil
-                             informativeTextWithFormat:NSLocalizedString(@"Wrong key or database file is corrupt.", nil)];
+                             informativeTextWithFormat:LocalizedStringOSX(@"Wrong key or database file is corrupt.")];
         alert.alertStyle = NSInformationalAlertStyle;
         [alert beginSheetModalForWindow:self.windowForSheet
                           modalDelegate:self
@@ -393,7 +413,6 @@
 #pragma mark Edit action
 
 - (IBAction)doubleClick:(id)sender {
-    NSLog(@"Double clicked");
     NSInteger row = self.outlineView.clickedRow;
     id item = [self.outlineView itemAtRow:row];
     if ([item isKindOfClass:[KdbEntry class]]) {
@@ -421,7 +440,7 @@
 
 - (void)didSaveEditEntry:(KdbEntry*)entry unchangedEntry:(KdbEntry *)unchangedEntry {
     //NSLog(@"Save entry with title:%@", entry.title);
-    [[self undoManager] setActionName:[NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Modify entry", nil), entry.title]];
+    [[self undoManager] setActionName:[NSString stringWithFormat:@"%@: %@", LocalizedStringOSX(@"Modify entry"), entry.title]];
     //NSLog(@"Add to undoManager: %@", current.title);
     [[[self undoManager] prepareWithInvocationTarget:self] didSaveEditEntry:unchangedEntry unchangedEntry:entry];
     

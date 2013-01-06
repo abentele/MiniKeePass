@@ -275,7 +275,6 @@
 		68CE868F14EDF4C300D34A61 /* LengthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 68CE868E14EDF4C300D34A61 /* LengthCell.m */; };
 		68D991E613F3EAAE00F6ED1F /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68D991E513F3EAAE00F6ED1F /* PasswordViewController.m */; };
 		68DDC3731405160300FC8BD8 /* keyfiles.html in Resources */ = {isa = PBXBuildFile; fileRef = 68DDC3721405160300FC8BD8 /* keyfiles.html */; };
-		68E08310146F24E3001C4EDF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
 		68E08316146F2749001C4EDF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E08314146F2749001C4EDF /* InfoPlist.strings */; };
 		68EBC2D61613394D00E8E799 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68EBC2D51613394D00E8E799 /* QuartzCore.framework */; };
 		68F19D1F14EB3A9C00B772CB /* CharacterSetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F19D1E14EB3A9C00B772CB /* CharacterSetsViewController.m */; };
@@ -485,7 +484,6 @@
 		E177D71816909A4900DB9CC6 /* safariemail.html in Resources */ = {isa = PBXBuildFile; fileRef = 68CE37F41404A86600E4A5E1 /* safariemail.html */; };
 		E177D71916909A4900DB9CC6 /* keyfiles.html in Resources */ = {isa = PBXBuildFile; fileRef = 68DDC3721405160300FC8BD8 /* keyfiles.html */; };
 		E177D71A16909A4900DB9CC6 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 689D021613A42B63005EBD36 /* style.css */; };
-		E177D71B16909A4900DB9CC6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
 		E177D71D16909A4900DB9CC6 /* de-createdb.html in Resources */ = {isa = PBXBuildFile; fileRef = 52491D0714D8F3FB00F8CBC8 /* de-createdb.html */; };
 		E177D71E16909A4900DB9CC6 /* de-dropbox.html in Resources */ = {isa = PBXBuildFile; fileRef = 52491D0814D8F3FB00F8CBC8 /* de-dropbox.html */; };
 		E177D71F16909A4900DB9CC6 /* de-itunes.html in Resources */ = {isa = PBXBuildFile; fileRef = 52491D0914D8F3FB00F8CBC8 /* de-itunes.html */; };
@@ -515,6 +513,9 @@
 		E177D73916909A4900DB9CC6 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 525B7C3816481731004DC489 /* arrow@2x.png */; };
 		E177D74116909AB200DB9CC6 /* stretchme.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342B161E0F310049F4A1 /* stretchme.png */; };
 		E177D74216909AB200DB9CC6 /* stretchme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342C161E0F310049F4A1 /* stretchme@2x.png */; };
+		E18EE9AD169911DA003E72DD /* LocalizableOSX.strings in Resources */ = {isa = PBXBuildFile; fileRef = E18EE9AF169911DA003E72DD /* LocalizableOSX.strings */; };
+		E18EE9B11699131B003E72DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
+		E18EE9B216991335003E72DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
 		E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */; settings = {COMPILER_FLAGS = ""; }; };
 		E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */; };
 		E1BC39EA169394EF00EC6587 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E6169394EF00EC6587 /* AppDelegate.m */; };
@@ -941,9 +942,9 @@
 		68D991E413F3EAAE00F6ED1F /* PasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordViewController.h; sourceTree = "<group>"; };
 		68D991E513F3EAAE00F6ED1F /* PasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordViewController.m; sourceTree = "<group>"; };
 		68DDC3721405160300FC8BD8 /* keyfiles.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = keyfiles.html; sourceTree = "<group>"; };
-		68E0830F146F24E3001C4EDF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68E0830F146F24E3001C4EDF /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68E08315146F2749001C4EDF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		68E08318146F2C8B001C4EDF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		68E08318146F2C8B001C4EDF /* ja */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		68E0831C146F2D37001C4EDF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		68EBC2D51613394D00E8E799 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		68F19D1D14EB3A9C00B772CB /* CharacterSetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterSetsViewController.h; sourceTree = "<group>"; };
@@ -951,6 +952,8 @@
 		68FE79B11428C17F00818EE4 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		68FE79B31428C17F00818EE4 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
 		E177D73E16909A4900DB9CC6 /* MiniKeePassX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePassX.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E18EE9AE169911DA003E72DD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LocalizableOSX.strings; sourceTree = "<group>"; };
+		E18EE9B0169911DE003E72DD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LocalizableOSX.strings; sourceTree = "<group>"; };
 		E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasswordViewControllerOSX.h; path = MiniKeePassOSX/PasswordViewControllerOSX.h; sourceTree = "<group>"; };
 		E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasswordViewControllerOSX.m; path = MiniKeePassOSX/PasswordViewControllerOSX.m; sourceTree = "<group>"; };
 		E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordViewControllerOSX.xib; path = MiniKeePassOSX/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
@@ -1616,6 +1619,7 @@
 				E1D9EB7C16909F6500006B0D /* MiniKeePass-Prefix.pch */,
 				E1D9EBD41690A75900006B0D /* Credits.rtf */,
 				E1D9EB7E16909F7500006B0D /* main.m */,
+				E18EE9AF169911DA003E72DD /* LocalizableOSX.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1908,7 +1912,6 @@
 				68CE37F51404A86600E4A5E1 /* safariemail.html in Resources */,
 				68DDC3731405160300FC8BD8 /* keyfiles.html in Resources */,
 				689D033113A42B63005EBD36 /* style.css in Resources */,
-				68E08310146F24E3001C4EDF /* Localizable.strings in Resources */,
 				68E08316146F2749001C4EDF /* InfoPlist.strings in Resources */,
 				52491D0C14D8F3FB00F8CBC8 /* de-createdb.html in Resources */,
 				52491D0D14D8F3FB00F8CBC8 /* de-dropbox.html in Resources */,
@@ -1939,6 +1942,7 @@
 				525B7C3A16481731004DC489 /* arrow@2x.png in Resources */,
 				E177D74116909AB200DB9CC6 /* stretchme.png in Resources */,
 				E177D74216909AB200DB9CC6 /* stretchme@2x.png in Resources */,
+				E18EE9B11699131B003E72DD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2103,7 +2107,6 @@
 				E177D71816909A4900DB9CC6 /* safariemail.html in Resources */,
 				E177D71916909A4900DB9CC6 /* keyfiles.html in Resources */,
 				E177D71A16909A4900DB9CC6 /* style.css in Resources */,
-				E177D71B16909A4900DB9CC6 /* Localizable.strings in Resources */,
 				E177D71D16909A4900DB9CC6 /* de-createdb.html in Resources */,
 				E177D71E16909A4900DB9CC6 /* de-dropbox.html in Resources */,
 				E177D71F16909A4900DB9CC6 /* de-itunes.html in Resources */,
@@ -2137,6 +2140,8 @@
 				E1BC39EC169394EF00EC6587 /* MainMenu.xib in Resources */,
 				E1BC39F61693953100EC6587 /* Document.xib in Resources */,
 				E1BC39FF1694AC8300EC6587 /* EditEntryWindowController.xib in Resources */,
+				E18EE9AD169911DA003E72DD /* LocalizableOSX.strings in Resources */,
+				E18EE9B216991335003E72DD /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2313,6 +2318,16 @@
 			);
 			name = InfoPlist.strings;
 			path = ..;
+			sourceTree = "<group>";
+		};
+		E18EE9AF169911DA003E72DD /* LocalizableOSX.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E18EE9AE169911DA003E72DD /* en */,
+				E18EE9B0169911DE003E72DD /* de */,
+			);
+			name = LocalizableOSX.strings;
+			path = MiniKeePassOSX;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

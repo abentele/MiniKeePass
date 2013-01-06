@@ -15,7 +15,12 @@
 @property (nonatomic, weak) IBOutlet NSSecureTextField *passwordField;
 @property (nonatomic, weak) IBOutlet NSButton *keyFileCheckbox;
 @property (nonatomic, weak) IBOutlet NSTextField *keyFileField;
+@property (nonatomic, weak) IBOutlet NSButton *cancelButton;
 @property (nonatomic, weak) IBOutlet NSButton *doneButton;
+
+// outlets for localization
+@property (nonatomic, weak) IBOutlet NSTextField *enterMasterKeyLabel;
+@property (nonatomic, weak) IBOutlet NSButton *selectKeyFileButton;
 
 - (IBAction)selectKeyFileButtonClicked:(id)sender;
 - (IBAction)passwordCheckboxClicked:(id)sender;
@@ -37,6 +42,14 @@
     [super windowDidLoad];
     [self.fileNameLabel setStringValue:self.fileName];
     [self.window makeFirstResponder:self.passwordField];
+    
+    // localization
+    self.enterMasterKeyLabel.stringValue = LocalizedStringOSX(@"Enter master key");
+    self.passwordCheckbox.title = [NSString stringWithFormat:@"%@:",LocalizedString(@"Password")];
+    self.keyFileCheckbox.title = [NSString stringWithFormat:@"%@:",LocalizedString(@"Key File")];
+    self.cancelButton.title = LocalizedString(@"Cancel");
+    self.doneButton.title = LocalizedString(@"OK");
+    self.selectKeyFileButton.toolTip = LocalizedStringOSX(@"Select key file TOOLTIP");
 }
 
 - (IBAction)cancelClicked:(id)sender {

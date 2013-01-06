@@ -7,3 +7,11 @@
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
 #endif
+
+// Loads the localized strings from Localizable.strings
+#define LocalizedString(key) \
+[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:@"Localizable"]
+
+// Loads the localized strings from LocalizableOSX.strings
+#define LocalizedStringOSX(key) \
+[[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:@"LocalizableOSX"]

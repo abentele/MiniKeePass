@@ -58,6 +58,20 @@
 // additional properties for binding
 @property (nonatomic, strong) NSString *repeatPassword;
 
+// outlets for localization
+@property (nonatomic, weak) IBOutlet NSTabViewItem *generalTabViewItem;
+@property (nonatomic, weak) IBOutlet NSTabViewItem *additionalAttributesTabViewItem;
+@property (nonatomic, weak) IBOutlet NSTableColumn *additionalAttributesNameColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *additionalAttributesTextColumn;
+@property (nonatomic, weak) IBOutlet NSTabViewItem *attachmentsTabViewItem;
+@property (nonatomic, weak) IBOutlet NSTableColumn *attachmentsFileNameColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *attachmentsSizeColumn;
+@property (nonatomic, weak) IBOutlet NSTabViewItem *historyTabViewItem;
+@property (nonatomic, weak) IBOutlet NSTableColumn *historyLastModifiedColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *historyTitleColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *historyUsernameColumn;
+@property (nonatomic, weak) IBOutlet NSTableColumn *historyURLColumn;
+
 - (IBAction)okClicked:(id)sender;
 - (IBAction)cancelClicked:(id)sender;
 - (IBAction)modifyClicked:(id)sender;
@@ -84,6 +98,34 @@
 {
     [super windowDidLoad];
     
+    // localization
+    self.generalTabViewItem.label = LocalizedStringOSX(@"General");
+    self.additionalAttributesTabViewItem.label = LocalizedStringOSX(@"Additional Attributes");
+    self.attachmentsTabViewItem.label = LocalizedStringOSX(@"Attachments");
+    self.historyTabViewItem.label = LocalizedStringOSX(@"History");
+    self.titleLabel.stringValue = LocalizedString(@"Title");
+    self.urlLabel.stringValue = LocalizedString(@"URL");
+    self.usernameLabel.stringValue = LocalizedString(@"Username");
+    self.passwordLabel.stringValue = LocalizedString(@"Password");
+    self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Show password"); // changes text to @"Hide password"
+    self.passwordRepeatLabel.stringValue = LocalizedString(@"Confirm Password");
+    self.passwordExpiresLabel.stringValue = LocalizedStringOSX(@"Expires");
+    self.descriptionLabel.stringValue = LocalizedString(@"Comments");
+    self.iconLabel.stringValue = LocalizedStringOSX(@"Icon");
+    self.iconView.toolTip = LocalizedStringOSX(@"Change icon"); // changes text to @"Hide password"
+    self.modifyButton.title = LocalizedString(@"Edit"); // changes text to @"Finished"
+    self.okButton.title = LocalizedStringOSX(@"Close"); // changes text to @"OK"
+    self.cancelButton.title = LocalizedString(@"Cancel");
+    [self.additionalAttributesNameColumn.headerCell setStringValue:LocalizedStringOSX(@"Additional attribute - Name")];
+    [self.additionalAttributesTextColumn.headerCell setStringValue:LocalizedStringOSX(@"Additional attribute - Text")];
+    [self.attachmentsFileNameColumn.headerCell setStringValue:LocalizedStringOSX(@"Attachments - File name")];
+    [self.attachmentsSizeColumn.headerCell setStringValue:LocalizedStringOSX(@"Attachments - Size")];
+    [self.historyLastModifiedColumn.headerCell setStringValue:LocalizedString(@"Last Modified")];
+    [self.historyTitleColumn.headerCell setStringValue:LocalizedString(@"Title")];
+    [self.historyUsernameColumn.headerCell setStringValue:LocalizedString(@"Username")];
+    [self.historyURLColumn.headerCell setStringValue:LocalizedString(@"URL")];
+    
+    // initialize fields array
     self.fields = [[NSArray alloc] initWithObjects:
                    self.titleField,
                    self.urlField,
@@ -154,10 +196,10 @@
     }
     
     if (readonly) {
-        self.modifyButton.title = @"Modify";
+        self.modifyButton.title = LocalizedString(@"Edit");
     }
     else {
-        self.modifyButton.title = @"Finished";
+        self.modifyButton.title = LocalizedStringOSX(@"Finish");
     }
 
     [self setStyleOfTextFieldsWithReadonly:readonly];
@@ -171,20 +213,21 @@
         [self.generalView addSubview:self.passwordRepeatField];
         [self.passwordLockUnlockButton setNextKeyView:self.passwordRepeatField];
         [self.passwordRepeatField setNextKeyView:self.passwordExpiresField];
+        [self.generalView addSubview:self.passwordRepeatLabel];
         [self.generalView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordRepeatField
                                                                      attribute:NSLayoutAttributeTop
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.passwordField
                                                                      attribute:NSLayoutAttributeBottom
                                                                     multiplier:1.0
-                                                                      constant:5]];
+                                                                      constant:8]];
         [self.generalView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordExpiresField
                                                                      attribute:NSLayoutAttributeTop
                                                                      relatedBy:NSLayoutRelationEqual
                                                                         toItem:self.passwordRepeatField
                                                                      attribute:NSLayoutAttributeBottom
                                                                     multiplier:1.0
-                                                                      constant:5]];
+                                                                      constant:8]];
         [self.generalView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordField
                                                                      attribute:NSLayoutAttributeLeft
                                                                      relatedBy:NSLayoutRelationEqual
@@ -206,8 +249,14 @@
                                                                      attribute:NSLayoutAttributeHeight
                                                                     multiplier:1.0
                                                                       constant:0]];
+        [self.generalView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordRepeatLabel
+                                                                     attribute:NSLayoutAttributeLeading
+                                                                     relatedBy:NSLayoutRelationGreaterThanOrEqual
+                                                                        toItem:self.generalView
+                                                                     attribute:NSLayoutAttributeLeading
+                                                                    multiplier:1.0f
+                                                                      constant:17.f]];
 
-        [self.generalView addSubview:self.passwordRepeatLabel];
         [self.generalView addConstraint:[NSLayoutConstraint constraintWithItem:self.passwordRepeatLabel
                                                                      attribute:NSLayoutAttributeRight
                                                                      relatedBy:NSLayoutRelationEqual
@@ -257,11 +306,13 @@
         self.passwordField.cell = [[NSTextFieldCell alloc] initTextCell:self.passwordField.stringValue];
         self.passwordRepeatField.cell = [[NSTextFieldCell alloc] initTextCell:self.passwordRepeatField.stringValue];
         [self.passwordLockUnlockButton setImage:[NSImage imageNamed:@"NSLockUnlockedTemplate"]];
+        self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Show password");
     }
     else {
         self.passwordField.cell = [[NSSecureTextFieldCell alloc] initTextCell:self.passwordField.stringValue];
         self.passwordRepeatField.cell = [[NSSecureTextFieldCell alloc] initTextCell:self.passwordRepeatField.stringValue];
         [self.passwordLockUnlockButton setImage:[NSImage imageNamed:@"NSLockLockedTemplate"]];
+        self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Hide password");
     }
     [self.passwordField setNeedsDisplay:YES];
     [self.passwordRepeatField setNeedsDisplay:YES];
@@ -301,11 +352,11 @@
 
 - (void)controlButtons {
     if (self.dirty) {
-        self.okButton.title = @"OK";
+        self.okButton.title = LocalizedString(@"OK");
         self.okButton.keyEquivalent = @"\r";
     }
     else {
-        self.okButton.title = @"Close";
+        self.okButton.title = LocalizedStringOSX(@"Close");
         self.okButton.keyEquivalent = @"\E";
     }
     [self.cancelButton setHidden:!self.dirty];
