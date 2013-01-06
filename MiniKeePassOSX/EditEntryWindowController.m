@@ -72,6 +72,9 @@
 @property (nonatomic, weak) IBOutlet NSTableColumn *historyUsernameColumn;
 @property (nonatomic, weak) IBOutlet NSTableColumn *historyURLColumn;
 
+// constraints
+@property (nonatomic, strong) NSLayoutConstraint *passwordExpiresConstraint;
+
 - (IBAction)okClicked:(id)sender;
 - (IBAction)cancelClicked:(id)sender;
 - (IBAction)modifyClicked:(id)sender;
@@ -204,12 +207,24 @@
 
     [self setStyleOfTextFieldsWithReadonly:readonly];
     
+    if (self.passwordExpiresConstraint == nil) {
+        self.passwordExpiresConstraint = [NSLayoutConstraint constraintWithItem:self.passwordExpiresField
+                                                                      attribute:NSLayoutAttributeTop
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self.passwordField
+                                                                      attribute:NSLayoutAttributeBottom
+                                                                     multiplier:1.0
+                                                                       constant:8];
+    }
+    
     // Remove / Add password repeat field
     if (readonly) {
         [self.passwordRepeatField removeFromSuperview];
         [self.passwordRepeatLabel removeFromSuperview];
+        [self.generalView addConstraint:self.passwordExpiresConstraint];
     }
     else {
+        [self.generalView removeConstraint:self.passwordExpiresConstraint];
         [self.generalView addSubview:self.passwordRepeatField];
         [self.passwordLockUnlockButton setNextKeyView:self.passwordRepeatField];
         [self.passwordRepeatField setNextKeyView:self.passwordExpiresField];
