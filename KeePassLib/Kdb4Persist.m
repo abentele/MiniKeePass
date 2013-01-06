@@ -20,12 +20,6 @@
 #import "DDXML.h"
 #import "DDXMLElementAdditions.h"
 
-#if TARGET_OS_IPHONE
-#define INT_FORMAT @"%d"
-#elif TARGET_OS_MAC
-#define INT_FORMAT @"%ld"
-#endif
-
 @interface Kdb4Persist (PrivateMethods)
 - (DDXMLDocument *)persistTree;
 - (DDXMLElement *)persistBinary:(Binary *)binary;

@@ -183,11 +183,16 @@
 }
 
 - (NSString*)description {
-#if TARGET_OS_IPHONE
-    return [NSString stringWithFormat:@"KdbEntry [image=%d, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", self.image, self.title, self.username, self.password, self.url, self.notes, self.creationTime, self.lastModificationTime, self.lastAccessTime, self.expiryTime];
-#elif TARGET_OS_MAC
-    return [NSString stringWithFormat:@"KdbEntry [image=%ld, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", self.image, self.title, self.username, self.password, self.url, self.notes, self.creationTime, self.lastModificationTime, self.lastAccessTime, self.expiryTime];
-#endif
+    // used also to check the dirty flag => include all attributes
+    NSString *imageStr = [NSString stringWithFormat:INT_FORMAT, self.image];
+    return [NSString stringWithFormat:@"KdbEntry [image=%@, title=%@, username=%@, password=%@, url=%@, notes=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", imageStr, self.title, self.username, self.password, self.url, self.notes, self.creationTime, self.lastModificationTime, self.lastAccessTime, self.expiryTime];
+}
+
+- (NSString*)stringRepresentationToCheckDirty {
+    NSString *str = [self description];
+    // normalize null values
+    str = [str stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    return str;
 }
 
 @end

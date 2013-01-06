@@ -10,6 +10,12 @@
 
 #define DEFAULT_TRANSFORMATION_ROUNDS 6000
 
+#if TARGET_OS_IPHONE
+#define INT_FORMAT @"%d"
+#elif TARGET_OS_MAC
+#define INT_FORMAT @"%ld"
+#endif
+
 @class KdbEntry;
 @class UUID;
 
@@ -87,6 +93,8 @@
 @property(nonatomic, strong) NSDate *lastModificationTime;
 @property(nonatomic, strong) NSDate *lastAccessTime;
 @property(nonatomic, strong) NSDate *expiryTime;
+
+- (NSString*)stringRepresentationToCheckDirty;
 
 @end
 

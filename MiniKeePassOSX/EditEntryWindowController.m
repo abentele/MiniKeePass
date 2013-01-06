@@ -12,6 +12,7 @@
 @interface EditEntryWindowController ()
 
 @property (nonatomic, assign) BOOL readonly;
+@property (nonatomic, assign) BOOL dirty;
 
 // array with all input fields
 @property (nonatomic, strong) NSArray *fields;
@@ -65,11 +66,13 @@
 
 @implementation EditEntryWindowController
 
-- (id)initWithEntry:(KdbEntry*)aEntry {
+- (id)initWithEntry:(KdbEntry*)aEntry unchangedEntry:(KdbEntry *)unchangedEntry {
     self = [super initWithWindowNibName:@"EditEntryWindowController"];
     if (self) {
         self.entry = aEntry;
+        self.unchangedEntry = unchangedEntry;
         modeNewEntry = (aEntry == nil);
+        self.dirty = false;
     }
     return self;
 }
@@ -155,10 +158,6 @@
     }
     else {
         self.modifyButton.title = @"Finished";
-        self.okButton.title = @"OK";
-        self.okButton.keyEquivalent = @"\r";
-        [self.cancelButton setHidden:NO];
-        [self.okButton setHidden:NO];
     }
 
     [self setStyleOfTextFieldsWithReadonly:readonly];
@@ -238,7 +237,10 @@
 - (IBAction)okClicked:(id)sender {
     [[NSApplication sharedApplication] endSheet: self.window];
     [self.window makeFirstResponder:nil];
-    [self.delegate didSaveEditEntry:self.entry];
+
+    if (self.dirty) {
+        [self.delegate didSaveEditEntry:self.entry unchangedEntry:self.unchangedEntry];
+    }
 }
 
 - (IBAction)cancelClicked:(id)sender {
@@ -274,6 +276,39 @@
     if ([theEvent keyCode] == 53) {
         [self cancelClicked:self];
     }
+}
+
+#pragma mark -
+#pragma mark Track dirty state
+
+- (void)controlTextDidChange:(NSNotification *)obj {
+    // assume that the entry has changed!
+    self.dirty = true;
+    [self controlButtons];
+}
+
+// NSTextFieldDelegate method
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification {
+    [self validate];
+}
+
+- (void)validate {
+    NSString *strUnchanged = [self.unchangedEntry stringRepresentationToCheckDirty];
+    NSString *strCurrent = [self.entry stringRepresentationToCheckDirty];
+    self.dirty = ![strUnchanged isEqualToString:strCurrent];
+    [self controlButtons];
+}
+
+- (void)controlButtons {
+    if (self.dirty) {
+        self.okButton.title = @"OK";
+        self.okButton.keyEquivalent = @"\r";
+    }
+    else {
+        self.okButton.title = @"Close";
+        self.okButton.keyEquivalent = @"\E";
+    }
+    [self.cancelButton setHidden:!self.dirty];
 }
 
 @end

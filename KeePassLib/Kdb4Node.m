@@ -144,6 +144,33 @@
     return copy;
 }
 
+- (NSString*)stringRepresentationToCheckDirty {
+    NSString *usageCountStr = [NSString stringWithFormat:INT_FORMAT, self.usageCount];
+
+    NSString *str = [NSString stringWithFormat:@"%@, %@, %@, %@, %@, %@, %i, %@, %@",
+            [super stringRepresentationToCheckDirty],
+            [self.customIconUuid description],
+            self.foregroundColor,
+            self.backgroundColor,
+            self.overrideUrl,
+            self.tags,
+            self.expires,
+            usageCountStr,
+            [self.locationChanged description]];
+    // normalize null values
+    str = [str stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    return str;
+
+    // TODO add these properties:
+    /*
+    @property(nonatomic, strong) NSMutableArray *stringFields;
+    @property(nonatomic, strong) NSMutableArray *binaries;
+    @property(nonatomic, strong) AutoType *autoType;
+    @property(nonatomic, strong) NSMutableArray *history;
+    */
+}
+
+
 - (NSString *)title {
     return _titleStringField.value;
 }

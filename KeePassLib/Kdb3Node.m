@@ -77,6 +77,13 @@
     return YES;
 }
 
+- (NSString*)stringRepresentationToCheckDirty {
+    NSString *str = [NSString stringWithFormat:@"%@, %@, %@", [super stringRepresentationToCheckDirty], self.binaryDesc, [self.binary description]];
+    // normalize null values
+    str = [str stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
+    return str;
+}
+
 @end
 
 

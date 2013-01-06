@@ -16,14 +16,15 @@
 }
 
 @property (nonatomic, strong) KdbEntry *entry;
+@property (nonatomic, strong) KdbEntry *unchangedEntry;
 @property (nonatomic, unsafe_unretained) id<EditEntryWindowControllerDelegate> delegate;
 
-- (id)initWithEntry:(KdbEntry*)entry;
+- (id)initWithEntry:(KdbEntry*)entry unchangedEntry:(KdbEntry*)unchangedEntry;
 
 @end
 
 @protocol EditEntryWindowControllerDelegate <NSObject>
 
-- (void)didSaveEditEntry:(KdbEntry*)entry;
+- (void)didSaveEditEntry:(KdbEntry*)entry unchangedEntry:(KdbEntry*)unchangedEntry;
 
 @end

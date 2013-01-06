@@ -397,8 +397,7 @@
     NSInteger row = self.outlineView.clickedRow;
     id item = [self.outlineView itemAtRow:row];
     if ([item isKindOfClass:[KdbEntry class]]) {
-        KdbEntry *entry = [(KdbEntry*)item copyWithZone:nil];
-        [self editEntry:entry];
+        [self editEntry:(KdbEntry*)item];
     }
     else if ([item isKindOfClass:[KdbGroup class]]) {
 //        KdbGroup *group = (KdbGroup*)item;
@@ -409,7 +408,8 @@
 - (void)editEntry:(KdbEntry*)entry {
     
     // Prompt the user for a password
-    self.editEntryWindowController = [[EditEntryWindowController alloc] initWithEntry:entry];
+    self.editEntryWindowController = [[EditEntryWindowController alloc] initWithEntry:[entry copyWithZone:nil]
+                                                                       unchangedEntry:entry];
     self.editEntryWindowController.delegate = self;
     
     [[NSApplication sharedApplication] beginSheet:self.editEntryWindowController.window
@@ -419,19 +419,17 @@
                                       contextInfo:nil];
 }
 
-- (void)didSaveEditEntry:(KdbEntry*)entry {
-    [self replaceEntry:entry];
-}
-
-- (void)replaceEntry:(KdbEntry*)entry {
+- (void)didSaveEditEntry:(KdbEntry*)entry unchangedEntry:(KdbEntry *)unchangedEntry {
     //NSLog(@"Save entry with title:%@", entry.title);
     [[self undoManager] setActionName:[NSString stringWithFormat:@"Modify entry: %@", entry.title]];
     KdbEntry *current = [entry.parent currentEntryOfCopy:entry];
     //NSLog(@"Add to undoManager: %@", current.title);
-    [[[self undoManager] prepareWithInvocationTarget:self] replaceEntry:current];
-
-    //NSLog(@"Replace entry: %@", entry.title);
+    [[[self undoManager] prepareWithInvocationTarget:self] didSaveEditEntry:current unchangedEntry:entry];
+    
+    NSLog(@"Replace entry: %@", entry.title);
     [entry.parent replaceEntryWithCopy:entry];
+    
+    // clear cache, and update view
     [self.filteredChildren removeAllObjects];
     [self.outlineView reloadData];
 }
