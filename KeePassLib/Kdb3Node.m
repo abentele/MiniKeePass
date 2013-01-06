@@ -26,7 +26,7 @@
     if ([(Kdb3Entry *)entry isMeta]) {
         [_metaEntries addObject:entry];
     } else {
-        [entries addObject:entry];
+        [(NSMutableArray*)self.entries addObject:entry];
     }
 }
 
@@ -36,7 +36,7 @@
     if ([(Kdb3Entry *)entry isMeta]) {
         [_metaEntries removeObject:entry];
     } else {
-        [entries removeObject:entry];
+        [(NSMutableArray*)self.entries removeObject:entry];
     }
 }
 

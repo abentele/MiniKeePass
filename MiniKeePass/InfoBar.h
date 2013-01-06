@@ -18,7 +18,6 @@
 #import <UIKit/UIKit.h>
 
 @interface InfoBar : UIView {
-    UILabel *label;
     NSUInteger autoHideCount;
 }
 

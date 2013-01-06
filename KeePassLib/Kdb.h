@@ -20,19 +20,6 @@
 @class UUID;
 
 @interface KdbGroup : NSObject {
-    KdbGroup * parent;
-
-    NSInteger image;
-    NSString *name;
-    NSMutableArray *groups;
-    NSMutableArray *entries;
-
-    NSDate *creationTime;
-    NSDate *lastModificationTime;
-    NSDate *lastAccessTime;
-    NSDate *expiryTime;
-
-    BOOL canAddEntries;
 }
 
 @property(nonatomic, strong) KdbGroup *parent;

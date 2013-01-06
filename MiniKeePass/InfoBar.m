@@ -21,7 +21,7 @@
 
 @implementation InfoBar
 
-@synthesize label;
+@synthesize label = _label;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -30,13 +30,13 @@
         
         self.backgroundColor = [UIColor colorWithRed:0.8 green:0.0 blue:0.0 alpha:1.0];
         
-        label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-        label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        label.textAlignment = UITextAlignmentCenter;
-        label.text = @"Finished";
-        label.textColor = [UIColor whiteColor];
-        label.backgroundColor = [UIColor clearColor];
-        [self addSubview:label];
+        _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+        _label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        _label.textAlignment = UITextAlignmentCenter;
+        _label.text = @"Finished";
+        _label.textColor = [UIColor whiteColor];
+        _label.backgroundColor = [UIColor clearColor];
+        [self addSubview:self.label];
         
         self.hidden = YES;
     }

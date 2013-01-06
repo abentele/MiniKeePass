@@ -19,7 +19,6 @@
 #import "OutputStream.h"
 
 @interface DataOutputStream : OutputStream {
-    NSMutableData *data;
 }
 
 @property (nonatomic, readonly) NSMutableData *data;

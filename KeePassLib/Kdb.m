@@ -11,23 +11,12 @@
 
 @implementation KdbGroup
 
-@synthesize parent;
-@synthesize image;
-@synthesize name;
-@synthesize groups;
-@synthesize entries;
-@synthesize creationTime;
-@synthesize lastModificationTime;
-@synthesize lastAccessTime;
-@synthesize expiryTime;
-@synthesize canAddEntries;
-
 - (id)init {
     self = [super init];
     if (self) {
-        groups = [[NSMutableArray alloc] initWithCapacity:8];
-        entries = [[NSMutableArray alloc] initWithCapacity:16];
-        canAddEntries = YES;
+        _groups = [[NSMutableArray alloc] initWithCapacity:8];
+        _entries = [[NSMutableArray alloc] initWithCapacity:16];
+        _canAddEntries = YES;
     }
     return self;
 }
@@ -35,12 +24,12 @@
 
 - (void)addGroup:(KdbGroup *)group {
     group.parent = self;
-    [groups addObject:group];
+    [(NSMutableArray*)self.groups addObject:group];
 }
 
 - (void)removeGroup:(KdbGroup *)group {
     group.parent = nil;
-    [groups removeObject:group];
+    [(NSMutableArray*)self.groups removeObject:group];
 }
 
 - (void)moveGroup:(KdbGroup *)group toGroup:(KdbGroup *)toGroup {
@@ -65,17 +54,17 @@
     
     int index = [self.entries indexOfObject:entryToReplace];
     //NSLog(@"index: %d", index);
-    [entries replaceObjectAtIndex:index withObject:copy];
+    [(NSMutableArray*)self.entries replaceObjectAtIndex:index withObject:copy];
 }
 
 - (void)addEntry:(KdbEntry *)entry {
     entry.parent = self;
-    [entries addObject:entry];
+    [(NSMutableArray*)self.entries addObject:entry];
 }
 
 - (void)removeEntry:(KdbEntry *)entry {
     entry.parent = nil;
-    [entries removeObject:entry];
+    [(NSMutableArray*)self.entries removeObject:entry];
 }
 
 - (void)moveEntry:(KdbEntry *)entry toGroup:(KdbGroup *)toGroup {
@@ -89,7 +78,7 @@
         return YES;
     } else {
         // Check subgroups
-        for (KdbGroup *subGroup in groups) {
+        for (KdbGroup *subGroup in self.groups) {
             if ([subGroup containsGroup:group]) {
                 return YES;
             }
@@ -99,11 +88,8 @@
 }
 
 - (NSString*)description {
-#if TARGET_OS_IPHONE
-    return [NSString stringWithFormat:@"KdbGroup [image=%d, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, name, creationTime, lastModificationTime, lastAccessTime, expiryTime];
-#elif TARGET_OS_MAC
-    return [NSString stringWithFormat:@"KdbGroup [image=%ld, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", image, name, creationTime, lastModificationTime, lastAccessTime, expiryTime];
-#endif
+    NSString *imageStr = [NSString stringWithFormat:INT_FORMAT, self.image];
+    return [NSString stringWithFormat:@"KdbGroup [image=%@, name=%@, creationTime=%@, lastModificationTime=%@, lastAccessTime=%@, expiryTime=%@]", imageStr, self.name, self.creationTime, self.lastModificationTime, self.lastAccessTime, self.expiryTime];
 }
 
 @end
