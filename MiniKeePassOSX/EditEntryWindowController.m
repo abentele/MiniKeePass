@@ -8,6 +8,7 @@
 
 #import "EditEntryWindowController.h"
 #import "Kdb.h"
+#import "ImageCache.h"
 
 @interface EditEntryWindowController ()
 
@@ -110,7 +111,6 @@
     self.urlLabel.stringValue = LocalizedString(@"URL");
     self.usernameLabel.stringValue = LocalizedString(@"Username");
     self.passwordLabel.stringValue = LocalizedString(@"Password");
-    self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Show password"); // changes text to @"Hide password"
     self.passwordRepeatLabel.stringValue = LocalizedString(@"Confirm Password");
     self.passwordExpiresLabel.stringValue = LocalizedStringOSX(@"Expires");
     self.descriptionLabel.stringValue = LocalizedString(@"Comments");
@@ -158,6 +158,10 @@
     self.repeatPassword = [self.entry password];
 
     [self.titleField becomeFirstResponder];
+    
+    // binding for icon
+    // TODO handle individual icons
+    self.iconView.image = [[ImageCache sharedInstance] getImage:self.entry.image];
 }
 
 // set properties for all controls based on the readonly state
@@ -321,13 +325,13 @@
         self.passwordField.cell = [[NSTextFieldCell alloc] initTextCell:self.passwordField.stringValue];
         self.passwordRepeatField.cell = [[NSTextFieldCell alloc] initTextCell:self.passwordRepeatField.stringValue];
         [self.passwordLockUnlockButton setImage:[NSImage imageNamed:@"NSLockUnlockedTemplate"]];
-        self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Show password");
+        self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Hide password");
     }
     else {
         self.passwordField.cell = [[NSSecureTextFieldCell alloc] initTextCell:self.passwordField.stringValue];
         self.passwordRepeatField.cell = [[NSSecureTextFieldCell alloc] initTextCell:self.passwordRepeatField.stringValue];
         [self.passwordLockUnlockButton setImage:[NSImage imageNamed:@"NSLockLockedTemplate"]];
-        self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Hide password");
+        self.passwordLockUnlockButton.toolTip = LocalizedStringOSX(@"Show password");
     }
     [self.passwordField setNeedsDisplay:YES];
     [self.passwordRepeatField setNeedsDisplay:YES];
