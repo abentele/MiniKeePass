@@ -422,9 +422,8 @@
 - (void)didSaveEditEntry:(KdbEntry*)entry unchangedEntry:(KdbEntry *)unchangedEntry {
     //NSLog(@"Save entry with title:%@", entry.title);
     [[self undoManager] setActionName:[NSString stringWithFormat:@"Modify entry: %@", entry.title]];
-    KdbEntry *current = [entry.parent currentEntryOfCopy:entry];
     //NSLog(@"Add to undoManager: %@", current.title);
-    [[[self undoManager] prepareWithInvocationTarget:self] didSaveEditEntry:current unchangedEntry:entry];
+    [[[self undoManager] prepareWithInvocationTarget:self] didSaveEditEntry:unchangedEntry unchangedEntry:entry];
     
     NSLog(@"Replace entry: %@", entry.title);
     [entry.parent replaceEntryWithCopy:entry];
