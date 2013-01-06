@@ -281,8 +281,6 @@
 		68F19D1F14EB3A9C00B772CB /* CharacterSetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F19D1E14EB3A9C00B772CB /* CharacterSetsViewController.m */; };
 		68FE79B41428C17F00818EE4 /* gear.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FE79B11428C17F00818EE4 /* gear.png */; };
 		68FE79B61428C17F00818EE4 /* gear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 68FE79B31428C17F00818EE4 /* gear@2x.png */; };
-		E11474EA169908380056187B /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11474EC169908380056187B /* Document.xib */; };
-		E11474EE169908950056187B /* PasswordViewControllerOSX.xib in Resources */ = {isa = PBXBuildFile; fileRef = E11474F0169908950056187B /* PasswordViewControllerOSX.xib */; };
 		E177D62616909A4900DB9CC6 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D02B813A42B63005EBD36 /* Base64.m */; settings = {COMPILER_FLAGS = ""; }; };
 		E177D62716909A4900DB9CC6 /* Kdb.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D02C813A42B63005EBD36 /* Kdb.m */; settings = {COMPILER_FLAGS = ""; }; };
 		E177D62816909A4900DB9CC6 /* Kdb3Date.m in Sources */ = {isa = PBXBuildFile; fileRef = 689D02CA13A42B63005EBD36 /* Kdb3Date.m */; settings = {COMPILER_FLAGS = ""; }; };
@@ -518,11 +516,13 @@
 		E177D74116909AB200DB9CC6 /* stretchme.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342B161E0F310049F4A1 /* stretchme.png */; };
 		E177D74216909AB200DB9CC6 /* stretchme@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 52E3342C161E0F310049F4A1 /* stretchme@2x.png */; };
 		E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */; settings = {COMPILER_FLAGS = ""; }; };
+		E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */; };
 		E1BC39EA169394EF00EC6587 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E6169394EF00EC6587 /* AppDelegate.m */; };
 		E1BC39EB169394EF00EC6587 /* ImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E8169394EF00EC6587 /* ImageCache.m */; };
 		E1BC39EC169394EF00EC6587 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39E9169394EF00EC6587 /* MainMenu.xib */; };
 		E1BC39EF1693950000EC6587 /* AppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39EE1693950000EC6587 /* AppSettings.m */; settings = {COMPILER_FLAGS = ""; }; };
 		E1BC39F51693953100EC6587 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39F11693953100EC6587 /* Document.m */; };
+		E1BC39F61693953100EC6587 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39F21693953100EC6587 /* Document.xib */; };
 		E1BC39F71693953100EC6587 /* ImageAndTextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39F41693953100EC6587 /* ImageAndTextCell.m */; };
 		E1BC39FE1694AC8300EC6587 /* EditEntryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39FC1694AC8300EC6587 /* EditEntryWindowController.m */; };
 		E1BC39FF1694AC8300EC6587 /* EditEntryWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39FD1694AC8300EC6587 /* EditEntryWindowController.xib */; };
@@ -531,27 +531,6 @@
 		E1D9EB811690A07600006B0D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1D9EB801690A07600006B0D /* Cocoa.framework */; };
 		E1D9EBD51690A75900006B0D /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E1D9EBD41690A75900006B0D /* Credits.rtf */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildRule section */
-		E11474E81699065C0056187B /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = "com.apple.build-tasks.copy-plist-file";
-			fileType = text.plist.strings;
-			isEditable = 1;
-			outputFiles = (
-			);
-			script = "# builtin-copyStrings\n";
-		};
-		E11474E9169906610056187B /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = "com.apple.build-tasks.copy-plist-file";
-			fileType = text.plist.strings;
-			isEditable = 1;
-			outputFiles = (
-			);
-			script = "# builtin-copyStrings\n";
-		};
-/* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
 		526D9FAA167CDC010097213E /* PBXContainerItemProxy */ = {
@@ -971,13 +950,10 @@
 		68F19D1E14EB3A9C00B772CB /* CharacterSetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterSetsViewController.m; sourceTree = "<group>"; };
 		68FE79B11428C17F00818EE4 /* gear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gear.png; sourceTree = "<group>"; };
 		68FE79B31428C17F00818EE4 /* gear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gear@2x.png"; sourceTree = "<group>"; };
-		E11474EB169908380056187B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Document.xib; sourceTree = "<group>"; };
-		E11474ED1699083D0056187B /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/Document.xib; sourceTree = "<group>"; };
-		E11474EF169908950056187B /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
-		E11474F11699089A0056187B /* de */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = de; path = de.lproj/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
 		E177D73E16909A4900DB9CC6 /* MiniKeePassX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniKeePassX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PasswordViewControllerOSX.h; path = MiniKeePassOSX/PasswordViewControllerOSX.h; sourceTree = "<group>"; };
 		E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PasswordViewControllerOSX.m; path = MiniKeePassOSX/PasswordViewControllerOSX.m; sourceTree = "<group>"; };
+		E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PasswordViewControllerOSX.xib; path = MiniKeePassOSX/PasswordViewControllerOSX.xib; sourceTree = "<group>"; };
 		E1BC39E5169394EF00EC6587 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = MiniKeePassOSX/AppDelegate.h; sourceTree = "<group>"; };
 		E1BC39E6169394EF00EC6587 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = MiniKeePassOSX/AppDelegate.m; sourceTree = "<group>"; };
 		E1BC39E7169394EF00EC6587 /* ImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCache.h; path = MiniKeePassOSX/ImageCache.h; sourceTree = "<group>"; };
@@ -987,6 +963,7 @@
 		E1BC39EE1693950000EC6587 /* AppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppSettings.m; path = MiniKeePassOSX/AppSettings.m; sourceTree = "<group>"; };
 		E1BC39F01693953100EC6587 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Document.h; path = MiniKeePassOSX/Document.h; sourceTree = "<group>"; };
 		E1BC39F11693953100EC6587 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = MiniKeePassOSX/Document.m; sourceTree = "<group>"; };
+		E1BC39F21693953100EC6587 /* Document.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = Document.xib; path = MiniKeePassOSX/Document.xib; sourceTree = "<group>"; };
 		E1BC39F31693953100EC6587 /* ImageAndTextCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageAndTextCell.h; path = MiniKeePassOSX/ImageAndTextCell.h; sourceTree = "<group>"; };
 		E1BC39F41693953100EC6587 /* ImageAndTextCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageAndTextCell.m; path = MiniKeePassOSX/ImageAndTextCell.m; sourceTree = "<group>"; };
 		E1BC39F81693954B00EC6587 /* MiniKeePass-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "MiniKeePass-Info.plist"; path = "MiniKeePassOSX/MiniKeePass-Info.plist"; sourceTree = "<group>"; };
@@ -1648,7 +1625,7 @@
 			children = (
 				E1BC39631690FB3500EC6587 /* PasswordViewControllerOSX.h */,
 				E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */,
-				E11474F0169908950056187B /* PasswordViewControllerOSX.xib */,
+				E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */,
 			);
 			name = "Password dialog";
 			sourceTree = "<group>";
@@ -1658,7 +1635,7 @@
 			children = (
 				E1BC39F01693953100EC6587 /* Document.h */,
 				E1BC39F11693953100EC6587 /* Document.m */,
-				E11474EC169908380056187B /* Document.xib */,
+				E1BC39F21693953100EC6587 /* Document.xib */,
 				E1BC39F31693953100EC6587 /* ImageAndTextCell.h */,
 				E1BC39F41693953100EC6587 /* ImageAndTextCell.m */,
 			);
@@ -1696,7 +1673,6 @@
 				689DFFD313A4273F005EBD36 /* Resources */,
 			);
 			buildRules = (
-				E11474E81699065C0056187B /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -1714,7 +1690,6 @@
 				E177D67D16909A4900DB9CC6 /* Resources */,
 			);
 			buildRules = (
-				E11474E9169906610056187B /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -2158,9 +2133,9 @@
 				E177D73916909A4900DB9CC6 /* arrow@2x.png in Resources */,
 				E1D9EB7A16909D9C00006B0D /* Default-Landscape~ipad.svg in Resources */,
 				E1D9EBD51690A75900006B0D /* Credits.rtf in Resources */,
-				E11474EE169908950056187B /* PasswordViewControllerOSX.xib in Resources */,
+				E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */,
 				E1BC39EC169394EF00EC6587 /* MainMenu.xib in Resources */,
-				E11474EA169908380056187B /* Document.xib in Resources */,
+				E1BC39F61693953100EC6587 /* Document.xib in Resources */,
 				E1BC39FF1694AC8300EC6587 /* EditEntryWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2338,26 +2313,6 @@
 			);
 			name = InfoPlist.strings;
 			path = ..;
-			sourceTree = "<group>";
-		};
-		E11474EC169908380056187B /* Document.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E11474EB169908380056187B /* en */,
-				E11474ED1699083D0056187B /* de */,
-			);
-			name = Document.xib;
-			path = MiniKeePassOSX;
-			sourceTree = "<group>";
-		};
-		E11474F0169908950056187B /* PasswordViewControllerOSX.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E11474EF169908950056187B /* en */,
-				E11474F11699089A0056187B /* de */,
-			);
-			name = PasswordViewControllerOSX.xib;
-			path = MiniKeePassOSX;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
