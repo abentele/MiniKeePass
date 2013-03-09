@@ -198,6 +198,10 @@ int closeCallback(void *context) {
     Kdb4Group *group = [[Kdb4Group alloc] init];
 
     group.uuid = [self parseUuidString:[[root elementForName:@"UUID"] stringValue]];
+    if (group.uuid == nil) {
+        group.uuid = [UUID uuid];
+    }
+
     group.name = [[root elementForName:@"Name"] stringValue];
     group.notes = [[root elementForName:@"Notes"] stringValue];
     group.image = [[[root elementForName:@"IconID"] stringValue] integerValue];
@@ -238,6 +242,10 @@ int closeCallback(void *context) {
     Kdb4Entry *entry = [[Kdb4Entry alloc] init];
 
     entry.uuid = [self parseUuidString:[[root elementForName:@"UUID"] stringValue]];
+    if (entry.uuid == nil) {
+        entry.uuid = [UUID uuid];
+    }
+
     entry.image = [[[root elementForName:@"IconID"] stringValue] integerValue];
 
     DDXMLElement *customIconUuidElement = [root elementForName:@"CustomIconUUID"];
@@ -338,6 +346,10 @@ int closeCallback(void *context) {
 }
 
 - (UUID *)parseUuidString:(NSString *)uuidString {
+    if ([uuidString length] == 0) {
+        return nil;
+    }
+
     NSData *data = [Base64 decode:[uuidString dataUsingEncoding:NSUTF8StringEncoding]];
     return [[UUID alloc] initWithData:data];
 }
