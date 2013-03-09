@@ -522,6 +522,7 @@
 		E18EE9AD169911DA003E72DD /* LocalizableOSX.strings in Resources */ = {isa = PBXBuildFile; fileRef = E18EE9AF169911DA003E72DD /* LocalizableOSX.strings */; };
 		E18EE9B11699131B003E72DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
 		E18EE9B216991335003E72DD /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E0830E146F24E3001C4EDF /* Localizable.strings */; };
+		E1B70C2016EBBE93005C09AD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 68E08314146F2749001C4EDF /* InfoPlist.strings */; };
 		E1BC39661690FB3500EC6587 /* PasswordViewControllerOSX.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39641690FB3500EC6587 /* PasswordViewControllerOSX.m */; settings = {COMPILER_FLAGS = ""; }; };
 		E1BC39671690FB3500EC6587 /* PasswordViewControllerOSX.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1BC39651690FB3500EC6587 /* PasswordViewControllerOSX.xib */; };
 		E1BC39EA169394EF00EC6587 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E1BC39E6169394EF00EC6587 /* AppDelegate.m */; };
@@ -2178,6 +2179,7 @@
 				E1BC39FF1694AC8300EC6587 /* EditEntryWindowController.xib in Resources */,
 				E18EE9AD169911DA003E72DD /* LocalizableOSX.strings in Resources */,
 				E18EE9B216991335003E72DD /* Localizable.strings in Resources */,
+				E1B70C2016EBBE93005C09AD /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
