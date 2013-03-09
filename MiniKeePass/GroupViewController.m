@@ -723,6 +723,8 @@
     }
     
     [appDelegate.window.rootViewController dismissModalViewControllerAnimated:YES];
+
+    [self setEditing:NO animated:YES];
 }
 
 - (void)exportFilePressed {
