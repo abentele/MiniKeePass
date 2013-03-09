@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 Jason Rush and John Flanagan. All rights reserved.
+ * Copyright 2011-2013 Jason Rush and John Flanagan. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,9 +36,9 @@
 }
 
 @property (nonatomic) BOOL isKdb4;
-@property (nonatomic, strong) NSMutableArray *editingStringFields;
+@property (nonatomic, retain) NSMutableArray *editingStringFields;
 @property (nonatomic, readonly) NSArray *currentStringFields;
-@property (nonatomic, strong) NSMutableArray *filledCells;
+@property (nonatomic, retain) NSMutableArray *filledCells;
 
 @end
 
@@ -51,6 +51,13 @@
         self.tableView.allowsSelectionDuringEditing = YES;
 
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+        UIBarButtonItem *backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Entry", nil)
+                                                                              style:UIBarButtonItemStyleBordered
+                                                                             target:nil
+                                                                             action:nil];
+        self.navigationItem.backBarButtonItem = backBarButtonItem;
+        [backBarButtonItem release];
 
         appDelegate = (MiniKeePassAppDelegate*)[[UIApplication sharedApplication] delegate];
 
@@ -86,7 +93,7 @@
         urlCell.textField.returnKeyType = UIReturnKeyDone;
         [urlCell.accessoryButton addTarget:self action:@selector(openUrlPressed) forControlEvents:UIControlEventTouchUpInside];
 
-        defaultCells = @[titleCell, usernameCell, passwordCell, urlCell];
+        defaultCells = [@[titleCell, usernameCell, passwordCell, urlCell] retain];
 
         commentsCell = [[TextViewCell alloc] init];
         commentsCell.textView.editable = NO;
@@ -94,6 +101,19 @@
         _filledCells = [[NSMutableArray alloc] initWithCapacity:4];
     }
     return self;
+}
+
+- (void)dealloc {
+    [titleCell release];
+    [usernameCell release];
+    [passwordCell release];
+    [urlCell release];
+    [commentsCell release];
+    [defaultCells release];
+    [_entry release];
+    [_filledCells release];
+
+    [super dealloc];
 }
 
 - (void)viewDidLoad {
@@ -134,7 +154,9 @@
 }
 
 - (void)setEntry:(KdbEntry *)e {
-    _entry = e;
+    [_entry release];
+
+    _entry = [e retain];
     self.isKdb4 = [self.entry isKindOfClass:[Kdb4Entry class]];
 
     // Update the fields
@@ -185,7 +207,7 @@
     // Save the database or reset the entry
     if (editing == NO && !canceled) {
         self.entry.title = titleCell.textField.text;
-        self.entry.image = self.selectedImageIndex;
+        self.entry.image = _selectedImageIndex;
         self.entry.username = usernameCell.textField.text;
         self.entry.password = passwordCell.textField.text;
         self.entry.url = urlCell.textField.text;
@@ -237,7 +259,7 @@
         NSArray *stringFields = ((Kdb4Entry *)self.entry).stringFields;
         int count = stringFields.count;
         if (editing) {
-            self.editingStringFields = [[NSMutableArray alloc] initWithArray:stringFields copyItems:YES];
+            self.editingStringFields = [[[NSMutableArray alloc] initWithArray:stringFields copyItems:YES] autorelease];
         }
 
         if (count == 0) {
@@ -298,6 +320,7 @@
     if (editing) {
         UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Cancel", nil) style:UIBarButtonItemStylePlain target:self action:@selector(cancelPressed)];
         self.navigationItem.leftBarButtonItem = cancelButton;
+        [cancelButton release];
 
         titleCell.selectionStyle = UITableViewCellSelectionStyleNone;
         usernameCell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -433,8 +456,10 @@
     stringFieldViewController.stringFieldViewDelegate = self;
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stringFieldViewController];
+    [stringFieldViewController release];
 
     [self.navigationController presentViewController:navController animated:YES completion:nil];
+    [navController release];
 }
 
 # pragma mark - Table view delegate
@@ -529,22 +554,22 @@
                 // Return "Add new..." cell
                 UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:AddFieldCellIdentifier];
                 if (cell == nil) {
-                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
-                                                  reuseIdentifier:AddFieldCellIdentifier];
+                    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2
+                                                   reuseIdentifier:AddFieldCellIdentifier] autorelease];
                     cell.textLabel.textAlignment = NSTextAlignmentLeft;
                     cell.textLabel.text = NSLocalizedString(@"Add new...", nil);
 
                     // Add new cell when this cell is tapped
-                    [cell addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                        action:@selector(addPressed)]];
+                    [cell addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(addPressed)] autorelease]];
                 }
 
                 return cell;
             } else {
                 TextFieldCell *cell = [tableView dequeueReusableCellWithIdentifier:TextFieldCellIdentifier];
                 if (cell == nil) {
-                    cell = [[TextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                reuseIdentifier:TextFieldCellIdentifier];
+                    cell = [[[TextFieldCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                 reuseIdentifier:TextFieldCellIdentifier] autorelease];
                     cell.textFieldCellDelegate = self;
                     cell.textField.returnKeyType = UIReturnKeyDone;
                 }
@@ -620,6 +645,7 @@
         } completion:^(BOOL finished) {
             cell.accessoryView.hidden = NO;
             [copiedLabel removeFromSuperview];
+            [copiedLabel release];
             self.tableView.allowsSelection = YES;
         }];
     });
@@ -635,8 +661,11 @@
     stringFieldViewController.stringFieldViewDelegate = self;
 
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stringFieldViewController];
+    [stringFieldViewController release];
 
     [self.navigationController presentViewController:navController animated:YES completion:nil];
+    [navController release];
+
 }
 
 - (void)stringFieldViewController:(StringFieldViewController *)controller updateStringField:(StringField *)stringField {
@@ -660,15 +689,16 @@
 
 - (void)imageButtonPressed {
     if (self.tableView.isEditing) {
-        ImagesViewController *imagesViewController = [[ImagesViewController alloc] init];
-        imagesViewController.delegate = self;
-        [imagesViewController setSelectedImage:self.selectedImageIndex];
-        [self.navigationController pushViewController:imagesViewController animated:YES];
+        ImageSelectionViewController *imageSelectionViewController = [[ImageSelectionViewController alloc] init];
+        imageSelectionViewController.imageSelectionView.delegate = self;
+        imageSelectionViewController.imageSelectionView.selectedImageIndex = _selectedImageIndex;
+        [self.navigationController pushViewController:imageSelectionViewController animated:YES];
+        [imageSelectionViewController release];
     }
 }
 
-- (void)imagesViewController:(ImagesViewController *)controller imageSelected:(NSUInteger)index {
-    [self setSelectedImageIndex:index];
+- (void)imageSelectionView:(ImageSelectionView *)imageSelectionView selectedImageIndex:(NSUInteger)imageIndex {
+    [self setSelectedImageIndex:imageIndex];
 }
 
 #pragma mark - Password Display
@@ -681,7 +711,7 @@
     hud.detailsLabelFont = [UIFont fontWithName:@"Andale Mono" size:24];
 	hud.margin = 10.f;
 	hud.removeFromSuperViewOnHide = YES;
-    [hud addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:hud action:@selector(hide:)]];
+    [hud addGestureRecognizer:[[[UITapGestureRecognizer alloc] initWithTarget:hud action:@selector(hide:)] autorelease]];
 }
 
 #pragma mark - Password Generation
@@ -693,6 +723,9 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:passwordGeneratorViewController];
 
     [self presentModalViewController:navigationController animated:YES];
+
+    [navigationController release];
+    [passwordGeneratorViewController release];
 }
 
 - (void)passwordGeneratorViewController:(PasswordGeneratorViewController *)controller password:(NSString *)password {

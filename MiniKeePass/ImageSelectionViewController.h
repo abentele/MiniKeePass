@@ -1,5 +1,5 @@
 /*
- * Copyright 2011-2012 Jason Rush and John Flanagan. All rights reserved.
+ * Copyright 2011-2013 Jason Rush and John Flanagan. All rights reserved.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,11 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "AutorotatingViewController.h"
+#import "ImageSelectionView.h"
 
-@interface ImageContainerView : UIView {
-    NSMutableArray *imageViews;
-    UIImageView *selectedImageView;
-}
+@interface ImageSelectionViewController : AutorotatingViewController
 
-- (void)setSelectedImage:(NSUInteger)index;
+@property (nonatomic, readonly) ImageSelectionView *imageSelectionView;
 
 @end
