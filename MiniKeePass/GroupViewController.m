@@ -55,54 +55,62 @@
 
 @implementation GroupViewController
 
-@synthesize group = _group;
+- (id)init {
+    self = [super initWithStyle:UITableViewStylePlain];
+    if (self) {
+        appDelegate = (MiniKeePassAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-- (void)viewDidLoad {
-    appDelegate = (MiniKeePassAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    self.tableView.allowsSelectionDuringEditing = YES;
-    if ([self.tableView respondsToSelector:@selector(setAllowsMultipleSelectionDuringEditing:)]) {
-        self.selectMultipleWhileEditing = YES;
-    } else {
-        self.selectMultipleWhileEditing = NO;
+        self.tableView.allowsSelectionDuringEditing = YES;
+        if ([self.tableView respondsToSelector:@selector(setAllowsMultipleSelectionDuringEditing:)]) {
+            self.selectMultipleWhileEditing = YES;
+        } else {
+            self.selectMultipleWhileEditing = NO;
+        }
+
+        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
+
+        self.tableView.tableHeaderView = searchBar;
+
+        searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
+        searchDisplayController.searchResultsDataSource = self;
+        searchDisplayController.searchResultsDelegate = self;
+        searchDisplayController.delegate = self;
+
+        [searchBar release];
+
+        self.settingsButton = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:appDelegate action:@selector(showSettingsView)] autorelease];
+        self.settingsButton.imageInsets = UIEdgeInsetsMake(2, 0, -2, 0);
+
+        self.actionButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(exportFilePressed)] autorelease];
+
+        self.addButton = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed)] autorelease];
+
+        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+
+        self.standardToolbarItems = @[self.settingsButton, spacer, self.actionButton, spacer, self.addButton];
+        self.toolbarItems = self.standardToolbarItems;
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+        [spacer release];
+
+        results = [[NSMutableArray alloc] init];
+
+        sortingEnabled = [[AppSettings sharedInstance] sortAlphabetically];
+
+        groupComparator = ^(id obj1, id obj2) {
+            NSString *string1 = ((KdbGroup*)obj1).name;
+            NSString *string2 = ((KdbGroup*)obj2).name;
+            return [string1 localizedCaseInsensitiveCompare:string2];
+        };
+
+        entryComparator = ^(id obj1, id obj2) {
+            NSString *string1 = ((KdbEntry*)obj1).title;
+            NSString *string2 = ((KdbEntry*)obj2).title;
+            return [string1 localizedCaseInsensitiveCompare:string2];
+        };
+
     }
-    
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Search", nil), self.title];
-    
-    self.tableView.tableHeaderView = searchBar;
-    
-    searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar contentsController:self];
-    searchDisplayController.searchResultsDataSource = self;
-    searchDisplayController.searchResultsDelegate = self;
-    searchDisplayController.delegate = self;
-    
-    self.settingsButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"gear"] style:UIBarButtonItemStylePlain target:appDelegate action:@selector(showSettingsView)];
-    self.settingsButton.imageInsets = UIEdgeInsetsMake(2, 0, -2, 0);
-
-    self.actionButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(exportFilePressed)];
-
-    self.addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addPressed)];
-
-    UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-
-    self.standardToolbarItems = @[self.settingsButton, spacer, self.actionButton, spacer, self.addButton];
-    self.toolbarItems = self.standardToolbarItems;
-    self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    results = [[NSMutableArray alloc] init];
-    
-    groupComparator = ^(id obj1, id obj2) {
-        NSString *string1 = ((KdbGroup*)obj1).name;
-        NSString *string2 = ((KdbGroup*)obj2).name;
-        return [string1 localizedCaseInsensitiveCompare:string2];
-    };
-    
-    entryComparator = ^(id obj1, id obj2) {
-        NSString *string1 = ((KdbEntry*)obj1).title;
-        NSString *string2 = ((KdbEntry*)obj2).title;
-        return [string1 localizedCaseInsensitiveCompare:string2];
-    };
+    return self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -111,54 +119,50 @@
         [super viewWillAppear:animated];
         return;
     }
-    
-    NSIndexPath *selectedIndexPath = [selectedIndexPaths objectAtIndex:0];
-    
+
     BOOL sortAlphabetically = [[AppSettings sharedInstance] sortAlphabetically];
     if (sortingEnabled != sortAlphabetically) {
+        // The sorting option changed, reload the entire dataset
         sortingEnabled = sortAlphabetically;
-        selectedIndexPath = nil;
+        [self updateLocalArrays];
+        [self.tableView reloadData];
+    } else {
+        // Reload the cell in case the title was changed by the entry view
+        NSIndexPath *selectedIndexPath = [selectedIndexPaths objectAtIndex:0];
+        if (selectedIndexPath != nil) {
+            NSMutableArray *array;
+            switch (selectedIndexPath.section) {
+                case ENTRIES_SECTION:
+                    array = enteriesArray;
+                    break;
+                case GROUPS_SECTION:
+                    array = groupsArray;
+                    break;
+                default:
+                    @throw [NSException exceptionWithName:@"RuntimeException" reason:@"Invalid Section" userInfo:nil];
+                    break;
+            }
+
+            // Move the group/entry to it's new index in the array
+            NSUInteger index = [self updatePositionOfObjectAtIndex:selectedIndexPath.row inArray:array];
+
+            // Move or update the row
+            if (index != selectedIndexPath.row) {
+                NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:index inSection:selectedIndexPath.section];
+
+                [self.tableView beginUpdates];
+                [self.tableView deleteRowsAtIndexPaths:@[selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+                [self.tableView endUpdates];
+            } else {
+                [self.tableView reloadRowsAtIndexPaths:@[selectedIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+
+            // Re-select the row
+            [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+        }
     }
 
-    [self updateLocalArrays];
-    [self.tableView reloadData];
-    
-    // Reload the cell in case the title was changed by the entry view
-    if (selectedIndexPath != nil) {
-        NSMutableArray *array;
-        NSString *newKdbTitle;
-        
-        switch (selectedIndexPath.section) {
-            case ENTRIES_SECTION:
-                newKdbTitle = [((KdbEntry *)[enteriesArray objectAtIndex:selectedIndexPath.row]).title copy];
-                array = enteriesArray;
-                break;
-            case GROUPS_SECTION:
-                newKdbTitle = [((KdbGroup *)[groupsArray objectAtIndex:selectedIndexPath.row]).name copy];
-                array = groupsArray;
-                break;
-            default:
-                @throw [NSException exceptionWithName:@"RuntimeException" reason:@"Invalid Section" userInfo:nil];
-                break;
-        }
-
-        NSUInteger index = [self updatePositionOfObjectAtIndex:selectedIndexPath.row inArray:array];
-            
-        // Move or update the row
-        if (index != selectedIndexPath.row) {
-            [self.tableView beginUpdates];
-            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:selectedIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            selectedIndexPath = [NSIndexPath indexPathForRow:index inSection:selectedIndexPath.section];
-            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:selectedIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [self.tableView endUpdates];
-        } else {
-            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:selectedIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-        }
-        
-        // Re-select the row
-        [self.tableView selectRowAtIndexPath:selectedIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }
-    
     searchDisplayController.searchBar.placeholder = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"Search", nil), self.title];
 
     UIInterfaceOrientation currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
@@ -167,8 +171,28 @@
     } else {
         self.currentButtonWidth = LANDSCAPE_BUTTON_WIDTH;
     }
-    
+
     [super viewWillAppear:animated];
+}
+
+- (void)dealloc {
+    [searchDisplayController release];
+    [groupsArray release];
+    [enteriesArray release];
+    [pushedKdbTitle release];
+    [results release];
+    [group release];
+    [_standardToolbarItems release];
+    [_deleteButton release];
+    [_deleteButtonTitle release];
+    [_moveButton release];
+    [_moveButtonTitle release];
+    [_renameButton release];
+    [_renameButtonTitle release];
+    [_settingsButton release];
+    [_actionButton release];
+    [_addButton release];
+    [super dealloc];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -205,16 +229,16 @@
 
     // Remove groups
     for (KdbGroup *g in groupsToRemove) {
-        [self.group removeGroup:g];
+        [group removeGroup:g];
         [groupsArray removeObject:g];
     }
-    
+
     // Remote Enteries
     for (KdbEntry *e in enteriesToRemove) {
-        [self.group removeEntry:e];
+        [group removeEntry:e];
         [enteriesArray removeObject:e];
     }
-    
+
     // Save the database
     DatabaseDocument *databaseDocument = appDelegate.databaseDocument;
     databaseDocument.dirty = YES;
@@ -225,7 +249,7 @@
     NSArray *indexPaths = self.tableView.indexPathsForSelectedRows;
     [self deleteElementsFromModelAtIndexPaths:indexPaths];
     [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+
     // Clean up section headers
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
     if ([groupsArray count] == 0) {
@@ -240,10 +264,10 @@
 }
 
 - (void)moveSelectedItems {
-    ChooseGroupViewController *chooseGroupViewController = [[ChooseGroupViewController alloc] initWithStyle:UITableViewStylePlain];
+    ChooseGroupViewController *chooseGroupViewController = [[[ChooseGroupViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     chooseGroupViewController.delegate = self;
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooseGroupViewController];
-    
+    UINavigationController *navController = [[[UINavigationController alloc] initWithRootViewController:chooseGroupViewController] autorelease];
+
     [appDelegate.window.rootViewController presentModalViewController:navController animated:YES];
 }
 
@@ -265,7 +289,7 @@
                     validGroup = NO;
                 }
                 break;
-                
+
             case ENTRIES_SECTION:
                 containsEntry = YES;
                 movingEntry = [enteriesArray objectAtIndex:indexPath.row];
@@ -279,18 +303,18 @@
             break;
         }
     }
-    
+
     // Failed subgroup check
     if (!validGroup) {
         return NO;
     }
-    
+
     // Check if trying to move entries to top level in 1.x database
     KdbTree *tree = appDelegate.databaseDocument.kdbTree;
     if (containsEntry && chosenGroup == tree.root && [tree isKindOfClass:[Kdb3Tree class]]) {
         return NO;
     }
-    
+
     return YES;
 }
 
@@ -327,7 +351,7 @@
         [movingEntry.parent moveEntry:movingEntry toGroup:chosenGroup];
         [enteriesArray removeObject:movingEntry];
     }
-    
+
     // Save the database
     DatabaseDocument *databaseDocument = appDelegate.databaseDocument;
     databaseDocument.dirty = YES;
@@ -358,6 +382,7 @@
             overlayView.alpha = 0.0;
         } completion:^(BOOL finished) {
             [overlayView removeFromSuperview];
+            [overlayView release];
             overlayView = nil;
         }];
     } else {
@@ -372,9 +397,9 @@
     if (self.selectMultipleWhileEditing) {
         self.tableView.allowsMultipleSelectionDuringEditing = editing;
     }
-    
+
     [super setEditing:editing animated:animated];
-    
+
     // If any cell is showing the delete confirmation swipe gesture was used, don't configure toolbar
     NSArray *cells = self.tableView.visibleCells;
     for (UITableViewCell *cell in cells) {
@@ -382,29 +407,29 @@
             return;
         }
     }
-    
+
     if (editing && self.selectMultipleWhileEditing) {
         [self.navigationItem setHidesBackButton:YES animated:YES];
         [self setSeachBar:self.searchDisplayController.searchBar enabled:NO];
 
         self.deleteButtonTitle = NSLocalizedString(@"Delete", nil);
-        self.deleteButton = [[UIBarButtonItem alloc] initWithTitle:self.deleteButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(deleteSelectedItems)];
+        self.deleteButton = [[[UIBarButtonItem alloc] initWithTitle:self.deleteButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(deleteSelectedItems)] autorelease];
         self.deleteButton.tintColor = [UIColor colorWithRed:0.8 green:0.15 blue:0.15 alpha:1];
         self.deleteButton.width = self.currentButtonWidth;
         self.deleteButton.enabled = NO;
-        
+
         self.moveButtonTitle = NSLocalizedString(@"Move", nil);
-        self.moveButton = [[UIBarButtonItem alloc] initWithTitle:self.moveButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(moveSelectedItems)];
+        self.moveButton = [[[UIBarButtonItem alloc] initWithTitle:self.moveButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(moveSelectedItems)] autorelease];
         self.moveButton.width = self.currentButtonWidth;
         self.moveButton.enabled = NO;
-        
+
         self.renameButtonTitle = NSLocalizedString(@"Rename", nil);
-        self.renameButton = [[UIBarButtonItem alloc] initWithTitle:self.renameButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(renameSelectedItem)];
+        self.renameButton = [[[UIBarButtonItem alloc] initWithTitle:self.renameButtonTitle style:UIBarButtonItemStyleBordered target:self action:@selector(renameSelectedItem)] autorelease];
         self.renameButton.width = self.currentButtonWidth;
         self.renameButton.enabled = NO;
-        
-        UIBarButtonItem *spacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
-        
+
+        UIBarButtonItem *spacer = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil] autorelease];
+
         self.toolbarItems = @[self.deleteButton, spacer, self.moveButton, spacer, self.renameButton];
     } else {
         [self.navigationItem setHidesBackButton:NO animated:YES];
@@ -420,39 +445,47 @@
     if (numSelectedRows != 0) {
         self.deleteButton.title = [self.deleteButtonTitle stringByAppendingFormat:@" (%u)", numSelectedRows];
         self.deleteButton.enabled = YES;
-        
+
         self.moveButton.title = [self.moveButtonTitle stringByAppendingFormat:@" (%u)", numSelectedRows];
         self.moveButton.enabled = YES;
-        
+
         self.renameButton.title = [self.renameButtonTitle stringByAppendingFormat:@" (%u)", numSelectedRows];
         self.renameButton.enabled = numSelectedRows == 1;
     } else {
         self.deleteButton.title = self.deleteButtonTitle;
         self.deleteButton.enabled = NO;
-        
+
         self.moveButton.title = self.moveButtonTitle;
         self.moveButton.enabled = NO;
-        
+
         self.renameButton.title = self.renameButtonTitle;
         self.renameButton.enabled = NO;
     }
 
 }
 
+- (KdbGroup *)group {
+    return group;
+}
+
 - (void)setGroup:(KdbGroup *)newGroup {
-    if (self.group != newGroup) {
-        _group = newGroup;
-        
+    if (group != newGroup) {
+        [group release];
+        group = [newGroup retain];
+
         [self updateLocalArrays];
-                
+
         [self.tableView reloadData];
     }
 }
 
 - (void)updateLocalArrays {
-    groupsArray = [[NSMutableArray alloc] initWithArray:self.group.groups];
-    enteriesArray = [[NSMutableArray alloc] initWithArray:self.group.entries];
-    
+    [groupsArray release];
+    [enteriesArray release];
+
+    groupsArray = [[NSMutableArray alloc] initWithArray:group.groups];
+    enteriesArray = [[NSMutableArray alloc] initWithArray:group.entries];
+
     if (sortingEnabled) {
         [groupsArray sortUsingComparator:groupComparator];
         [enteriesArray sortUsingComparator:entryComparator];
@@ -461,18 +494,18 @@
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [results removeAllObjects];
-    
+
     DatabaseDocument *databaseDocument = appDelegate.databaseDocument;
     if (databaseDocument != nil) {
         // Perform the search
-        [databaseDocument searchGroup:self.group searchText:searchString results:results];
+        [databaseDocument searchGroup:group searchText:searchString results:results];
     }
-    
+
     // Sort the results
     [results sortUsingComparator:^(id a, id b) {
         return [((KdbEntry*)a).title localizedCompare:((KdbEntry*)b).title];
     }];
-    
+
     return YES;
 }
 
@@ -488,21 +521,21 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         return nil;
     }
-    
+
     switch (section) {
         case GROUPS_SECTION:
             if ([groupsArray count] != 0) {
                 return NSLocalizedString(@"Groups", nil);
             }
             break;
-            
+
         case ENTRIES_SECTION:
             if ([enteriesArray count] != 0) {
                 return NSLocalizedString(@"Entries", nil);
             }
             break;
     }
-    
+
     return nil;
 }
 
@@ -516,7 +549,7 @@
             case ENTRIES_SECTION:
                 return [enteriesArray count];
         }
-        
+
         return 0;
     }
 }
@@ -529,21 +562,21 @@
     } else {
         return indexPath;
     }
-    
+
     return nil;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    
+
     appDelegate = (MiniKeePassAppDelegate *)[[UIApplication sharedApplication] delegate];
-    
+
     // Configure the cell
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         // Handle search results
@@ -562,7 +595,7 @@
             cell.imageView.image = [appDelegate loadImage:e.image];
         }
     }
-    
+
     return cell;
 }
 
@@ -572,7 +605,7 @@
 
     KdbGroup *g;
     KdbEntry *e;
-    
+
     switch (indexPath.section) {
         case GROUPS_SECTION:
             renameItemViewController.type = RenameItemTypeGroup;
@@ -587,43 +620,51 @@
             [renameItemViewController setSelectedImageIndex:e.image];
             break;
     }
-    
+
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:renameItemViewController];
-    
+
     [appDelegate.window.rootViewController presentModalViewController:navigationController animated:YES];
+
+    [navigationController release];
+    [renameItemViewController release];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.searchDisplayController.searchResultsTableView) {
         // Handle search results
         KdbEntry *e = [results objectAtIndex:indexPath.row];
-        
+
         EntryViewController *entryViewController = [[EntryViewController alloc] initWithStyle:UITableViewStyleGrouped];
         entryViewController.entry = e;
         entryViewController.title = e.title;
         [self.navigationController pushViewController:entryViewController animated:YES];
+        [entryViewController release];
     } else {
         if (self.editing == NO) {
             if (indexPath.section == GROUPS_SECTION) {
                 KdbGroup *g = [groupsArray objectAtIndex:indexPath.row];
-                
-                GroupViewController *groupViewController = [[GroupViewController alloc] initWithStyle:UITableViewStylePlain];
+
+                GroupViewController *groupViewController = [[GroupViewController alloc] init];
                 groupViewController.group = g;
                 groupViewController.title = g.name;
 
+                [pushedKdbTitle release];
                 pushedKdbTitle = [g.name copy];
 
                 [self.navigationController pushViewController:groupViewController animated:YES];
+                [groupViewController release];
             } else if (indexPath.section == ENTRIES_SECTION) {
                 KdbEntry *e = [enteriesArray objectAtIndex:indexPath.row];
-                
+
                 EntryViewController *entryViewController = [[EntryViewController alloc] initWithStyle:UITableViewStyleGrouped];
                 entryViewController.entry = e;
                 entryViewController.title = e.title;
-                
+
+                [pushedKdbTitle release];
                 pushedKdbTitle = [e.title copy];
 
                 [self.navigationController pushViewController:entryViewController animated:YES];
+                [entryViewController release];
             }
         } else if (indexPath.section == GROUPS_SECTION && !self.selectMultipleWhileEditing) {
             [self renameItemAtIndexPath:indexPath];
@@ -651,9 +692,9 @@
     if (editingStyle != UITableViewCellEditingStyleDelete) {
         return;
     }
-    
+
     [self deleteElementsFromModelAtIndexPaths:@[indexPath]];
-    
+
     NSUInteger rows = 0;
     switch (indexPath.section) {
         case GROUPS_SECTION:
@@ -662,7 +703,7 @@
         case ENTRIES_SECTION:
             rows = [enteriesArray count];
     }
-    
+
     if (rows == 0) {
         // Reload the section if there are no more rows
         NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:indexPath.section];
@@ -675,19 +716,19 @@
 
 - (void)formViewController:(FormViewController *)controller button:(FormViewControllerButton)button {
     RenameItemViewController *renameItemViewController = (RenameItemViewController*)controller;
-    
+
     if (button == FormViewControllerButtonOk) {
         NSString *newName = renameItemViewController.nameTextField.text;
         if (newName.length == 0) {
             [controller showErrorMessage:NSLocalizedString(@"New name is invalid", nil)];
             return;
         }
-        
+
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        
+
         KdbGroup *g;
         KdbEntry *e;
-        
+
         switch (indexPath.section) {
             case GROUPS_SECTION:
                 // Update the group
@@ -703,12 +744,12 @@
                 e.image = renameItemViewController.selectedImageIndex;
                 break;
         }
-        
+
         // Save the document
         appDelegate.databaseDocument.dirty = YES;
         [appDelegate.databaseDocument save];
     }
-    
+
     [appDelegate.window.rootViewController dismissModalViewControllerAnimated:YES];
 
     [self setEditing:NO animated:YES];
@@ -720,35 +761,37 @@
         NSString *prompt = NSLocalizedString(@"There are no applications installed capable of importing KeePass files", nil);
         UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:prompt delegate:nil cancelButtonTitle:NSLocalizedString(@"OK", nil) destructiveButtonTitle:nil otherButtonTitles:nil];
         [appDelegate showActionSheet:actionSheet];
+        [actionSheet release];
     }
 }
 
 - (void)addPressed {
     UIActionSheet *actionSheet;
-    if (self.group.canAddEntries) {
+    if (group.canAddEntries) {
         actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Add", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Group", nil), NSLocalizedString(@"Entry", nil), nil];
     } else {
         actionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"Add", nil) delegate:nil cancelButtonTitle:NSLocalizedString(@"Cancel", nil) destructiveButtonTitle:nil otherButtonTitles:NSLocalizedString(@"Group", nil), nil];
     }
-    
+
     actionSheet.delegate = self;
     [appDelegate showActionSheet:actionSheet];
+    [actionSheet release];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == actionSheet.cancelButtonIndex) {
         return;
     }
-    
+
     DatabaseDocument *databaseDocument = appDelegate.databaseDocument;
     if (buttonIndex == 0) {
         // Create and add a group
-        KdbGroup *g = [databaseDocument.kdbTree createGroup:self.group];
+        KdbGroup *g = [databaseDocument.kdbTree createGroup:group];
         g.name = NSLocalizedString(@"New Group", nil);
-        g.image = self.group.image;
-        [self.group addGroup:g];
+        g.image = group.image;
+        [group addGroup:g];
         NSUInteger index = [self addObject:g toArray:groupsArray];
-        
+
         databaseDocument.dirty = YES;
         [databaseDocument save];
 
@@ -756,11 +799,14 @@
         editGroupViewController.delegate = self;
         editGroupViewController.nameTextField.text = g.name;
         [editGroupViewController setSelectedImageIndex:g.image];
-        
+
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:editGroupViewController];
-        
+
         [appDelegate.window.rootViewController presentModalViewController:navigationController animated:YES];
-        
+
+        [navigationController release];
+        [editGroupViewController release];
+
         // Notify the table of the new row
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:GROUPS_SECTION];
         if ([groupsArray count] == 1) {
@@ -771,25 +817,26 @@
             // Insert the new row
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
-        
+
         // Select the row
         [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
     } else if (buttonIndex == 1) {
         // Create and add an entry
-        KdbEntry *e = [databaseDocument.kdbTree createEntry:self.group];
+        KdbEntry *e = [databaseDocument.kdbTree createEntry:group];
         e.title = NSLocalizedString(@"New Entry", nil);
-        e.image = self.group.image;
-        [self.group addEntry:e];
+        e.image = group.image;
+        [group addEntry:e];
         NSUInteger index = [self addObject:e toArray:enteriesArray];
         databaseDocument.dirty = YES;
         [databaseDocument save];
-        
+
         EntryViewController *entryViewController = [[EntryViewController alloc] initWithStyle:UITableViewStyleGrouped];
         entryViewController.entry = e;
         entryViewController.title = e.title;
         entryViewController.isNewEntry = YES;
         [self.navigationController pushViewController:entryViewController animated:YES];
-        
+        [entryViewController release];
+
         // Notify the table of the new row
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:ENTRIES_SECTION];
         if ([enteriesArray count] == 1) {
@@ -800,7 +847,7 @@
             // Insert the new row
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
-        
+
         // Select the row
         [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
     }
@@ -813,21 +860,21 @@
         if ([object isKindOfClass:[KdbGroup class]]) {
             // Object is a KdbGroup, use groupComparator
             comparator = groupComparator;
-            
+
         } else if ([object isKindOfClass:[KdbEntry class]]) {
             // Object is a KdbEntry, use entryComparator
             comparator = entryComparator;
-            
+
         } else {
             // This should be an error some how
             return SORTED_INSERTION_FAILED;
         }
-        
+
         index = [array indexOfObject:object inSortedRange:NSMakeRange(0, [array count]) options:NSBinarySearchingInsertionIndex usingComparator:comparator];
     } else {
         index = [array count];
     }
-    
+
     [array insertObject:object atIndex:index];
     return index;
 }
@@ -836,17 +883,18 @@
     if (!sortingEnabled) {
         return index;
     }
-    
-    id object = [array objectAtIndex:index];
+
+    id object = [[array objectAtIndex:index] retain];
     [array removeObjectAtIndex:index];
     
-    NSUInteger newIndex = [self addObject:object toArray:array];    
+    NSUInteger newIndex = [self addObject:object toArray:array];
     
     if (newIndex == SORTED_INSERTION_FAILED) {
         newIndex = index;
         [array insertObject:object atIndex:index];
     }
     
+    [object release];    
     return newIndex;
 }
 
