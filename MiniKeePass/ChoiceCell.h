@@ -20,7 +20,6 @@
 
 @interface ChoiceCell : UITableViewCell {
     NSInteger selectedIndex;
-    NSArray *choices;
 }
 
 @property (nonatomic, copy) NSString *prefix;

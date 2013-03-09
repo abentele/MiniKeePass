@@ -45,11 +45,11 @@
 
 - (void)setSelectedIndex:(NSInteger)selectedIdx {
     selectedIndex = selectedIdx;
-    self.detailTextLabel.text = [choices objectAtIndex:selectedIndex];
+    self.detailTextLabel.text = [self.choices objectAtIndex:selectedIndex];
 }
 
 - (NSString *)getSelectedItem {
-    return [choices objectAtIndex:selectedIndex];
+    return [self.choices objectAtIndex:selectedIndex];
 }
 
 @end
